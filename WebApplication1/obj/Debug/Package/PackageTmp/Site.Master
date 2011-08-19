@@ -1,0 +1,72 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebApplication1.SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+    <div class="page">
+        <div class="header">
+            <div class="title">
+                <h1>
+                    диспетчерская
+                </h1>
+            </div>
+            <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" ID="HeadLoginStatus" runat="server">Войти</a> ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Добро пожаловать <span class="bold"><asp:LoginName ID="HeadLoginName" runat="server" /></span>!
+                        [ <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Выход" LogoutPageUrl="~/"/> ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <div class="clear hideSkiplink">
+            <asp:LoginView ID="LoginView1" runat="server" EnableViewState="false">
+                <LoggedInTemplate>
+                    <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="false" IncludeStyleBlock="false" Orientation="Horizontal">
+                        <Items>
+                            <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Документы" Value="Документы">
+                                <asp:MenuItem NavigateUrl="~/Docs/claim.aspx" Text="Заявка" 
+                                    Value="Заявка"></asp:MenuItem>
+                            </asp:MenuItem>
+                            <asp:MenuItem Text="Справочники" Value="Справочники">
+                                <asp:MenuItem NavigateUrl="~/Directory/Otdelen.aspx" Text="Отделения" 
+                                    Value="Отделения"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Building.aspx" 
+                                    Text="Корпус блок строение" Value="Корпус блок строение"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Web_test.aspx" Text="Test" Value="Test">
+                                </asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Room.aspx" Text="Комната" 
+                                    Value="Комната"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Person.aspx" Text="Сотрудники" 
+                                    Value="Сотрудники"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Directory/Device.aspx" Text="Устройства" 
+                                    Value="Устройства"></asp:MenuItem>
+                            </asp:MenuItem>
+                            <asp:MenuItem NavigateUrl="~/About.aspx" Text="О программе"/>
+                        </Items>
+                    </asp:Menu>
+                </LoggedInTemplate>
+            </asp:LoginView>
+            </div>
+        </div>
+        <div class="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer">        
+    </div>
+    </form>
+</body>
+</html>
