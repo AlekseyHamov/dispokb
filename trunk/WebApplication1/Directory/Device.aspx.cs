@@ -55,9 +55,11 @@ namespace WebApplication1.Directory
         {
             PopulateSubLevel(int.Parse(e.Node.Value), e.Node);
         }
+
         protected void Select_Change(Object sender, EventArgs e)
         {
             string str_ID = "";
+            
             if(TreeView1.SelectedNode.ChildNodes.Count==0)
             { str_ID=TreeView1.SelectedValue; }
             else
@@ -99,14 +101,11 @@ namespace WebApplication1.Directory
 
         private void PopulateRootLevel_Update()
         {
-
             DataTable dt = new DataTable();
             TreeDevice.SelectMethod = "GetAll";
             TreeDevice.SelectParameters.Clear();  
             DataView dv = (DataView)TreeDevice.Select();
-
             dt = dv.Table;
-
             PopulateNodes_Update(dt, TreeViewUpdate.Nodes);
         }
         private void PopulateSubLevel_Update(int parent_id, TreeNode parentNode)
@@ -121,6 +120,7 @@ namespace WebApplication1.Directory
         }
         private void PopulateNodes_Update(DataTable dt, TreeNodeCollection nodes)
         {
+            TreeViewUpdate.Nodes.Clear();
             foreach (DataRow dr in dt.Rows)
             {
                 TreeNode tn = new TreeNode();
@@ -142,6 +142,7 @@ namespace WebApplication1.Directory
             {
                 // Clear the message label.
                 Msg.Text = "You selected:";
+                
                 // Iterate through the CheckedNodes collection and display the selected nodes.
                 foreach (TreeNode node in TreeViewUpdate.CheckedNodes)
                 {
@@ -216,6 +217,7 @@ namespace WebApplication1.Directory
 
             TextBox2.Text = GridDevice.Rows[GridDevice.SelectedIndex].Cells[2].Text;
             Description.Text = GridDevice.Rows[GridDevice.SelectedIndex].Cells[3].Text;
+            
             PopulateRootLevel_Update();
             ModalPopupExtender1.Show();
             DivUpdatePanel.Visible = true;
@@ -269,7 +271,6 @@ namespace WebApplication1.Directory
                 for (int i = 0; i < TreeViewUpdate.CheckedNodes.Count; i++)
                 {
                     Msg.Text += " if count";
-
                     if (CheckBoxParent.Items.Count==0 )
                     {
                         Msg.Text += " UpdateU";
@@ -289,20 +290,20 @@ namespace WebApplication1.Directory
                         TreeDeviceObjectDataSource.Insert();
                     }
                 }
-                // удаление по крыжикам чекбокса
-                for (int j = 0; j < CheckBoxParent.Items.Count; j++)
-                {
-                    if (CheckBoxParent.Items[j].Selected == false )
-                    {
-                        TreeDeviceObjectDataSource.DeleteMethod = "DeleteRecord_Device_list";
-                        TreeDeviceObjectDataSource.DeleteParameters.Clear();
-                        TreeDeviceObjectDataSource.DeleteParameters.Add("ID_Device", TreeViewUpdate.CheckedNodes[j].Value);
-                        TreeDeviceObjectDataSource.DeleteParameters.Add("ID_NewDevice", ID_NewDevice);
-                        TreeDeviceObjectDataSource.Delete();
-                        Msg.Text += " Delete";
-                    }
-                }
 
+            }
+            // удаление по крыжикам чекбокса
+            for (int j = 0; j < CheckBoxParent.Items.Count; j++)
+            {
+                if (CheckBoxParent.Items[j].Selected == false)
+                {
+                    TreeDeviceObjectDataSource.DeleteMethod = "DeleteRecord_Device_list";
+                    TreeDeviceObjectDataSource.DeleteParameters.Clear();
+                    TreeDeviceObjectDataSource.DeleteParameters.Add("ID_Device", CheckBoxParent.Items[j].Value);
+                    TreeDeviceObjectDataSource.DeleteParameters.Add("ID_NewDevice", ID_NewDevice);
+                    TreeDeviceObjectDataSource.Delete();
+                    Msg.Text += " Delete";
+                }
             }
 
             ModalPopupExtender1.Show();

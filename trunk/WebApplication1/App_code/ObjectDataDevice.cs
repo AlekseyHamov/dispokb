@@ -301,8 +301,8 @@ namespace Samples.AspNet.ObjectDataDevice
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("UPDATE Device_list " +
-                                                "  SET Device=@ID_Device " +
-                                                 "  WHERE Device_Spares=@ID_NewDevice ", conn);
+                                                "  SET Device=@ID_NewDevice " +
+                                                 "  WHERE Device_Spares=@ID_Device ", conn);
 
             cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
             cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
@@ -333,7 +333,7 @@ namespace Samples.AspNet.ObjectDataDevice
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("INSERT INTO Device_list " +
                                                 "  (Device,Device_Spares) " +
-                                                "  Values(@ID_Device, @ID_NewDevice); " +
+                                                "  Values(@ID_NewDevice, @ID_Device); " +
                                                 "SELECT @ID_DV_List = SCOPE_IDENTITY()", conn);
             cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
             cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
@@ -364,7 +364,7 @@ namespace Samples.AspNet.ObjectDataDevice
         public int DeleteRecord_Device_list(int ID_Device, int ID_NewDevice)
         {
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("DELETE FROM Device_list WHERE Device_Spares = @ID_Device and Device = ID_NewDevice", conn);
+            SqlCommand cmd = new SqlCommand("DELETE FROM Device_list WHERE Device_Spares =@ID_NewDevice and Device=@ID_Device", conn);
             cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
             cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
             int result = 0;
