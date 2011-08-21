@@ -47,7 +47,7 @@ namespace Samples.AspNet.ObjectDataUnit
         {
             VerifySortColumns(sortColumns);
 
-            string sqlCmd = "SELECT ID_Unit,NameUnit  FROM Unit ";
+            string sqlCmd = "SELECT ID_Unit, NameUnit  FROM Unit ";
 
             if (sortColumns.Trim() == "")
                 sqlCmd += "ORDER BY ID_Unit";

@@ -30,19 +30,20 @@ namespace Samples.AspNet.ObjectDataTreeDevice
                 throw new Exception("A connection string named 'DispOKBConnectionString1' with a valid connection string " +
                                     "must exist in the <connectionStrings> configuration section for the application.");
             }
-
             _connectionString =
               ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         }
-
-
         // Select all employees.
-
-        public DataTable GetAll()
+        public DataTable GetAll(string ID_Unit )
         {
 
-            string sqlCmd = "select Id, Text, (select count(*) FROM View_Dv_list WHERE Parent_Id=sc.id) childnodecount FROM View_Dv_list sc where Parent_Id IS NULL";
-
+            string sqlCmd = "select Id, Text, (select count(*) FROM View_Dv_list WHERE Parent_Id=sc.id) childnodecount FROM View_Dv_list sc where Parent_Id IS NULL ";
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and ID_Unit = " + ID_Unit + " "; }
+            }
+            catch { }
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
 
@@ -67,11 +68,17 @@ namespace Samples.AspNet.ObjectDataTreeDevice
             //return ds.Tables["Device"];
             return dt;
         }
-        public DataTable GetAllParent(int Parent_ID)
+        public DataTable GetAllParent(string ID_Unit, int Parent_ID)
         {
 
             string sqlCmd = "select Id, Text, (select count(*) FROM View_Dv_list WHERE Parent_Id=sc.id) childnodecount "+
                 " FROM View_Dv_list sc where Parent_Id = @Parent_Id";
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and ID_Unit = " + ID_Unit + " "; }
+            }
+            catch { }
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);

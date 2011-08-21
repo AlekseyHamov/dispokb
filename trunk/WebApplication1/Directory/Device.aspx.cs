@@ -23,6 +23,8 @@ namespace WebApplication1.Directory
 
             DataTable dt = new DataTable();
             TreeDevice.SelectMethod = "GetAll";
+            TreeDevice.SelectParameters.Clear();
+            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);   
             DataView dv = (DataView)TreeDevice.Select();
 
             dt = dv.Table;
@@ -35,6 +37,7 @@ namespace WebApplication1.Directory
             TreeDevice.SelectMethod = "GetAllParent";
             TreeDevice.SelectParameters.Clear();
             TreeDevice.SelectParameters.Add("Parent_ID", parent_id.ToString());
+            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
             DataView dv = (DataView)TreeDevice.Select();
             dt = dv.Table;
             PopulateNodes(dt, parentNode.ChildNodes);
@@ -103,7 +106,8 @@ namespace WebApplication1.Directory
         {
             DataTable dt = new DataTable();
             TreeDevice.SelectMethod = "GetAll";
-            TreeDevice.SelectParameters.Clear();  
+            TreeDevice.SelectParameters.Clear();
+            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);   
             DataView dv = (DataView)TreeDevice.Select();
             dt = dv.Table;
             PopulateNodes_Update(dt, TreeViewUpdate.Nodes);
@@ -114,6 +118,7 @@ namespace WebApplication1.Directory
             TreeDevice.SelectMethod = "GetAllParent";
             TreeDevice.SelectParameters.Clear();
             TreeDevice.SelectParameters.Add("Parent_ID", parent_id.ToString());
+            TreeDevice.SelectParameters.Add("ID_Unit", FiltrRadioUnit.SelectedValue);
             DataView dv = (DataView)TreeDevice.Select();
             dt = dv.Table;
             PopulateNodes_Update(dt, parentNode.ChildNodes);
@@ -136,9 +141,28 @@ namespace WebApplication1.Directory
             PopulateSubLevel_Update(int.Parse(e.Node.Value), e.Node);
         }
 
+        private void Selected_Unit()
+        {
+                for (int i = 0; i < FiltrRadioUnit.Items.Count; i++)
+                {
+                    if (FiltrRadioUnit.Items[i].Selected == true)
+                    {
+                        RadioButtonUnit.Items[i].Selected = true;
+                    }
+                }
+        }
         protected void Button_Click_Insert(Object sender, EventArgs e)
         {
             PopulateRootLevel_Update();
+            Selected_Unit();
+        }
+        protected void Unit_Click_Select(Object sender, EventArgs e)
+        {
+            Msg.Text = FiltrRadioUnit.SelectedValue;
+            DeviceObjectDataSource.SelectParameters["ID_Unit"].DefaultValue = FiltrRadioUnit.SelectedValue;
+            TreeView1.Nodes.Clear(); 
+            PopulateRootLevel();
+//            GridDevice.DataBind(); 
         }
         protected void Button_Click(Object sender, EventArgs e)
         {
@@ -158,7 +182,6 @@ namespace WebApplication1.Directory
                 Msg.Text += "  No items selected.";
             }
         }
-
 
         protected void CommandBtn_Click(Object sender, CommandEventArgs e)
         {
@@ -215,6 +238,7 @@ namespace WebApplication1.Directory
         {
             CheckDeviceObjectDataSource.SelectParameters["ID_Device_Spares"].DefaultValue = GridDevice.SelectedValue.ToString();    
             CheckBoxParent.DataBind();
+            Selected_Unit();
 
             for (int i = 0; i < CheckBoxParent.Items.Count; i++)
             { CheckBoxParent.Items[i].Selected = true; }
@@ -266,9 +290,8 @@ namespace WebApplication1.Directory
         }
         protected void DataSource_OnUpdated(object sender, ObjectDataSourceStatusEventArgs e)
         {
-             
             string ID_NewDevice;
-            ID_NewDevice = GridDevice.SelectedValue.ToString(); 
+            ID_NewDevice = GridDevice.SelectedValue.ToString();
             if (TreeViewUpdate.CheckedNodes.Count > 0)
             {
                 Msg.Text = "Цикл TreeViewUpdate.CheckedNodes.Count";
@@ -310,6 +333,9 @@ namespace WebApplication1.Directory
                     Msg.Text += " Delete";
                 }
             }
+            UpdateButton.Visible = true;
+            InsertButton.Visible = false;
+            DeleteButton.Visible = true;
             ModalPopupExtender1.Show();
         }
         protected void DataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)
