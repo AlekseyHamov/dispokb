@@ -368,7 +368,6 @@ namespace Samples.AspNet.ObjectDataDevice
             cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
             cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
             int result = 0;
-
             try
             {
                 conn.Open();
