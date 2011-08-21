@@ -76,15 +76,6 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource UnitObjectDataSource;
         
         /// <summary>
-        /// FiltrRadioUnit элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList FiltrRadioUnit;
-        
-        /// <summary>
         /// FiltrButton элемент управления.
         /// </summary>
         /// <remarks>
@@ -119,6 +110,15 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridDevice;
+        
+        /// <summary>
+        /// FiltrRadioUnit элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButtonList FiltrRadioUnit;
         
         /// <summary>
         /// btnEditCustomer элемент управления.

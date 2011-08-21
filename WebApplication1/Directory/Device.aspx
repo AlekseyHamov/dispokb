@@ -18,7 +18,6 @@
         TypeName="Samples.AspNet.ObjectDataTreeDevice.TreeDeviceData"
         >
       </asp:ObjectDataSource>
-      
       <asp:ObjectDataSource 
         ID="DeviceObjectDataSource" 
         runat="server" 
@@ -37,6 +36,7 @@
         OnDeleted="DataSource_OnDeleted" >
         <SelectParameters>
             <asp:Parameter Name="str_ID" DefaultValue="" />  
+            <asp:ControlParameter Name="ID_Unit" ControlID="FiltrRadioUnit" PropertyName="SelectedValue" DefaultValue="" />  
         </SelectParameters> 
         <InsertParameters>
               <asp:ControlParameter ControlID="TextBox2" Name="NameDevice" 
@@ -73,7 +73,6 @@
             <asp:controlparameter name="ID_Device_Spares" controlid="GridDevice" propertyname="SelectedValue" />
         </SelectParameters> 
       </asp:ObjectDataSource>
-
       <asp:ObjectDataSource 
         ID="UnitObjectDataSource" 
         runat="server" 
@@ -85,14 +84,12 @@
         MaximumRowsParameterName="MaxRecords" 
         SelectMethod="GetAll" 
         InsertMethod="InsertRecord" 
-         
         OnInserted="DataSource_OnInserted">
         <InsertParameters>
               <asp:ControlParameter ControlID="TextBox2" Name="NameUnit" 
                   PropertyName="Text" />
         </InsertParameters>
       </asp:ObjectDataSource>
-
       <div style="float:left; width:700px">
         <table >
         <tr>
@@ -108,11 +105,6 @@
         </tr>
         <tr id="Filtr" style = "display:none " >
         <td>
-            <asp:RadioButtonList ID="FiltrRadioUnit" runat="server" 
-                DataSourceID="UnitObjectDataSource" 
-                DataTextField="NameUnit" DataValueField="ID_Unit" RepeatDirection="Horizontal"
-                >
-            </asp:RadioButtonList>
             <BR>
             <asp:Button runat="server" id="FiltrButton" Text="Поиск" OnCommand="button_filtr" />
             <BR>
@@ -146,8 +138,7 @@
                   AllowPaging="True"
                   PageSize="18"
                   DataKeyNames="ID_Device"
-                  OnSelectedIndexChanged="GridView_OnSelectedIndexChanged"
-                    >
+                  OnSelectedIndexChanged="GridView_OnSelectedIndexChanged">
                           <HeaderStyle backcolor="lightblue" forecolor="black"/>
                           <Columns>                
                             <asp:ButtonField
@@ -164,6 +155,9 @@
                             <asp:BoundField 
                                     DataField="Description"
                                     HeaderText="Описание" />
+                            <asp:BoundField 
+                                    DataField="Unit"
+                                    Visible="false"/>
                             <asp:ButtonField
                                     CommandName="Delete" ButtonType="Image" 
                                     ImageUrl="~/Image/deletion.png" HeaderText="Удалить"
@@ -172,8 +166,17 @@
                             </asp:ButtonField>
                           </Columns>                
                 </asp:GridView>
-          </div>  
-            <asp:Button ID="btnEditCustomer" Text="Добавить" runat="server" OnClick="Button_Click_Insert" />
+          </div>
+            <asp:RadioButtonList ID="FiltrRadioUnit" runat="server" 
+                DataSourceID="UnitObjectDataSource" 
+                DataTextField="NameUnit" 
+                DataValueField="ID_Unit" 
+                RepeatDirection="Horizontal"
+                OnSelectedIndexChanged="Unit_Click_Select" 
+                AutoPostBack="true" >
+            </asp:RadioButtonList>
+            <br>  
+            <asp:Button ID="btnEditCustomer" Text="Добавить" runat="server"/>
             <asp:Button id="Submit"
             Text="Select Items"
             OnUnload="Button_Click"  
@@ -182,7 +185,7 @@
         <tr>
           <td>
               <asp:Panel ID="UpdatePanel" runat="server"  
-                  BackColor="#D9F2FF" BorderStyle="Double">
+                  BackColor="#D9F2FF" BorderStyle="Double" OnLoad="Button_Click_Insert"  >
                 <p style="float:right">
                 <asp:ImageButton ID="editBox_OK" runat="server" ImageUrl= "~/Image/Close.ico" Width="20" Height = "20"/>
                 </p>
@@ -232,7 +235,8 @@
                             </asp:CheckBoxList>
                     </div>
             <asp:RadioButtonList ID="RadioButtonUnit" AppendDataBoundItems="true" runat="server"
-                DataSourceID = "UnitObjectDataSource" DataTextField="NameUnit" DataValueField="ID_Unit" RepeatDirection="Horizontal"  >
+                DataSourceID = "UnitObjectDataSource" DataTextField="NameUnit" DataValueField="ID_Unit" 
+                RepeatDirection="Horizontal" Enabled="false">
             </asp:RadioButtonList>
             <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
                     OnCommand="CommandBtn_Click" Visible="false"/>
@@ -240,10 +244,8 @@
                     OnCommand="CommandBtn_Click"/>
             <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
                     OnCommand="CommandBtn_Click" Visible="false"/>
-            <asp:Button id="Button1"
-            Text="Select Items"
-            OnUnload="Button_Click"  
-            runat="server"/>
+            <asp:Button ID="Button1" runat="server" Text="gfdjhgdjk"
+                     OnClick="Button_Click" />
             </asp:Panel>
               <asp:ModalPopupExtender ID="ModalPopupExtender1"
                     runat="server"  

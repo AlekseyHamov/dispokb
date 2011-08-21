@@ -39,20 +39,28 @@ namespace Samples.AspNet.ObjectDataDevice
 
         // Select all employees.
 
-        public DataTable GetAll(string str_ID, string sortColumns, int startRecord, int maxRecords )
+        public DataTable GetAll(string str_ID, string ID_Unit, string sortColumns, int startRecord, int maxRecords)
         {
             VerifySortColumns(sortColumns);
 
             string sqlCmd = " SELECT distinct Device.ID_Device, Device.Parent_ID, Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog " +
                 " FROM Device "+
                 " Left join Unit on Unit.ID_Unit=Device.ID_Unit ";
+
+            sqlCmd += " where 1=1 "; 
             try
             {
                 if (str_ID.Trim() != "")
-                { sqlCmd += " where Device.ID_Device in ( " + str_ID + " )"; }
+                { sqlCmd += " and Device.ID_Device in ( " + str_ID + " ) "; }
             }
-            catch
-            { }
+            catch { }
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and Device.ID_Unit=" + ID_Unit + " "; }
+            }
+            catch { }
+
             if (sortColumns.Trim() == "")
                 sqlCmd += "ORDER BY Device.ID_Device DESC ";
             else
@@ -60,14 +68,11 @@ namespace Samples.AspNet.ObjectDataDevice
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
-            //da.SelectCommand.Parameters.Add("@str_ID", SqlDbType.VarChar, 150).Value = str_ID;
 
             DataSet ds = new DataSet();
-
             try
             {
                 conn.Open();
-
                 da.Fill(ds, startRecord, maxRecords, "Device");
             }
             catch (SqlException e)
@@ -139,22 +144,24 @@ namespace Samples.AspNet.ObjectDataDevice
             return ds.Tables["Device"];
 
         }
-        public int SelectCount(string str_ID)
+        public int SelectCount(string str_ID, string ID_Unit)
         {
 
             string sqlCmd = "";
-            try
-            {
-                if (str_ID.Trim() != "")
+                sqlCmd = "SELECT COUNT(*) FROM Device ";
+                sqlCmd += " where 1=1 ";
+                try
                 {
-                    sqlCmd = "SELECT COUNT(*) FROM Device where Device.ID_Device in( " + str_ID + " )";
+                    if (str_ID.Trim() != "")
+                    { sqlCmd += " and Device.ID_Device in ( " + str_ID + " ) "; }
                 }
-                else
+                catch { }
+                try
                 {
-                    sqlCmd = "SELECT COUNT(*) FROM Device ";
+                    if (ID_Unit.Trim() != "")
+                    { sqlCmd += " and Device.ID_Unit=" + ID_Unit + " "; }
                 }
-            }
-            catch { sqlCmd = "SELECT COUNT(*) FROM Device "; }
+                catch { }
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand(sqlCmd , conn);
