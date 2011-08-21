@@ -136,6 +136,10 @@ namespace WebApplication1.Directory
             PopulateSubLevel_Update(int.Parse(e.Node.Value), e.Node);
         }
 
+        protected void Button_Click_Insert(Object sender, EventArgs e)
+        {
+            PopulateRootLevel_Update();
+        }
         protected void Button_Click(Object sender, EventArgs e)
         {
             if (TreeViewUpdate.CheckedNodes.Count > 0)
@@ -224,7 +228,6 @@ namespace WebApplication1.Directory
             UpdateButton.Visible = true;
             InsertButton.Visible = false;
             DeleteButton.Visible = true;
-              
         }
 
         protected void OnRowChanged(object sender, EventArgs e)
@@ -263,6 +266,7 @@ namespace WebApplication1.Directory
         }
         protected void DataSource_OnUpdated(object sender, ObjectDataSourceStatusEventArgs e)
         {
+             
             string ID_NewDevice;
             ID_NewDevice = GridDevice.SelectedValue.ToString(); 
             if (TreeViewUpdate.CheckedNodes.Count > 0)
@@ -282,6 +286,7 @@ namespace WebApplication1.Directory
                     }
                     else if (CheckBoxParent.Items.Count != 0)
                     {
+             
                         Msg.Text += "iNSEERTU";
                         TreeDeviceObjectDataSource.InsertMethod = "InsertRecord_Device_list";
                         TreeDeviceObjectDataSource.InsertParameters.Clear();
@@ -305,7 +310,6 @@ namespace WebApplication1.Directory
                     Msg.Text += " Delete";
                 }
             }
-
             ModalPopupExtender1.Show();
         }
         protected void DataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)

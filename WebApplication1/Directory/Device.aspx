@@ -47,10 +47,10 @@
                   PropertyName="SelectedValue" />
         </InsertParameters>
         <deleteparameters>
-            <asp:controlparameter name="ID_Device" controlid="TreeView1" propertyname="SelectedValue" />
+            <asp:controlparameter name="ID_Device" controlid="GridDevice" propertyname="SelectedValue" />
         </deleteparameters>
         <updateparameters>
-            <asp:controlparameter name="ID_Device" controlid="TreeView1" propertyname="SelectedValue" />
+            <asp:controlparameter name="ID_Device" controlid="GridDevice" propertyname="SelectedValue" />
             <asp:ControlParameter ControlID="TextBox2" Name="NameDevice" 
                   PropertyName="Text" />
               <asp:ControlParameter ControlID="Description" Name="Description" 
@@ -173,7 +173,7 @@
                           </Columns>                
                 </asp:GridView>
           </div>  
-            <asp:Button ID="btnEditCustomer" Text="Добавить" runat="server"/>
+            <asp:Button ID="btnEditCustomer" Text="Добавить" runat="server" OnClick="Button_Click_Insert" />
             <asp:Button id="Submit"
             Text="Select Items"
             OnUnload="Button_Click"  
