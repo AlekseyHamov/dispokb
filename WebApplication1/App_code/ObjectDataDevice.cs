@@ -370,15 +370,18 @@ namespace Samples.AspNet.ObjectDataDevice
         }
         public int DeleteRecord_Device_list(int ID_Device, int ID_NewDevice)
         {
+            
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlCommand cmd = new SqlCommand("DELETE FROM Device_list WHERE Device_Spares =@ID_NewDevice and Device=@ID_Device", conn);
-            cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
-            cmd.Parameters.Add("@ID_NewDevice", SqlDbType.Int).Value = ID_NewDevice;
-            int result = 0;
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conn;
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "SP_Delete_Device_list";
+            cmd.Parameters.Add("@Device_Spares", SqlDbType.Int).Value = ID_NewDevice;
+            cmd.Parameters.Add("@Device", SqlDbType.Int).Value = ID_Device;
+           int result = 0;
             try
             {
                 conn.Open();
-
                 result = cmd.ExecuteNonQuery();
             }
             catch (SqlException e)

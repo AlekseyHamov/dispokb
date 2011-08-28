@@ -244,8 +244,8 @@
                     OnCommand="CommandBtn_Click"/>
             <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
                     OnCommand="CommandBtn_Click" Visible="false"/>
-            <asp:Button ID="Button1" runat="server" Text="gfdjhgdjk"
-                     OnClick="Button_Click" />
+            <asp:Button ID="Button1" runat="server" Text="gfdjhgdjk" onclick="Button_Click"
+                    />
             </asp:Panel>
               <asp:ModalPopupExtender ID="ModalPopupExtender1"
                     runat="server"  
