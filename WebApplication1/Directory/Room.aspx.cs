@@ -92,7 +92,7 @@ namespace WebApplication1.Directory
             RoomDeviceListDataSource.SelectMethod = "GetOneRecordTest";
             RoomDeviceListDataSource.SelectParameters.Clear();
             RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
-
+            RoomDeviceListDataSource.SelectParameters.Add("ID_Unit", "0");
             GridView ListDevice = new GridView();
             ListDevice.DataSourceID = "RoomDeviceListDataSource";
             ListDevice.AutoGenerateColumns = true;
@@ -112,6 +112,7 @@ namespace WebApplication1.Directory
                     }
                 }
             }
+
             ModalPopupExtender1.Show();
             UpdateButton.Visible = true;
             InsertButton.Visible = false;
@@ -129,14 +130,14 @@ namespace WebApplication1.Directory
         {
             CheckBoxDevice.DataBind();
             RoomDeviceListDataSource.SelectMethod = "GetOneRecordTest";
-            RoomDeviceListDataSource.SelectParameters.Clear();
+            //RoomDeviceListDataSource.SelectParameters.Clear();
             if (RoomGridView.SelectedValue != null)
             {
-                RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
+               // RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
             }
             else
             {
-                RoomDeviceListDataSource.SelectParameters.Add("ID_Room", "0");
+                //RoomDeviceListDataSource.SelectParameters.Add("ID_Room", "0");
             }
             GridView ListDevice = new GridView();
             ListDevice.DataSourceID = "RoomDeviceListDataSource";
@@ -187,8 +188,8 @@ namespace WebApplication1.Directory
             RoomDeviceListDataSource.InsertParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
             RoomDeviceListDataSource.InsertParameters.Add("ID_Device", "");
             RoomDeviceListDataSource.SelectMethod = "GetOneRecordTest";
-            RoomDeviceListDataSource.SelectParameters.Clear();
-            RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
+            //RoomDeviceListDataSource.SelectParameters.Clear();
+            //RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
 
             GridView ListDevice = new GridView();
             ListDevice.DataSourceID = "RoomDeviceListDataSource";
