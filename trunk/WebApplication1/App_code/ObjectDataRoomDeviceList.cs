@@ -131,13 +131,25 @@ namespace Samples.AspNet.ObjectDataRoomDeviceList
             return ds.Tables["Room_Device_List"];
         }
  
-        public DataTable GetOneRecordTest(int ID_Room)
+        public DataTable GetOneRecordTest(int ID_Room, int ID_Unit)
         {
+            string sqlCmd = "SELECT d.ID_Device, r.ID_Room_Device_List, r.ID_Room, d.NameDevice,ID_Unit FROM Device as d " +
+            " Left join Room_Device_List as r on r.ID_Device = d.ID_Device WHERE 1=1  ";
+
+            if (ID_Room != 0)
+            {
+                sqlCmd += " and  r.ID_Room = @ID_Room ";
+            }
+            if (ID_Unit != 0)
+            {
+                sqlCmd += " and d.ID_Unit = @ID_Unit " ; 
+            }
+
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlDataAdapter da =
-            new SqlDataAdapter("SELECT d.ID_Device, r.ID_Room_Device_List, r.ID_Room, d.NameDevice,ID_Unit FROM Device as d " +
-            " Left join Room_Device_List as r on r.ID_Device = d.ID_Device WHERE r.ID_Room = @ID_Room ", conn);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+            
             da.SelectCommand.Parameters.Add("@ID_Room", SqlDbType.Int).Value = ID_Room;
+            da.SelectCommand.Parameters.Add("@ID_Unit", SqlDbType.Int).Value = ID_Unit;
 
             DataSet ds = new DataSet();
 

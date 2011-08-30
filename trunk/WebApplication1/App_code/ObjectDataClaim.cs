@@ -55,16 +55,17 @@ namespace Samples.AspNet.ObjectDataClaim
                             " Left join Room as r on r.ID_Room=c.ID_Room " + 
                             " Left join Building as b on b.ID_Building=c.ID_Building " +
                             " Left join Unit as u on u.ID_Unit=p.ID_Unit " +
-                            " Where c.DateClaim between '" + DateBegin + "' and '" + DateEnd + "' ";
-
+                            " Where 1=1 AND c.DateClaim between @DateBegin and @DateEnd";
+            
             if (sortColumns.Trim() == "")
-                sqlCmd += "ORDER BY ID_Claim";
+                sqlCmd += " ORDER BY ID_Claim";
             else
-                sqlCmd += "ORDER BY " + sortColumns;
+                sqlCmd += " ORDER BY " + sortColumns;
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
-
+            da.SelectCommand.Parameters.Add("@DateBegin", SqlDbType.DateTime).Value = DateBegin;
+            da.SelectCommand.Parameters.Add("@DateEnd", SqlDbType.DateTime).Value = DateEnd; 
             DataSet ds = new DataSet();
 
             try
@@ -161,11 +162,12 @@ namespace Samples.AspNet.ObjectDataClaim
                             " Left join Building as b on b.ID_Building=c.ID_Building "+
                             " Left join Room as r on r.ID_Room=c.ID_Room "+
                             " Left join Unit as u on u.ID_Unit=p.ID_Unit " +
-                            " Where c.DateClaim between '" + DateBegin + "' and '" + DateEnd + "' ";
+                            " Where c.DateClaim between @DateBegin and @DateEnd ";
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
-
+            da.SelectCommand.Parameters.Add("@DateBegin", SqlDbType.DateTime).Value = DateBegin;
+            da.SelectCommand.Parameters.Add("@DateEnd", SqlDbType.DateTime).Value = DateEnd; 
             DataSet ds = new DataSet();
 
             try
