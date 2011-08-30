@@ -197,7 +197,6 @@
     <Compile Include="Docs\claim.aspx.designer.cs">
       <DependentUpon>claim.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Map_Image\HierarchicalDataSet.cs" />
     <Compile Include="Map_Image\OKB_ALL.aspx.cs">
       <DependentUpon>OKB_ALL.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
