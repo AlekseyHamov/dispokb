@@ -1,4 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <publishData>
-  <publishProfile publishUrl="http://localhost:8080/Default.aspx" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="disp" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="True" profileName="Профиль1" publishMethod="MSDeploy" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True" />
+  <publishProfile publishUrl="D:\Aleksey\Web\Disp" deleteExistingFiles="True" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="disp" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="True" profileName="Профиль1" publishMethod="FileSystem" replaceMatchingFiles="False" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="bin/Web.config" publishTime="08/30/2011 20:47:31" />
+    <file relUrl="Directory/Room.aspx" publishTime="08/28/2011 23:30:49" />
+    <file relUrl="App_code/ObjectDataUnit.cs" publishTime="08/21/2011 13:13:41" />
+    <file relUrl="Global.asax" publishTime="09/28/2010 21:20:15" />
+    <file relUrl="Site.Master" publishTime="05/10/2011 22:02:42" />
+    <file relUrl="Styles/Site.css" publishTime="06/20/2011 23:24:12" />
+    <file relUrl="Account/ChangePassword.aspx" publishTime="09/28/2010 21:20:13" />
+    <file relUrl="Directory/Unit.aspx" publishTime="05/14/2011 11:47:11" />
+    <file relUrl="App_code/ObjectDataBuilding.cs" publishTime="04/17/2011 14:36:07" />
+    <file relUrl="About.aspx" publishTime="11/05/2010 14:06:46" />
+    <file relUrl="Scripts/jquery-1.4.1.js" publishTime="09/28/2010 21:20:14" />
+    <file relUrl="bin/WebApplication1.dll" publishTime="08/30/2011 20:46:54" />
+    <file relUrl="App_code/ObjectDataOtdelen.cs" publishTime="04/20/2011 12:03:09" />
+    <file relUrl="Image/edit.png" publishTime="05/14/2011 11:20:49" />
+    <file relUrl="Image/edit_home.png" publishTime="05/13/2011 20:48:40" />
+    <file relUrl="Scripts/jquery-1.4.1.min.js" publishTime="09/28/2010 21:20:14" />
+    <file relUrl="Image/Close.ico" publishTime="12/20/2010 15:34:56" />
+    <file relUrl="Directory/Person.aspx" publishTime="06/20/2011 19:20:51" />
+    <file relUrl="App_code/ObjectDataSource.cs" publishTime="04/17/2011 14:36:07" />
+    <file relUrl="App_code/ObjectDataSpares .cs" publishTime="05/28/2011 22:25:40" />
+    <file relUrl="App_code/ObjectDataDevice.cs" publishTime="08/28/2011 09:18:23" />
+    <file relUrl="Account/Register.aspx" publishTime="09/28/2010 21:20:13" />
+    <file relUrl="App_code/ObjectDataClaim.cs" publishTime="08/29/2011 20:40:06" />
+    <file relUrl="Account/Login.aspx" publishTime="09/28/2010 21:20:13" />
+    <file relUrl="Docs/claim.aspx" publishTime="08/29/2011 19:43:51" />
+    <file relUrl="App_code/ObjectDataPerson.cs" publishTime="06/20/2011 00:22:32" />
+    <file relUrl="Web_test.aspx" publishTime="05/06/2011 22:37:45" />
+    <file relUrl="bin/AjaxControlToolkit.dll" publishTime="05/12/2010 13:24:02" />
+    <file relUrl="Directory/Test.aspx" publishTime="07/23/2011 20:01:22" />
+    <file relUrl="Image/edit_old.png" publishTime="05/13/2011 20:42:48" />
+    <file relUrl="App_code/ObjectDataTreeDevice.cs" publishTime="08/21/2011 20:29:17" />
+    <file relUrl="Default.aspx" publishTime="07/01/2011 19:29:27" />
+    <file relUrl="Account/ChangePasswordSuccess.aspx" publishTime="09/28/2010 21:20:13" />
+    <file relUrl="bin/WebApplication1.pdb" publishTime="08/30/2011 20:46:54" />
+    <file relUrl="Image/downarrow.png" publishTime="02/23/2011 10:00:44" />
+    <file relUrl="Image/uparrow.png" publishTime="02/23/2011 10:01:01" />
+    <file relUrl="App_code/ObjectDataRoom.cs" publishTime="06/19/2011 20:25:37" />
+    <file relUrl="Account/Web.config" publishTime="09/28/2010 21:20:13" />
+    <file relUrl="App_code/ObjectDataClaimSparesList.cs" publishTime="05/21/2011 23:44:43" />
+    <file relUrl="Directory/Building.aspx" publishTime="06/18/2011 17:43:53" />
+    <file relUrl="Image/kedit.png" publishTime="05/14/2011 11:21:11" />
+    <file relUrl="Image/calendar.png" publishTime="03/25/2011 20:04:05" />
+    <file relUrl="App_code/ObjectDataImage.cs" publishTime="06/28/2011 00:40:17" />
+    <file relUrl="Web.config" publishTime="08/30/2011 20:47:31" />
+    <file relUrl="Image/deletion.png" publishTime="05/09/2011 12:42:51" />
+    <file relUrl="Directory/Device.aspx" publishTime="08/27/2011 09:28:42" />
+    <file relUrl="Directory/Otdelen.aspx" publishTime="07/01/2011 19:35:37" />
+    <file relUrl="Profiles.aspx" publishTime="02/27/2011 01:34:50" />
+    <file relUrl="App_code/ObjectDataRoomDeviceList.cs" publishTime="08/29/2011 19:07:44" />
+    <file relUrl="Map_Image/OKB_ALL.aspx" publishTime="08/04/2011 19:44:15" />
+    <file relUrl="bin/Styles/Site.css" publishTime="06/20/2011 23:24:12" />
+    <file relUrl="Scripts/jquery-1.4.1-vsdoc.js" publishTime="09/28/2010 21:20:14" />
+  </publishProfile>
 </publishData>
