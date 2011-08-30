@@ -21,29 +21,11 @@
         InsertMethod="AddEmployee"
         SelectMethod ="TestGetSqlBytes">
       </asp:ObjectDataSource>
-      <asp:ObjectDataSource 
-        ID="DeviceObjectDataSource" 
-        runat="server" 
-        TypeName="Samples.AspNet.ObjectDataDevice.DeviceData" 
-        SelectMethod="GetView" >
-      </asp:ObjectDataSource>
 
         <asp:Label id="lblMessage" runat="server" />
         <asp:FileUpload ID="MyFile" runat="server" />
         <asp:Button id="btnUpload" OnClick="btnUpload_Click" Text="Upload!" runat="server" />
         <asp:Button id="btnLoad" OnClick="btnLoad_Click" Text="Load!" runat="server" />
-
-        <asp:GridView ID="Gr" runat="server" AutoGenerateColumns="true" DataSourceID="DeviceObjectDataSource"  />
-        <asp:Panel ID="PanelTree" runat="server" Wrap="true"  Height="150px" ScrollBars="Auto" > 
-        <asp:TreeView ID="TreeView1" runat="server"
-                SelectedNodeStyle-ForeColor="Green"
-                SelectedNodeStyle-VerticalPadding="0">
-            <DataBindings>
-                <asp:TreeNodeBinding DataMember="System.Data.DataRowView" 
-                    TextField="Text" ValueField="ID" />
-            </DataBindings>
-        </asp:TreeView>
-        </asp:Panel>
 
       <div style="width:200; height:200">
       <asp:TextBox ID="X" runat="server"></asp:TextBox>  

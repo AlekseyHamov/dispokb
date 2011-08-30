@@ -12,43 +12,7 @@ namespace WebApplication1.Map_Image
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                DataSet dataSet = new DataSet();
-                dataSet.Tables.Add("Table");
-                dataSet.Tables[0].Columns.Add("ID", typeof(string));
-                dataSet.Tables[0].Columns.Add("Parent_ID", typeof(string));
-                dataSet.Tables[0].Columns.Add("Text", typeof(string));
-                DataRow row = dataSet.Tables[0].NewRow();
-                for (int i = 0; i < Gr.Rows.Count; i++)
-                {
-                    Msg.Text = "1";
-                    row = dataSet.Tables[0].NewRow();
-                    row["ID"] = Gr.Rows[i].Cells[0].Text;
-                    if (Gr.Rows[i].Cells[1].Text == "&nbsp;")
-                    {
-                        row["Parent_ID"] = null;
-                    }else {
-                    row["Parent_ID"] = Gr.Rows[i].Cells[1].Text;
-                    }
-                    row["Text"] = Gr.Rows[i].Cells[2].Text;
-                    dataSet.Tables[0].Rows.Add(row);
-                }
-
-                // You can use this:
-                TreeView1.DataSource = new HierarchicalDataSet("View_Dv_list", "ID", "Parent_ID");
-                
-                // OR you can use the extensions for TreeView if you are using .NET 3.5
-                //TreeView1.SetDataSourceFromDataSet(dataSet, "ID", "ParentID");
-
-                // OR This line, will load the tree starting from the parent record of value = 1
-                //TreeView1.DataSource = new HierarchicalDataSet(dataSet, "ID", "ParentID", 1);
-
-                TreeView1.DataBind();
-                TreeView1.CollapseAll();
-                Gr.Visible = false;
-            }
-
+            
         }
         protected void ButtonsMap_Clicked(object sender, ImageMapEventArgs e)
         {

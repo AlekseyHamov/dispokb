@@ -31,15 +31,6 @@ namespace WebApplication1.Map_Image {
         protected global::System.Web.UI.WebControls.ObjectDataSource ImageObjectDataSource;
         
         /// <summary>
-        /// DeviceObjectDataSource элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ObjectDataSource DeviceObjectDataSource;
-        
-        /// <summary>
         /// lblMessage элемент управления.
         /// </summary>
         /// <remarks>
@@ -74,33 +65,6 @@ namespace WebApplication1.Map_Image {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLoad;
-        
-        /// <summary>
-        /// Gr элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView Gr;
-        
-        /// <summary>
-        /// PanelTree элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel PanelTree;
-        
-        /// <summary>
-        /// TreeView1 элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TreeView TreeView1;
         
         /// <summary>
         /// X элемент управления.
