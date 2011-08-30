@@ -16,21 +16,21 @@ namespace WebApplication1.Directory
             if (IsPostBack == false)
             {
                 TimeBox.Text = DateTime.Now.ToLongTimeString();
-                DateClaimBox.Text = DateTime.Now.Date.ToString("dd.MM.yyyy");
+                DateClaimBox.Text = DateTime.Now.Date.ToString("yyyy.MM.dd");
             }
             if (IsPostBack == false && DateTime.Now.Hour < 8)
             {
-                DateEnd.Text = DateTime.Now.ToString("yyyy-MM-dd 08:00:00");
+                DateEnd.Text = DateTime.Now.ToString("yyyy.MM.dd 08:00:00");
                 DateTime DateBegin1 = new DateTime();
                 DateBegin1 = DateTime.Now.AddDays(-1);
-                DateBegin.Text = DateBegin1.ToString("yyyy-MM-dd 08:00:00");
+                DateBegin.Text = DateBegin1.ToString("yyyy.MM.dd 08:00:00");
             }
             else if (IsPostBack == false && DateTime.Now.Hour >= 8)
             {
                 DateTime DateEnd1 = new DateTime();
                 DateEnd1 = DateTime.Now.AddDays(1);
-                DateEnd.Text = DateEnd1.ToString("yyyy-MM-dd 08:00:00");
-                DateBegin.Text = DateTime.Now.ToString("yyyy-MM-dd 08:00:00"); ;
+                DateEnd.Text = DateEnd1.ToString("yyyy.MM.dd 08:00:00");
+                DateBegin.Text = DateTime.Now.ToString("yyyy.MM.dd 08:00:00"); ;
             }
             DataGrid  listclaim = new DataGrid();
             listclaim.DataSourceID = "ClaimObjectDataSource";
@@ -205,6 +205,7 @@ namespace WebApplication1.Directory
             RoomDeviceListDataSource.SelectMethod = "GetOneRecordTest";
             RoomDeviceListDataSource.SelectParameters.Clear();
             RoomDeviceListDataSource.SelectParameters.Add("ID_Room", DropDownListRoomUpdate.SelectedValue.ToString());
+            RoomDeviceListDataSource.SelectParameters.Add("ID_Unit", "0");
 
             if (RadioButtonUnitUpdate.SelectedValue != "")
             {

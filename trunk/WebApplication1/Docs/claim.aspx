@@ -147,6 +147,7 @@
         <SelectParameters>
               <asp:ControlParameter ControlID="DropDownListRoomUpdate" Name="ID_Room"
                   PropertyName="SelectedValue" />
+              <asp:Parameter Name="ID_Unit" DefaultValue="0"/>
         </SelectParameters>
         <DeleteParameters>
               <asp:ControlParameter ControlID="CheckBoxDevice" Name="ID_Device"
