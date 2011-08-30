@@ -5,9 +5,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-<script runat="server">
-</script>
-<asp:ScriptManager ID="ScriptManager1" runat="server">
+&nbsp;<script runat="server">
+</script><asp:ScriptManager ID="ScriptManager1" runat="server">
 </asp:ScriptManager>
       <h3>Справочник Комнат</h3> 
       <asp:Label id="Msg" runat="server" ForeColor="Red" />
@@ -161,11 +160,11 @@
         UpdateMethod="UpdateRecord" 
         OnInserted="DataSource_OnInserted"
         OnUpdated="DataSource_OnUpdated"
-        OnDeleted="DataSource_OnDeleted" 
-        FilterExpression ="ID_Unit = {0}" >
-        <FilterParameters>
+        OnDeleted="DataSource_OnDeleted">
+        <SelectParameters>
             <asp:ControlParameter ControlID="RadioButtonUnit" Name="ID_Unit" PropertyName="SelectedValue"/>
-        </FilterParameters>  
+            <asp:Parameter Name="str_ID" DefaultValue=""/>
+        </SelectParameters>  
         <InsertParameters>
               <asp:ControlParameter ControlID="TextBox2" Name="NameDevice"
                   PropertyName="Text" />
@@ -383,7 +382,7 @@
       <div>
               Справочник Комнат. Его необходимо запонлнять одним из первых. На странице доступна возможность фильтрации 
               по заданиям и отделениям. В справочнике необходимо выполнять привязку к установленному в помещении оборудованию и 
-              приборам, для удобства выбора оборудования его сиписок фильтруется по службам.
+              приборам, для удобства выбора оборудования сиписок устройств фильтруется по службам.
               В дальнейшем справочник используется для удобства поискаи фильтрации информациии,
               для получения укрупненной статистики и построения отчетов.
       </div>

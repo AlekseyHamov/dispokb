@@ -348,7 +348,7 @@ namespace WebApplication1.Directory
 //                    Msg.Text += " Delete";
                 }
             }
-            ModalPopupExtender1.Show();
+//            ModalPopupExtender1.Show();
             TreeView1.Nodes.Clear();   
             PopulateRootLevel();
         }
