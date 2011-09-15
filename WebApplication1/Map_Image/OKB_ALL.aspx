@@ -21,20 +21,18 @@
         InsertMethod="AddEmployee"
         SelectMethod ="TestGetSqlBytes">
       </asp:ObjectDataSource>
-
         <asp:Label id="lblMessage" runat="server" />
         <asp:FileUpload ID="MyFile" runat="server" />
         <asp:Button id="btnUpload" OnClick="btnUpload_Click" Text="Upload!" runat="server" />
         <asp:Button id="btnLoad" OnClick="btnLoad_Click" Text="Load!" runat="server" />
-
       <div style="width:200; height:200">
       <asp:TextBox ID="X" runat="server"></asp:TextBox>  
       <asp:TextBox ID="Y" runat="server"></asp:TextBox>
           
       <asp:ImageButton ID="ghhjhjg" ImageUrl="~/Map_Image/OKB_ALL.jpg"
-      width="900"
+       width="900"
        onclick="ImageButton_Click"
-       runat="server">
+       runat="server"  > 
        </asp:ImageButton> 
 
       <asp:ImageMap ID="Buttons" ImageUrl="~/Map_Image/OKB_ALL.jpg"
@@ -42,7 +40,7 @@
        runat="server"
        width="900"
        alternatetext="Карта больницы"
-       hotspotmode="NotSet" >
+       hotspotmode="NotSet"  >
        <asp:RectangleHotSpot
           hotspotmode="Navigate"
           NavigateUrl="http://www.contoso.com"

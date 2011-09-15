@@ -42,6 +42,13 @@
                 PropertyName="Text" />
         </updateparameters>
       </asp:ObjectDataSource>
+      <asp:ObjectDataSource 
+        ID="ImageObjectDataSource" 
+        runat="server" 
+        TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
+        InsertMethod="AddEmployee"
+        SelectMethod ="TestGetSqlBytes">
+      </asp:ObjectDataSource>
       <table cellspacing="10">
         <tr>
           <td valign="top">
@@ -53,7 +60,7 @@
               PageSize="18"
               DataKeyNames="ID_Building"
               OnSelectedIndexChanged="GridView_OnSelectedIndexChanged"
-              RunAt="server">
+              RunAt="server" >  
               <HeaderStyle backcolor="lightblue" forecolor="black"/>
               <Columns>                
                 <asp:ButtonField HeaderText = "Ред."
@@ -106,28 +113,25 @@
                    </tr>
                    <tr>
                         <td align="right" >
-                             &nbsp;</td>
+                             Изображение</td>
                          <td align="left">
-                             &nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            &nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
+                             <asp:FileUpload ID="ImageFile" runat="server" />
                         </td>
                     </tr>
                   </table>
+                  <div id="ImageDiv" runat="server" style="overflow-x:scroll; text-align:left;" ></div>
+                  <asp:Label ID="Label4" runat="server" Text="100"></asp:Label>
+                  <asp:Button ID="Plus" runat="server" OnCommand = "Plus_Minus_Click" CommandName = "Plus" Text="Plus" />
+                  <asp:Button ID="Minus" runat="server" OnCommand = "Plus_Minus_Click" CommandName = "Minus" Text="Minus" />  
                   <p style="display:inline; float:right">
                           <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
                                  OnCommand="CommandBtn_Click" Visible="false"/>
                           <asp:Button ID="InsertButton" runat="server" Text="Добавить" CommandName="Insert" 
-                                 OnCommand="CommandBtn_Click"/>
+                                 OnCommand="CommandBtn_Click" />
                           <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
                                  OnCommand="CommandBtn_Click" Visible="false"/>
                   </p>
-             </asp:Panel>
+              </asp:Panel>
              
             <asp:ModalPopupExtender ID="ModalPopupExtender1"
                     runat="server"  

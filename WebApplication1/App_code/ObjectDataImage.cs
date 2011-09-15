@@ -38,19 +38,24 @@ namespace Samples.AspNet.ObjectDataImage
               ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
         }
 
-        public int AddEmployee(string fileType, string photoFilePath)
+        public int AddEmployee(string fileType, string photoFilePath, string ID_Table, string NameTable)
         {
             SqlConnection connection = new SqlConnection(_connectionString);
                         
             {
                 SqlCommand addEmp = new SqlCommand(
-                    "INSERT INTO files (fileType, fileData) " +
-                    "Values(@fileType, 0x0);" +
+                    "INSERT INTO files (fileType,fileName, fileData) " +
+                    "Values(@fileType,@fileName, 0x0);" +
                     "SELECT @Identity = SCOPE_IDENTITY();" +
-                    "SELECT @Pointer = TEXTPTR(fileData) FROM files WHERE ID = @Identity",
+                    "SELECT @Pointer = TEXTPTR(fileData) FROM files WHERE ID = @Identity;"+
+                    "INSERT INTO FilesRelation (ID_Files, ID_Table, NameTable) " +
+                    "Values(@Identity, @ID_Table, @NameTable);",
                     connection);
 
-                addEmp.Parameters.Add("@fileType", SqlDbType.NVarChar, 20).Value = fileType;
+                addEmp.Parameters.Add("@fileType", SqlDbType.NVarChar, 10).Value = fileType;
+                addEmp.Parameters.Add("@fileName", SqlDbType.NVarChar, 20).Value = NameTable + "_" + ID_Table;
+                addEmp.Parameters.Add("@ID_Table", SqlDbType.NVarChar, 20).Value = ID_Table;
+                addEmp.Parameters.Add("@NameTable", SqlDbType.NVarChar, 20).Value = NameTable;
 
                 SqlParameter idParm = addEmp.Parameters.Add("@Identity", SqlDbType.Int);
                 idParm.Direction = ParameterDirection.Output;
@@ -64,7 +69,6 @@ namespace Samples.AspNet.ObjectDataImage
                 int newEmpID = (int)idParm.Value;
 
                 StorePhoto(photoFilePath, (byte[])ptrParm.Value, connection);
-
                 return newEmpID;
             }
         }
@@ -73,7 +77,7 @@ namespace Samples.AspNet.ObjectDataImage
             SqlConnection connection)
         {
             // The size of the "chunks" of the image.
-            int bufferLen = 128;
+            int bufferLen = 4096;
 
             SqlCommand appendToPhoto = new SqlCommand(
                 "UPDATETEXT files.fileData @Pointer @Offset 0 @Bytes",
@@ -122,14 +126,13 @@ namespace Samples.AspNet.ObjectDataImage
                 {
                     // Setup the command
                     command.CommandText =
-                        "SELECT fileType, fileData "
+                        "SELECT fileType,fileName, fileData "
                         + "FROM files "
                         + "WHERE ID=@ID";
                     command.CommandType = CommandType.Text;
 
                     // Declare the parameter
-                    SqlParameter paramID =
-                        new SqlParameter("@ID", SqlDbType.Int);
+                    SqlParameter paramID = new SqlParameter("@ID", SqlDbType.Int);
                     paramID.Value = documentID;
                     command.Parameters.Add(paramID);
                     connection.Open();
@@ -143,21 +146,20 @@ namespace Samples.AspNet.ObjectDataImage
                         while (reader.Read())
                         {
                             // Get the name of the file.
-                            photoName = reader.GetString(0);
+                            photoName = reader.GetString(1) +"."+ reader.GetString(0);
 
                             // Ensure that the column isn't null
-                            if (reader.IsDBNull(1))
+                            if (reader.IsDBNull(2))
                             {
                                 Console.WriteLine("{0} is unavailable.", photoName);
                             }
                             else
                             {
-                                SqlBytes bytes = reader.GetSqlBytes(1);
+                                SqlBytes bytes = reader.GetSqlBytes(2);
                                 using (Bitmap productImage = new Bitmap(bytes.Stream))
                                 {
                                     String fileName = filePath + photoName;
-
-                                    // Save in gif format.
+                                     // Save in gif format.
                                     productImage.Save(fileName, ImageFormat.Gif);
                                     Console.WriteLine("Successfully created {0}.", fileName);
                                 }
@@ -179,6 +181,37 @@ namespace Samples.AspNet.ObjectDataImage
                         reader.Dispose();
                 }
             }
-        }        
+        }
+
+        public DataTable FileRelationList(int ID_Table, string NameTable)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da =
+              new SqlDataAdapter("Select fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType "+ 
+                                  " from FilesRelation as fr" +
+                                  " Left join Files as f on f.ID=fr.ID_files "+
+                                  " Where fr.ID_table = @ID_Table and fr.NameTable =@NameTable  ", conn);
+            da.SelectCommand.Parameters.Add("@ID_Table", SqlDbType.Int).Value = ID_Table;
+            da.SelectCommand.Parameters.Add("@NameTable", SqlDbType.NVarChar, 20).Value = NameTable;
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                conn.Open();
+
+                da.Fill(ds, "FileRelation");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["FileRelation"];
+        }
     }
 }
