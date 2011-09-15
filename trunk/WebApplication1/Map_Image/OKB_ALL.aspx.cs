@@ -7,12 +7,10 @@ using System.Web.UI.WebControls;
 
 namespace WebApplication1.Map_Image
 {
-
     public partial class OKB_ALL : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
         }
         protected void ButtonsMap_Clicked(object sender, ImageMapEventArgs e)
         {
@@ -26,6 +24,7 @@ namespace WebApplication1.Map_Image
             //                              "The coordinates are " + coordinates;
             }
         }
+
         protected void btnUpload_Click(Object sender, EventArgs e)
         {
             string strFileName = MyFile.PostedFile.FileName;
@@ -37,7 +36,6 @@ namespace WebApplication1.Map_Image
             ImageObjectDataSource.InsertParameters.Add("photoFilePath", photoFilePath);  
             ImageObjectDataSource.Insert();
             lblMessage.Text = "Your file: " + strFileName + " has been uploaded successfully !";
-            
         }
         protected void btnLoad_Click(Object sender, EventArgs e)
         {

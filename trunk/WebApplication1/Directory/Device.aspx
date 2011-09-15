@@ -234,6 +234,7 @@
                                 DataTextField="NameDevice" DataValueField="Device">
                             </asp:CheckBoxList>
                     </div>
+                    <asp:Button ID="Plus" OnCommand="" 
             <asp:RadioButtonList ID="RadioButtonUnit" AppendDataBoundItems="true" runat="server"
                 DataSourceID = "UnitObjectDataSource" DataTextField="NameUnit" DataValueField="ID_Unit" 
                 RepeatDirection="Horizontal" Enabled="false">
