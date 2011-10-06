@@ -49,6 +49,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource ImageObjectDataSource;
         
         /// <summary>
+        /// ImageFilesObjectDataSource элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ImageFilesObjectDataSource;
+        
+        /// <summary>
         /// BuildingGridView элемент управления.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ImageDiv;
         
         /// <summary>
+        /// LWImage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView LWImage;
+        
+        /// <summary>
         /// Label4 элемент управления.
         /// </summary>
         /// <remarks>
@@ -184,6 +202,42 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.Button DeleteButton;
         
         /// <summary>
+        /// ImageMapingPanel элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ImageMapingPanel;
+        
+        /// <summary>
+        /// CloseImageMapingPanel элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton CloseImageMapingPanel;
+        
+        /// <summary>
+        /// ImageMapingDetailsView элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DetailsView ImageMapingDetailsView;
+        
+        /// <summary>
+        /// aliona элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label aliona;
+        
+        /// <summary>
         /// ModalPopupExtender1 элемент управления.
         /// </summary>
         /// <remarks>
@@ -191,6 +245,15 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::AjaxControlToolkit.ModalPopupExtender ModalPopupExtender1;
+        
+        /// <summary>
+        /// ModalImageMaping элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::AjaxControlToolkit.ModalPopupExtender ModalImageMaping;
         
         /// <summary>
         /// UpdatePanel_DragPanelExtender элемент управления.

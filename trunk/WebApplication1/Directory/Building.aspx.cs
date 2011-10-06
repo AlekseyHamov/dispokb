@@ -4,16 +4,23 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using System.Web.UI;
+using System.Data;
 using System.Web.UI.WebControls;
 using System.Collections;
+using AjaxControlToolkit;
 
 namespace WebApplication1.Directory
 {
     public partial class Building : System.Web.UI.Page
     {
+        /*protected void Page_Init()
+        { 
+            ImageButtons.Click +=  new ImageClickEventHandler(ShowImageMapingPanel); 
+        }*/
         protected void Page_Load(object sender, EventArgs e)
         {
             Msg.Text = "";
+
             UpdateButton.Visible = false;
             InsertButton.Visible = true;
             DeleteButton.Visible = false;
@@ -41,7 +48,7 @@ namespace WebApplication1.Directory
         {
             BuildingGridView.DataBind();
         }
-        protected void DetailsView_ItemUpdated(Object sender, DetailsViewUpdatedEventArgs e)
+        protected void _DetailsView_ItemUpdated(Object sender, DetailsViewUpdatedEventArgs e)
         {
             BuildingGridView.DataBind();
         }
@@ -53,8 +60,8 @@ namespace WebApplication1.Directory
         {
             GridViewRow row = BuildingGridView.SelectedRow;
             TextBox2.Text = row.Cells[2].Text;
+            Load_Image();
             ModalPopupExtender1.Show();
-            Load_Image(BuildingGridView.SelectedValue.ToString());
             UpdateButton.Visible = true;
             InsertButton.Visible = false;
             DeleteButton.Visible = true;
@@ -106,44 +113,27 @@ namespace WebApplication1.Directory
             ImageObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
             ImageObjectDataSource.Select();
         }
-        private void Load_Image(string ID_Building)
+        private void Load_Image()
         {
-            ImageObjectDataSource.SelectMethod = "FileRelationList";
-            ImageObjectDataSource.SelectParameters.Clear();
-            ImageObjectDataSource.SelectParameters.Add("ID_Table", ID_Building);
-            ImageObjectDataSource.SelectParameters.Add("NameTable", "Building");
-           // ImageObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
-
-            GridView LWImage = new GridView();
-            LWImage.DataSourceID = "ImageObjectDataSource";
-            LWImage.AutoGenerateColumns = true;
-            UpdatePanel.Controls.Add(LWImage);
-            LWImage.DataBind();
-
             string photoFilePath = Server.MapPath("../Image_Data/");
-            string NameFife = "";
+            LWImage.DataBind();
             for (int i = 0; i < LWImage.Rows.Count; i++)
             {
-                ImageMap ImageSecond = new ImageMap();
-                Button ImageButton = new Button();
-                Div DivDivImage
-                String NameButton = "Button_" + LWImage.Rows[i].Cells[4].Text.ToString();
-                ImageSecond.ID = LWImage.Rows[i].Cells[4].Text.ToString();
-                NameFife = "~/Image_Data/" + LWImage.Rows[i].Cells[4].Text.ToString() + "." + LWImage.Rows[i].Cells[5].Text.ToString();
-                if (!File.Exists(photoFilePath + LWImage.Rows[i].Cells[4].Text.ToString() + "." + LWImage.Rows[i].Cells[5].Text.ToString()))
-                  {
-                    ImageObjectDataSource.SelectMethod = "TestGetSqlBytes";
-                    ImageObjectDataSource.SelectParameters.Clear();
-                    ImageObjectDataSource.SelectParameters.Add("documentID", LWImage.Rows[i].Cells[1].Text);
-                    ImageObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
-                    ImageObjectDataSource.Select();
-                  } 
-                    ImageSecond.ImageUrl = NameFife;
-                    ImageSecond.Width = Convert.ToInt16(Label4.Text.ToString());
-                    ImageSecond.ImageAlign = ImageAlign.Left;
-                    ImageDiv.Controls.Add(ImageButton);
-                    ImageDiv.Controls.Add(ImageSecond);
+                if (!File.Exists(photoFilePath + LWImage.DataKeys[i].Values[2].ToString() + "." + LWImage.DataKeys[i].Values[3].ToString()))
+                { 
+                ImageFilesObjectDataSource.SelectMethod = "TestGetSqlBytes";
+                ImageFilesObjectDataSource.SelectParameters.Clear();
+                ImageFilesObjectDataSource.SelectParameters.Add("documentID", LWImage.DataKeys[i].Values[1].ToString());
+                ImageFilesObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
+                ImageFilesObjectDataSource.Select();
+                }
             }
+        }
+        protected void LWImage_SelectedIndexChanged(Object sender, EventArgs e)
+        {
+            ImageMap ImgMapOne = new ImageMap();
+            ImageMapingPanel.Controls.Add(ImgMapOne);
+            ModalImageMaping.Show();
         }
         private void Load_Images(string ID_Building)
         {
@@ -188,7 +178,7 @@ namespace WebApplication1.Directory
                     int  t = Convert.ToInt16(Label4.Text.ToString());
                     t = t + (t * 30 / 100);
                     Label4.Text = t.ToString();
-                    Load_Images(BuildingGridView.SelectedValue.ToString());
+                    //Load_Image(BuildingGridView.SelectedValue.ToString());
                     if (t > 300 && ImageDiv.Style.Value == "overflow-x:scroll; text-align:left;")
                     {
                         ImageDiv.Style.Value = "overflow-x:scroll; text-align:left;width:420px;height:300px"; 
@@ -199,7 +189,7 @@ namespace WebApplication1.Directory
                     int  tt = Convert.ToInt16(Label4.Text.ToString());
                     tt = tt - (tt * 30 / 100);
                     Label4.Text = tt.ToString() ;
-                    Load_Images(BuildingGridView.SelectedValue.ToString());
+                    //Load_Image(BuildingGridView.SelectedValue.ToString());
                     if (tt < 300 && ImageDiv.Style.Value == "overflow-x:scroll; text-align:left;width:420px;height:300px")
                     {
                         ImageDiv.Style.Value = "overflow-x:scroll; text-align:left;";
@@ -210,6 +200,5 @@ namespace WebApplication1.Directory
                     break;
             }
         }
-
     }
 }
