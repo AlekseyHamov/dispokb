@@ -131,10 +131,38 @@ namespace WebApplication1.Directory
         }
         protected void LWImage_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            ImageMap ImgMapOne = new ImageMap();
-            ImageMapingPanel.Controls.Add(ImgMapOne);
+            ImgButOne.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[LWImage.SelectedIndex].Values[2].ToString() + "." + LWImage.DataKeys[LWImage.SelectedIndex].Values[3].ToString();
+            ImgMapOne.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[LWImage.SelectedIndex].Values[2].ToString() + "." + LWImage.DataKeys[LWImage.SelectedIndex].Values[3].ToString();
             ModalImageMaping.Show();
         }
+        protected void ImageButton_Click(object sender, ImageClickEventArgs e)
+        {
+            Msg.Text = "You clicked the ImageButton control at the coordinates: (" +
+                          e.X.ToString() + ", " + e.Y.ToString() + ")";
+            OX.Text = e.X.ToString();
+            OY.Text = e.Y.ToString();
+            if (Coordin.Text == "")
+            {
+                Coordin.Text = OX.Text + "," + OY.Text;
+            }
+            else 
+            {
+                Coordin.Text += "," + OX.Text + "," + OY.Text;
+            }
+
+            ModalImageMaping.Show();
+        }
+        protected void DelCoordinate_Click(Object sender, EventArgs e)
+        {
+            PolygonHotSpot Ph = new PolygonHotSpot();
+            Ph.AlternateText = "Тест";
+            Ph.Coordinates = Coordin.Text;
+            ImgMapOne.HotSpots.Add(Ph);
+            ImgButOne.Visible = false;
+            ImgMapOne.Visible = true;
+            ModalImageMaping.Show();
+        }
+
         private void Load_Images(string ID_Building)
         {
             ImageObjectDataSource.SelectMethod = "FileRelationList";
@@ -161,13 +189,6 @@ namespace WebApplication1.Directory
                 ImageSecond.ImageAlign = ImageAlign.Left;
                 ImageDiv.Controls.Add(ImageSecond);
             }
-        }
-        public void ImageButton_Click(object sender, ImageClickEventArgs e)
-        {
-            Msg.Text = "You clicked the ImageButton control at the coordinates: (" +
-                          e.X.ToString() + ", " + e.Y.ToString() + ")";
-//            X.Text = e.X.ToString();
-//            Y.Text = e.Y.ToString();
         }
         protected void Plus_Minus_Click(Object sender, CommandEventArgs e)
         {
