@@ -166,12 +166,22 @@
                                  OnCommand="CommandBtn_Click" Visible="false"/>
                   </p>
               </asp:Panel>
-            <asp:Panel runat="server" ID="ImageMapingPanel">
+            <asp:Panel runat="server" ID="ImageMapingPanel" BackColor="#ffffff">
+                <div style="text-align:right" >
                 <asp:ImageButton runat="server" id="CloseImageMapingPanel" ImageUrl="~/Image/Close.ico"   Height="15px" Width="15px"/>
-                <asp:DetailsView ID="ImageMapingDetailsView" runat="server" Height="50px" Width="125px" 
-                                 DataKeyNames="ID" 
-                                 DataSourceID="ImageObjectDataSource">
-                </asp:DetailsView>
+                </div>
+                <div>
+                <asp:ImageButton runat="server" id="ImgButOne" Width="500" onclick="ImageButton_Click"/>
+                <asp:ImageMap runat="server" id="ImgMapOne" Width="500" Visible="false">
+                </asp:ImageMap>
+                </div>
+                <div>
+                <asp:Button ID="DelCoordinate" runat="server" Text="Записать область" OnClick="DelCoordinate_Click" />
+                <asp:TextBox ID="OX" runat="server"  ToolTip="Координата по оси Х"></asp:TextBox>
+                <br />
+                <asp:TextBox ID="OY" runat="server"  ToolTip="Координата по оси Y"></asp:TextBox> 
+                <asp:TextBox ID="Coordin" runat="server"  ToolTip="Координ"></asp:TextBox>
+                </div>
             </asp:Panel>
             <asp:Label runat="server" id="aliona" />
             <asp:ModalPopupExtender ID="ModalPopupExtender1"

@@ -220,13 +220,58 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ImageButton CloseImageMapingPanel;
         
         /// <summary>
-        /// ImageMapingDetailsView элемент управления.
+        /// ImgButOne элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DetailsView ImageMapingDetailsView;
+        protected global::System.Web.UI.WebControls.ImageButton ImgButOne;
+        
+        /// <summary>
+        /// ImgMapOne элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageMap ImgMapOne;
+        
+        /// <summary>
+        /// DelCoordinate элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DelCoordinate;
+        
+        /// <summary>
+        /// OX элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox OX;
+        
+        /// <summary>
+        /// OY элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox OY;
+        
+        /// <summary>
+        /// Coordin элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Coordin;
         
         /// <summary>
         /// aliona элемент управления.
