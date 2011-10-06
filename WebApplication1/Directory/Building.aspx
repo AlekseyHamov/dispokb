@@ -47,7 +47,17 @@
         runat="server" 
         TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
         InsertMethod="AddEmployee"
-        SelectMethod ="TestGetSqlBytes">
+        SelectMethod="FileRelationList">
+        <SelectParameters>
+            <asp:Parameter Name="NameTable"  DefaultValue = "Building" />
+            <asp:ControlParameter Name= "ID_Table" ControlID="BuildingGridView" PropertyName="SelectedValue" DefaultValue="0" />  
+        </SelectParameters> 
+      </asp:ObjectDataSource>
+      <asp:ObjectDataSource 
+        ID="ImageFilesObjectDataSource" 
+        runat="server" 
+        TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
+        InsertMethod="AddEmployee">
       </asp:ObjectDataSource>
       <table cellspacing="10">
         <tr>
@@ -93,7 +103,7 @@
         <tr>
           <td>
              <asp:Panel ID="UpdatePanel" runat="server"  
-                  BackColor="#D9F2FF" BorderStyle="Double">
+                  BackColor="#ffffff">
                   <table>
                     <tr >
                         <td align="left" >
@@ -119,7 +129,31 @@
                         </td>
                     </tr>
                   </table>
-                  <div id="ImageDiv" runat="server" style="overflow-x:scroll; text-align:left;" ></div>
+                  <div id="ImageDiv" runat="server" style="overflow-x:scroll; text-align:left;" >
+                  <asp:GridView ID = "LWImage" runat="server" 
+                                AutoGenerateColumns="false"
+                                DataSourceID="ImageObjectDataSource" 
+                                AllowSorting="True"
+                                AllowPaging="True"
+                                PageSize="18"
+                                DataKeyNames="ID,ID_files,fileName,fileType"
+                                OnSelectedIndexChanged="LWImage_SelectedIndexChanged">
+              <Columns>                
+                    <asp:ButtonField HeaderText = "Ред."
+                                     CommandName="Select" ButtonType="Image" 
+                          ImageUrl="~/Image/edit.png" FooterText="Проба">  
+                      <ControlStyle Height="15px" Width="15px" />
+                    </asp:ButtonField>
+                    <asp:TemplateField  HeaderText = "Карта."> 
+                        <ItemTemplate>
+                        <asp:ImageMap ID="IMG" runat="server" 
+                            ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"."+Eval("fileType")) %>' 
+                            Height = "70"/>
+                        </ItemTemplate> 
+                    </asp:TemplateField>
+                </Columns> 
+                  </asp:GridView> 
+                  </div>
                   <asp:Label ID="Label4" runat="server" Text="100"></asp:Label>
                   <asp:Button ID="Plus" runat="server" OnCommand = "Plus_Minus_Click" CommandName = "Plus" Text="Plus" />
                   <asp:Button ID="Minus" runat="server" OnCommand = "Plus_Minus_Click" CommandName = "Minus" Text="Minus" />  
@@ -132,7 +166,14 @@
                                  OnCommand="CommandBtn_Click" Visible="false"/>
                   </p>
               </asp:Panel>
-             
+            <asp:Panel runat="server" ID="ImageMapingPanel">
+                <asp:ImageButton runat="server" id="CloseImageMapingPanel" ImageUrl="~/Image/Close.ico"   Height="15px" Width="15px"/>
+                <asp:DetailsView ID="ImageMapingDetailsView" runat="server" Height="50px" Width="125px" 
+                                 DataKeyNames="ID" 
+                                 DataSourceID="ImageObjectDataSource">
+                </asp:DetailsView>
+            </asp:Panel>
+            <asp:Label runat="server" id="aliona" />
             <asp:ModalPopupExtender ID="ModalPopupExtender1"
                     runat="server"  
                     PopupControlID="UpdatePanel"
@@ -140,8 +181,14 @@
                     OkControlID="editBox_OK"
                     BackgroundCssClass = "modalBackground" 
                     PopupDragHandleControlID = "Редактирование записи" Drag="True"
-
                     />
+            <asp:ModalPopupExtender runat="server" ID = "ModalImageMaping"
+                PopupControlID = "ImageMapingPanel"
+                TargetControlID ="aliona"
+                OkControlID = "CloseImageMapingPanel"
+                BackgroundCssClass = "modalBackground" 
+                PopupDragHandleControlID = "Ссылки на рисунке" Drag="True"/>
+
             <asp:DragPanelExtender ID="UpdatePanel_DragPanelExtender" runat="server" 
                   DragHandleID="UpdatePanel" Enabled="True" 
                   TargetControlID="UpdatePanel">
