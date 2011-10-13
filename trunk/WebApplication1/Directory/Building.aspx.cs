@@ -17,13 +17,25 @@ namespace WebApplication1.Directory
         { 
             ImageButtons.Click +=  new ImageClickEventHandler(ShowImageMapingPanel); 
         }*/
+        public TextBox Coordinats ; 
         protected void Page_Load(object sender, EventArgs e)
         {
             Msg.Text = "";
-
+            Coordinats = new TextBox();
             UpdateButton.Visible = false;
             InsertButton.Visible = true;
             DeleteButton.Visible = false;
+/*            if (ChangeMap.Checked == false)
+            {
+                ImgButOne.Visible = false;
+                ImgMapOne.Visible = true;
+            }
+            else
+            {
+                ImgButOne.Visible = true;
+                ImgMapOne.Visible = false;
+                DelCoordinate.Visible = true;
+            }*/
         }
         protected void CommandBtn_Click(Object sender, CommandEventArgs e)
         {
@@ -58,19 +70,19 @@ namespace WebApplication1.Directory
         }
         protected void GridView_OnSelectedIndexChanged(object sender, EventArgs e)
         {
+            ModalPopupExtender1.Show();
             GridViewRow row = BuildingGridView.SelectedRow;
             TextBox2.Text = row.Cells[2].Text;
             Load_Image();
-            ModalPopupExtender1.Show();
+            AddImge.Visible = true;
             UpdateButton.Visible = true;
             InsertButton.Visible = false;
             DeleteButton.Visible = true;
         }
         protected void BuildingDataSource_OnInserted(object sender, ObjectDataSourceStatusEventArgs e)
-        {
-            Msg.Text = e.ReturnValue.ToString();
+        {   
             string ID_Building = e.ReturnValue.ToString();
-            string strFileName = ImageFile.PostedFile.ContentType ;
+            string strFileName = ImageFile.PostedFile.ContentType;
             strFileName = System.IO.Path.GetFileName(strFileName);
             ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
             string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
@@ -80,7 +92,21 @@ namespace WebApplication1.Directory
             ImageObjectDataSource.InsertParameters.Add("photoFilePath", photoFilePath);
             ImageObjectDataSource.InsertParameters.Add("NameTable", "Building");
             ImageObjectDataSource.Insert();
-        } 
+        }
+        protected void Image_OnInserted(Object sender, EventArgs e)
+        {
+            string ID_Building = BuildingGridView.SelectedValue.ToString(); 
+            string strFileName = ImageFile.PostedFile.ContentType;
+            strFileName = System.IO.Path.GetFileName(strFileName);
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageObjectDataSource.InsertParameters.Clear();
+            ImageObjectDataSource.InsertParameters.Add("ID_Table", ID_Building);
+            ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
+            ImageObjectDataSource.InsertParameters.Add("photoFilePath", photoFilePath);
+            ImageObjectDataSource.InsertParameters.Add("NameTable", "Building");
+            ImageObjectDataSource.Insert();
+        }
         protected void BuildingDataSource_OnUpdated(object sender, ObjectDataSourceStatusEventArgs e)
         {
             BuildingGridView.DataBind();
@@ -88,6 +114,12 @@ namespace WebApplication1.Directory
                 Msg.Text = "Employee was not updated. Please try again.";
         }
         protected void BuildingDataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)
+        {
+            if ((int)e.ReturnValue == 0)
+                Msg.Text = "Employee was not deleted. Please try again.";
+
+        }
+        protected void ImageDataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)
         {
             if ((int)e.ReturnValue == 0)
                 Msg.Text = "Employee was not deleted. Please try again.";
@@ -119,7 +151,7 @@ namespace WebApplication1.Directory
             LWImage.DataBind();
             for (int i = 0; i < LWImage.Rows.Count; i++)
             {
-                if (!File.Exists(photoFilePath + LWImage.DataKeys[i].Values[2].ToString() + "." + LWImage.DataKeys[i].Values[3].ToString()))
+                if (!File.Exists(photoFilePath + LWImage.DataKeys[i].Values[2].ToString() + "_" + LWImage.DataKeys[i].Values[1].ToString() + "." + LWImage.DataKeys[i].Values[3].ToString()))
                 { 
                 ImageFilesObjectDataSource.SelectMethod = "TestGetSqlBytes";
                 ImageFilesObjectDataSource.SelectParameters.Clear();
@@ -131,8 +163,20 @@ namespace WebApplication1.Directory
         }
         protected void LWImage_SelectedIndexChanged(Object sender, EventArgs e)
         {
-            ImgButOne.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[LWImage.SelectedIndex].Values[2].ToString() + "." + LWImage.DataKeys[LWImage.SelectedIndex].Values[3].ToString();
-            ImgMapOne.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[LWImage.SelectedIndex].Values[2].ToString() + "." + LWImage.DataKeys[LWImage.SelectedIndex].Values[3].ToString();
+            ImgButOne.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[LWImage.SelectedIndex].Values[2].ToString() + "_" + LWImage.DataKeys[LWImage.SelectedIndex].Values[1].ToString() + "." + LWImage.DataKeys[LWImage.SelectedIndex].Values[3].ToString();
+            ImgMapOne.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[LWImage.SelectedIndex].Values[2].ToString() + "_" + LWImage.DataKeys[LWImage.SelectedIndex].Values[1].ToString() + "." + LWImage.DataKeys[LWImage.SelectedIndex].Values[3].ToString();
+            FileCoordimateDataSource.SelectParameters.Clear();
+            FileCoordimateDataSource.SelectParameters.Add("ID_files", LWImage.DataKeys[LWImage.SelectedIndex].Values[1].ToString());
+            ImageChildren.DataBind();
+            ImgMapOne.HotSpots.Clear();
+            for (int i = 0; i < ImageChildren.Rows.Count; i++)
+            {
+                PolygonHotSpot Ph = new PolygonHotSpot();
+                Ph.AlternateText = ImageChildren.DataKeys[i].Values[3].ToString();
+                Ph.Coordinates = ImageChildren.DataKeys[i].Values[2].ToString();
+                ImgMapOne.HotSpots.Add(Ph);
+            }
+            
             ModalImageMaping.Show();
         }
         protected void ImageButton_Click(object sender, ImageClickEventArgs e)
@@ -149,20 +193,34 @@ namespace WebApplication1.Directory
             {
                 Coordin.Text += "," + OX.Text + "," + OY.Text;
             }
-
             ModalImageMaping.Show();
         }
         protected void DelCoordinate_Click(Object sender, EventArgs e)
         {
-            PolygonHotSpot Ph = new PolygonHotSpot();
-            Ph.AlternateText = "Тест";
-            Ph.Coordinates = Coordin.Text;
-            ImgMapOne.HotSpots.Add(Ph);
+            ImageFilesObjectDataSource.InsertMethod = "AddFileCoordinate";
+            ImageFilesObjectDataSource.InsertParameters.Clear();
+            ImageFilesObjectDataSource.InsertParameters.Add("Coordinate", Coordin.Text);
+            ImageFilesObjectDataSource.InsertParameters.Add("ID_Files", LWImage.DataKeys[LWImage.SelectedIndex].Values[1].ToString());
+            ImageFilesObjectDataSource.InsertParameters.Add("AlternateText", MapText.Text.ToString());
+            ImageFilesObjectDataSource.InsertParameters.Add("ID_UrlTable", "432432432");
+            ImageFilesObjectDataSource.InsertParameters.Add("NameUrlTable", "432432432");
+            ImageFilesObjectDataSource.Insert();
+            ImageChildren.DataBind();
+            ImgMapOne.HotSpots.Clear();
+            for (int i = 0; i < ImageChildren.Rows.Count; i++)
+            {
+                PolygonHotSpot Ph = new PolygonHotSpot();
+                Ph.AlternateText = ImageChildren.DataKeys[i].Values[3].ToString();
+                Ph.Coordinates = ImageChildren.DataKeys[i].Values[2].ToString();
+                ImgMapOne.HotSpots.Add(Ph);
+            }
+            Coordin.Text = "";
+            ChangeMap.Checked = false;
             ImgButOne.Visible = false;
             ImgMapOne.Visible = true;
+            UnitMap.Visible = false;
             ModalImageMaping.Show();
         }
-
         private void Load_Images(string ID_Building)
         {
             ImageObjectDataSource.SelectMethod = "FileRelationList";
@@ -195,6 +253,7 @@ namespace WebApplication1.Directory
             switch (e.CommandName)
             {
                 case "Plus":
+                    
                     ModalPopupExtender1.Show();
                     int  t = Convert.ToInt16(Label4.Text.ToString());
                     t = t + (t * 30 / 100);
@@ -220,6 +279,23 @@ namespace WebApplication1.Directory
                     Msg.Text = "Command name not recogized.";
                     break;
             }
+        }
+        protected void ChangeMap_CheckedChanged(object sender, EventArgs e)
+        {
+            Coordin.Text = "";
+            if (ChangeMap.Checked == false)
+            {
+                ImgButOne.Visible = false;
+                ImgMapOne.Visible = true;
+                UnitMap.Visible = false;
+            }
+            else
+            {
+                ImgButOne.Visible = true;
+                ImgMapOne.Visible = false;
+                UnitMap.Visible = true;
+            }
+            ModalImageMaping.Show();
         }
     }
 }

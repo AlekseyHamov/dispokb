@@ -58,6 +58,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource ImageFilesObjectDataSource;
         
         /// <summary>
+        /// FileCoordimateDataSource элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource FileCoordimateDataSource;
+        
+        /// <summary>
         /// BuildingGridView элемент управления.
         /// </summary>
         /// <remarks>
@@ -128,6 +137,15 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload ImageFile;
+        
+        /// <summary>
+        /// AddImge элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddImge;
         
         /// <summary>
         /// ImageDiv элемент управления.
@@ -238,6 +256,42 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ImageMap ImgMapOne;
         
         /// <summary>
+        /// ImageChildren элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView ImageChildren;
+        
+        /// <summary>
+        /// ChangeMap элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox ChangeMap;
+        
+        /// <summary>
+        /// UnitMap элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor UnitMap;
+        
+        /// <summary>
+        /// MapText элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox MapText;
+        
+        /// <summary>
         /// DelCoordinate элемент управления.
         /// </summary>
         /// <remarks>
@@ -253,7 +307,7 @@ namespace WebApplication1.Directory {
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox OX;
+        protected global::System.Web.UI.WebControls.Label OX;
         
         /// <summary>
         /// OY элемент управления.
@@ -262,7 +316,7 @@ namespace WebApplication1.Directory {
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox OY;
+        protected global::System.Web.UI.WebControls.Label OY;
         
         /// <summary>
         /// Coordin элемент управления.
@@ -271,7 +325,7 @@ namespace WebApplication1.Directory {
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Coordin;
+        protected global::System.Web.UI.WebControls.Label Coordin;
         
         /// <summary>
         /// aliona элемент управления.
