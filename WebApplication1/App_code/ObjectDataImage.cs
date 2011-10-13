@@ -62,6 +62,8 @@ namespace Samples.AspNet.ObjectDataImage
                 SqlParameter ptrParm = addEmp.Parameters.Add("@Pointer", SqlDbType.Binary, 16);
                 ptrParm.Direction = ParameterDirection.Output;
 
+//                addEmp.Parameters.Add("@fileName", SqlDbType.NVarChar, 20).Value = NameTable + "_" + (int)idParm.Value;
+
                 connection.Open();
 
                 addEmp.ExecuteNonQuery();
@@ -73,8 +75,7 @@ namespace Samples.AspNet.ObjectDataImage
             }
         }
 
-        public static void StorePhoto(string fileName, byte[] pointer,
-            SqlConnection connection)
+        public static void StorePhoto(string fileName, byte[] pointer, SqlConnection connection)
         {
             // The size of the "chunks" of the image.
             int bufferLen = 4096;
@@ -113,7 +114,6 @@ namespace Samples.AspNet.ObjectDataImage
             br.Close();
             fs.Close();
         }
-
         public void TestGetSqlBytes(int documentID, string filePath)
         {
             // Assumes GetConnectionString returns a valid connection string.
@@ -146,7 +146,7 @@ namespace Samples.AspNet.ObjectDataImage
                         while (reader.Read())
                         {
                             // Get the name of the file.
-                            photoName = reader.GetString(1) +"."+ reader.GetString(0);
+                            photoName = reader.GetString(1) + "_" + documentID + "." + reader.GetString(0);
 
                             // Ensure that the column isn't null
                             if (reader.IsDBNull(2))
@@ -182,7 +182,6 @@ namespace Samples.AspNet.ObjectDataImage
                 }
             }
         }
-
         public DataTable FileRelationList(int ID_Table, string NameTable)
         {
             SqlConnection conn = new SqlConnection(_connectionString);
@@ -212,6 +211,96 @@ namespace Samples.AspNet.ObjectDataImage
             }
 
             return ds.Tables["FileRelation"];
+        }
+        public int DeleteImage(int ID_files, int ID, string fileName, string fileType)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand("DELETE FROM Files WHERE ID = @ID_files; Delete From FilesRelation where ID_files = @ID_files", conn);
+
+            cmd.Parameters.Add("@ID_files", SqlDbType.Int).Value = ID_files;
+            int result = 0;
+
+            try
+            {
+                conn.Open();
+
+                result = cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return result;
+        }
+        public int AddFileCoordinate(string Coordinate, int ID_Files, string AlternateText, int ID_UrlTable, string NameUrlTable)
+        {
+            SqlConnection connection = new SqlConnection(_connectionString);
+
+            SqlCommand cmd = new SqlCommand(
+                    "INSERT INTO FileCoordinate (ID_Files,Coordinate, AlternateText, ID_UrlTable, NameUrlTable) " +
+                    "Values(@ID_Files,@Coordinate, @AlternateText, @ID_UrlTable, @NameUrlTable);" +
+                    "SELECT @ID = SCOPE_IDENTITY()",
+                    connection);
+
+                cmd.Parameters.Add("@Coordinate", SqlDbType.NVarChar, 500).Value = Coordinate;
+                cmd.Parameters.Add("@ID_Files", SqlDbType.NVarChar, 20).Value = ID_Files;
+                cmd.Parameters.Add("@AlternateText", SqlDbType.NVarChar, 70).Value = AlternateText;
+                cmd.Parameters.Add("@ID_UrlTable", SqlDbType.NVarChar, 20).Value = ID_UrlTable;
+                cmd.Parameters.Add("@NameUrlTable", SqlDbType.NVarChar, 30).Value = NameUrlTable;
+
+                SqlParameter p = cmd.Parameters.Add("@ID", SqlDbType.Int);
+                p.Direction = ParameterDirection.Output;
+
+                int newID = 0;
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    newID = (int)p.Value;
+                }
+                catch (SqlException e)
+                {
+                    // Handle exception.
+                }
+                finally
+                {
+                    connection.Close();
+                }
+
+                return newID;
+            }
+        public DataTable FileCoordinate(int ID_files)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da =
+              new SqlDataAdapter("Select ID, ID_files,Coordinate, AlternateText,ID_UrlTable,NameUrlTable  " +
+                                  " from FileCoordinate " +
+                                  " Where ID_files = @ID_files ", conn);
+            da.SelectCommand.Parameters.Add("@ID_files", SqlDbType.Int).Value = ID_files;
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                conn.Open();
+
+                da.Fill(ds, "FileCoordinate");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["FileCoordinate"];
         }
     }
 }

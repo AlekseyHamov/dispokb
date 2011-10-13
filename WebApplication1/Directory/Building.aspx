@@ -47,17 +47,33 @@
         runat="server" 
         TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
         InsertMethod="AddEmployee"
-        SelectMethod="FileRelationList">
+        DeleteMethod="DeleteImage"
+        SelectMethod="FileRelationList"
+        OnDeleted = "ImageDataSource_OnDeleted" >
         <SelectParameters>
             <asp:Parameter Name="NameTable"  DefaultValue = "Building" />
             <asp:ControlParameter Name= "ID_Table" ControlID="BuildingGridView" PropertyName="SelectedValue" DefaultValue="0" />  
         </SelectParameters> 
+        <DeleteParameters>
+            <asp:ControlParameter Name= "ID_files" ControlID="LWImage" PropertyName="SelectedValue" DefaultValue="0" />  
+        </DeleteParameters> 
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
         ID="ImageFilesObjectDataSource" 
         runat="server" 
         TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
-        InsertMethod="AddEmployee">
+        InsertMethod="AddEmployee"
+        >
+      </asp:ObjectDataSource>
+      <asp:ObjectDataSource 
+        ID="FileCoordimateDataSource" 
+        runat="server" 
+        TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
+        SelectMethod="FileCoordinate" 
+        >
+        <SelectParameters>
+            <asp:ControlParameter Name= "ID_files" ControlID="LWImage" PropertyName="SelectedValue" DefaultValue="0" />  
+        </SelectParameters> 
       </asp:ObjectDataSource>
       <table cellspacing="10">
         <tr>
@@ -77,7 +93,6 @@
                                  CommandName="Select" ButtonType="Image" 
                       ImageUrl="~/Image/edit.png" FooterText="Проба">  
                   <ControlStyle Height="15px" Width="15px" />
-
                 </asp:ButtonField>
                 <asp:BoundField DataField="ID_Building" HeaderText="Номер п/п" 
                       SortExpression="ID_Building" Visible="False" />
@@ -92,7 +107,7 @@
                     <ControlStyle Height="15px" Width="15px" />
                 </asp:ButtonField>
               </Columns>                
-            </asp:GridView>            
+            </asp:GridView>    
           </td>
         </tr>
         <tr>
@@ -102,7 +117,7 @@
         </tr>
         <tr>
           <td>
-             <asp:Panel ID="UpdatePanel" runat="server"  
+                  <asp:Panel ID="UpdatePanel" runat="server"  
                   BackColor="#ffffff">
                   <table>
                     <tr >
@@ -126,18 +141,19 @@
                              Изображение</td>
                          <td align="left">
                              <asp:FileUpload ID="ImageFile" runat="server" />
+                             <asp:Button ID="AddImge" Text="Добавить изображение" ToolTip="Добавляет изображение к существующей записи" 
+                                        runat="server" Visible="false" OnClick="Image_OnInserted">
+                             </asp:Button>
                         </td>
                     </tr>
                   </table>
-                  <div id="ImageDiv" runat="server" style="overflow-x:scroll; text-align:left;" >
+                  <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left; height:150px" >
                   <asp:GridView ID = "LWImage" runat="server" 
                                 AutoGenerateColumns="false"
                                 DataSourceID="ImageObjectDataSource" 
-                                AllowSorting="True"
-                                AllowPaging="True"
-                                PageSize="18"
                                 DataKeyNames="ID,ID_files,fileName,fileType"
-                                OnSelectedIndexChanged="LWImage_SelectedIndexChanged">
+                                OnSelectedIndexChanged="LWImage_SelectedIndexChanged"
+                                >
               <Columns>                
                     <asp:ButtonField HeaderText = "Ред."
                                      CommandName="Select" ButtonType="Image" 
@@ -147,10 +163,16 @@
                     <asp:TemplateField  HeaderText = "Карта."> 
                         <ItemTemplate>
                         <asp:ImageMap ID="IMG" runat="server" 
-                            ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"."+Eval("fileType")) %>' 
-                            Height = "70"/>
+                            ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' 
+                            Height = "50"/>
                         </ItemTemplate> 
                     </asp:TemplateField>
+                <asp:ButtonField
+                        CommandName="Delete" ButtonType="Image" 
+                        ImageUrl="~/Image/deletion.png" HeaderText="Удалить"
+                        >  
+                    <ControlStyle Height="15px" Width="15px" />
+                </asp:ButtonField>
                 </Columns> 
                   </asp:GridView> 
                   </div>
@@ -165,22 +187,50 @@
                           <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
                                  OnCommand="CommandBtn_Click" Visible="false"/>
                   </p>
-              </asp:Panel>
+                  </asp:Panel>
             <asp:Panel runat="server" ID="ImageMapingPanel" BackColor="#ffffff">
                 <div style="text-align:right" >
-                <asp:ImageButton runat="server" id="CloseImageMapingPanel" ImageUrl="~/Image/Close.ico"   Height="15px" Width="15px"/>
+                    <asp:ImageButton runat="server" id="CloseImageMapingPanel" ImageUrl="~/Image/Close.ico"   Height="15px" Width="15px"/>
                 </div>
                 <div>
-                <asp:ImageButton runat="server" id="ImgButOne" Width="500" onclick="ImageButton_Click"/>
-                <asp:ImageMap runat="server" id="ImgMapOne" Width="500" Visible="false">
-                </asp:ImageMap>
+                    <asp:ImageButton runat="server" id="ImgButOne" Width="500" onclick="ImageButton_Click" Visible="false" />
+                    <asp:ImageMap runat="server" id="ImgMapOne" Width="500" >
+                    </asp:ImageMap>
+                <div style="float:right" >
+                    <asp:GridView ID="ImageChildren" runat="server" AutoGenerateColumns="false"
+                                DataSourceID="FileCoordimateDataSource" 
+                                DataKeyNames="ID,ID_files,Coordinate,AlternateText" >
+                        <Columns>
+                            <asp:ButtonField HeaderText = "Ред."
+                                                CommandName="Select" ButtonType="Image" 
+                                    ImageUrl="~/Image/edit.png" FooterText="Проба">  
+                                <ControlStyle Height="15px" Width="15px" />
+                            </asp:ButtonField>
+                            <asp:TemplateField  HeaderText = "Ссылка на"> 
+                                <ItemTemplate>
+                                <asp:Label ID="MapText" runat="server" Text='<%#Eval("AlternateText") %>' />
+                                </ItemTemplate> 
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView> 
+                </div>
                 </div>
                 <div>
-                <asp:Button ID="DelCoordinate" runat="server" Text="Записать область" OnClick="DelCoordinate_Click" />
-                <asp:TextBox ID="OX" runat="server"  ToolTip="Координата по оси Х"></asp:TextBox>
-                <br />
-                <asp:TextBox ID="OY" runat="server"  ToolTip="Координата по оси Y"></asp:TextBox> 
-                <asp:TextBox ID="Coordin" runat="server"  ToolTip="Координ"></asp:TextBox>
+                    <asp:CheckBox ID="ChangeMap" runat="server" AutoPostBack="true" Checked="false" 
+                        oncheckedchanged="ChangeMap_CheckedChanged" Text="Задать ссылки по карте" />
+                    <a ID="UnitMap" runat="server" visible="false">
+                    <br />
+                    <asp:TextBox ID="MapText" runat="server" Text="Описание выделенного участка" />
+                    <br />
+                    <asp:Button ID="DelCoordinate" runat="server" OnClick="DelCoordinate_Click" 
+                        Text="Записать область" />
+                    <br />
+                    <asp:Label ID="OX" runat="server" ToolTip="Координата по оси Х"></asp:Label>
+                    <br />
+                    <asp:Label ID="OY" runat="server" ToolTip="Координата по оси Y"></asp:Label>
+                    <br />
+                    <asp:Label ID="Coordin" runat="server" ToolTip="Координ"></asp:Label>
+                    </a>
                 </div>
             </asp:Panel>
             <asp:Label runat="server" id="aliona" />
