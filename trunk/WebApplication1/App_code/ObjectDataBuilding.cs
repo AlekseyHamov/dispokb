@@ -47,7 +47,7 @@ namespace Samples.AspNet.ObjectDataBuilding
         {
             VerifySortColumns(sortColumns);
 
-            string sqlCmd = "SELECT ID_Building, NameBuilding FROM Building ";
+            string sqlCmd = "SELECT ID_Building, NameBuilding, MapMain FROM Building  ";
 
             if (sortColumns.Trim() == "")
                 sqlCmd += "ORDER BY ID_Building";
@@ -77,6 +77,37 @@ namespace Samples.AspNet.ObjectDataBuilding
             return ds.Tables["Building"];
         }
 
+        public DataTable GetBuildingTempGrid(int ID_Building)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            string sqlCmd = "SELECT b.ID_Building, b.NameBuilding, b.MapMain, fr.id as ID_FilesRelation, fr.ID_Files, f.fileName, f.fileType    " +
+                "  FROM Building as b  "+
+                " Left join FilesRelation as fr on fr.ID_Table = b.ID_Building and fr.NameTable = 'Building'" +
+                " Left join files as f on f.ID = fr.ID_Files " +
+                                 "WHERE b.ID_Building = @ID_Building";
+
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+            da.SelectCommand.Parameters.Add("@ID_Building", SqlDbType.Int).Value = ID_Building;
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                conn.Open();
+
+                da.Fill(ds, "Building");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Building"];
+        }
 
         public int SelectCount()
         {
@@ -136,7 +167,7 @@ namespace Samples.AspNet.ObjectDataBuilding
         {
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da =
-              new SqlDataAdapter("SELECT ID_Building, NameBuilding " +
+              new SqlDataAdapter("SELECT ID_Building, NameBuilding,MapMain " +
                                  "  FROM Building WHERE ID_Building = @ID_Building", conn);
             da.SelectCommand.Parameters.Add("@ID_Building", SqlDbType.Int).Value = ID_Building;
 

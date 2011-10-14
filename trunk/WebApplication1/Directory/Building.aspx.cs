@@ -25,17 +25,68 @@ namespace WebApplication1.Directory
             UpdateButton.Visible = false;
             InsertButton.Visible = true;
             DeleteButton.Visible = false;
-/*            if (ChangeMap.Checked == false)
+            
+            MapPage.Visible = true;
+
+            if (!Page.IsPostBack)
             {
-                ImgButOne.Visible = false;
-                ImgMapOne.Visible = true;
+                string photoFilePath = Server.MapPath("../Image_Data/");
+                for (int j = 0; j < BuildingGridView.Rows.Count; j++)
+                {
+                    if (BuildingGridView.DataKeys[j].Values[1].ToString() == "True")
+                    {
+                        ObjectDataTempGrig.SelectParameters.Clear();
+                        ObjectDataTempGrig.SelectParameters.Add("ID_Building", BuildingGridView.DataKeys[j].Values[0].ToString());
+                        break;
+                    }
+                }
+                GridView TempGrid = new GridView();
+                TempGrid.DataSourceID = "ObjectDataTempGrig";
+                TempGrid.DataKeyNames = new string[] { "ID_Building", "ID_Files", "fileName", "fileType", "MapMain" };
+                ImageMapingPanel.Controls.Add(TempGrid);
+                TempGrid.DataBind();
+                for (int i = 0; i < TempGrid.Rows.Count; i++)
+                {
+                    FileCoordimateDataSource.SelectParameters.Clear();
+                    FileCoordimateDataSource.SelectParameters.Add("ID_files", TempGrid.DataKeys[i].Values[1].ToString());
+                }
+                GridView HotSpotsGrid = new GridView();
+                HotSpotsGrid.DataSourceID = "FileCoordimateDataSource";
+                HotSpotsGrid.AutoGenerateColumns = false;
+                HotSpotsGrid.DataKeyNames = new string[] { "ID","ID_files","Coordinate","AlternateText" };
+                BoundField PageImageGrid = new BoundField();
+                PageImageGrid.HeaderText = "Связанные элементы";
+                PageImageGrid.DataField = "AlternateText";
+                HotSpotsGrid.Columns.Add(PageImageGrid);
+                HotSpotsGrid.Width = 40;
+                DivRightPage.Controls.Add(HotSpotsGrid);
+                HotSpotsGrid.DataBind();
+
+                for (int i = 0; i < HotSpotsGrid.Rows.Count; i++)
+                {
+                    PolygonHotSpot Ph = new PolygonHotSpot();
+                    Ph.AlternateText = HotSpotsGrid.DataKeys[i].Values[3].ToString();
+                    Ph.Coordinates = HotSpotsGrid.DataKeys[i].Values[2].ToString();
+                    MapPage.HotSpots.Add(Ph);
+                }
+
+                
+                TempGrid.DataBind();
+                for (int i = 0; i < TempGrid.Rows.Count; i++)
+                {
+                    if (!File.Exists(photoFilePath + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString()))
+                    {
+                        ImageFilesObjectDataSource.SelectMethod = "TestGetSqlBytes";
+                        ImageFilesObjectDataSource.SelectParameters.Clear();
+                        ImageFilesObjectDataSource.SelectParameters.Add("documentID", TempGrid.DataKeys[i].Values[1].ToString());
+                        ImageFilesObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
+                        ImageFilesObjectDataSource.Select();
+                    }
+                    MapPage.ImageUrl = "~/Image_Data/" + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString();
+                    break;
+                }
+
             }
-            else
-            {
-                ImgButOne.Visible = true;
-                ImgMapOne.Visible = false;
-                DelCoordinate.Visible = true;
-            }*/
         }
         protected void CommandBtn_Click(Object sender, CommandEventArgs e)
         {
@@ -176,7 +227,6 @@ namespace WebApplication1.Directory
                 Ph.Coordinates = ImageChildren.DataKeys[i].Values[2].ToString();
                 ImgMapOne.HotSpots.Add(Ph);
             }
-            
             ModalImageMaping.Show();
         }
         protected void ImageButton_Click(object sender, ImageClickEventArgs e)
@@ -197,13 +247,21 @@ namespace WebApplication1.Directory
         }
         protected void DelCoordinate_Click(Object sender, EventArgs e)
         {
+            ChangeMap.Visible = false;
+
             ImageFilesObjectDataSource.InsertMethod = "AddFileCoordinate";
             ImageFilesObjectDataSource.InsertParameters.Clear();
             ImageFilesObjectDataSource.InsertParameters.Add("Coordinate", Coordin.Text);
-            ImageFilesObjectDataSource.InsertParameters.Add("ID_Files", LWImage.DataKeys[LWImage.SelectedIndex].Values[1].ToString());
+            for (int j = 0; j < BuildingGridView.Rows.Count; j++)
+            {
+                if (BuildingGridView.DataKeys[j].Values[1].ToString() == "True")
+                {
+                    ImageFilesObjectDataSource.InsertParameters.Add("ID_Files", BuildingGridView.DataKeys[j].Values[0].ToString());
+                }
+            }
             ImageFilesObjectDataSource.InsertParameters.Add("AlternateText", MapText.Text.ToString());
-            ImageFilesObjectDataSource.InsertParameters.Add("ID_UrlTable", "432432432");
-            ImageFilesObjectDataSource.InsertParameters.Add("NameUrlTable", "432432432");
+            ImageFilesObjectDataSource.InsertParameters.Add("ID_UrlTable", BuildingGridView.SelectedValue.ToString());
+            ImageFilesObjectDataSource.InsertParameters.Add("NameUrlTable", "Building");
             ImageFilesObjectDataSource.Insert();
             ImageChildren.DataBind();
             ImgMapOne.HotSpots.Clear();
@@ -295,6 +353,42 @@ namespace WebApplication1.Directory
                 ImgMapOne.Visible = false;
                 UnitMap.Visible = true;
             }
+            ModalImageMaping.Show();
+        }
+
+        protected void MapRelation_Click(object sender, EventArgs e)
+        {
+            string photoFilePath = Server.MapPath("../Image_Data/");
+            for (int j = 0; j < BuildingGridView.Rows.Count; j++)
+            {
+                if (BuildingGridView.DataKeys[j].Values[1].ToString() == "True")
+                {
+                    ObjectDataTempGrig.SelectParameters.Clear();
+                    ObjectDataTempGrig.SelectParameters.Add("ID_Building", BuildingGridView.DataKeys[j].Values[0].ToString());
+                    break;
+                }
+            }
+            MapText.Text = BuildingGridView.Rows[BuildingGridView.SelectedIndex].Cells[2].Text;
+            GridView TempGrid = new GridView();
+            TempGrid.DataSourceID = "ObjectDataTempGrig";
+            TempGrid.DataKeyNames = new string[]{"ID_Building", "ID_Files", "fileName", "fileType" ,"MapMain"};
+            ImageMapingPanel.Controls.Add(TempGrid);  
+            TempGrid.DataBind();
+            for (int i = 0; i < TempGrid.Rows.Count; i++)
+            {
+                    if (!File.Exists(photoFilePath + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString()))
+                    {
+                        ImageFilesObjectDataSource.SelectMethod = "TestGetSqlBytes";
+                        ImageFilesObjectDataSource.SelectParameters.Clear();
+                        ImageFilesObjectDataSource.SelectParameters.Add("documentID", TempGrid.DataKeys[i].Values[1].ToString());
+                        ImageFilesObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
+                        ImageFilesObjectDataSource.Select();
+                    }
+                    ImgButOne.ImageUrl = "~/Image_Data/" + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString();
+                    ImgMapOne.ImageUrl = "~/Image_Data/" + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString();
+                    break;
+            }
+            ChangeMap.Visible = true;
             ModalImageMaping.Show();
         }
     }

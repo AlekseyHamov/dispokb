@@ -11,8 +11,8 @@
 </asp:ScriptManager>
       <h3>Справочник Корпусов-блоков-строений</h3> 
       <asp:Label id="Msg" runat="server" ForeColor="Red" />
-<div style="display:inline">
-<div style="float:left; width:300px"> 
+<div style="display:inline" >
+<div style="width:30%; float:left"  > 
       <asp:ObjectDataSource 
         ID="BuildingObjectDataSource" 
         runat="server" 
@@ -42,6 +42,16 @@
                 PropertyName="Text" />
         </updateparameters>
       </asp:ObjectDataSource>
+      <asp:ObjectDataSource 
+        ID="ObjectDataTempGrig" 
+        runat="server" 
+        TypeName="Samples.AspNet.ObjectDataBuilding.BuildingData" 
+        SelectMethod="GetBuildingTempGrid" >
+        <SelectParameters>
+            <asp:ControlParameter Name= "ID_Building" ControlID="BuildingGridView" PropertyName="SelectedValue" DefaultValue="0" />  
+        </SelectParameters> 
+      </asp:ObjectDataSource>
+
       <asp:ObjectDataSource 
         ID="ImageObjectDataSource" 
         runat="server" 
@@ -84,7 +94,7 @@
               AllowSorting="True"
               AllowPaging="True"
               PageSize="18"
-              DataKeyNames="ID_Building"
+              DataKeyNames="ID_Building,MapMain"
               OnSelectedIndexChanged="GridView_OnSelectedIndexChanged"
               RunAt="server" >  
               <HeaderStyle backcolor="lightblue" forecolor="black"/>
@@ -136,45 +146,53 @@
                             <asp:TextBox ID="TextBox2"  runat="server" Width="160px"></asp:TextBox>
                         </td>
                    </tr>
-                   <tr>
-                        <td align="right" >
-                             Изображение</td>
-                         <td align="left">
-                             <asp:FileUpload ID="ImageFile" runat="server" />
-                             <asp:Button ID="AddImge" Text="Добавить изображение" ToolTip="Добавляет изображение к существующей записи" 
-                                        runat="server" Visible="false" OnClick="Image_OnInserted">
-                             </asp:Button>
-                        </td>
-                    </tr>
                   </table>
-                  <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left; height:150px" >
-                  <asp:GridView ID = "LWImage" runat="server" 
-                                AutoGenerateColumns="false"
-                                DataSourceID="ImageObjectDataSource" 
-                                DataKeyNames="ID,ID_files,fileName,fileType"
-                                OnSelectedIndexChanged="LWImage_SelectedIndexChanged"
-                                >
-              <Columns>                
-                    <asp:ButtonField HeaderText = "Ред."
-                                     CommandName="Select" ButtonType="Image" 
-                          ImageUrl="~/Image/edit.png" FooterText="Проба">  
-                      <ControlStyle Height="15px" Width="15px" />
-                    </asp:ButtonField>
-                    <asp:TemplateField  HeaderText = "Карта."> 
-                        <ItemTemplate>
-                        <asp:ImageMap ID="IMG" runat="server" 
-                            ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' 
-                            Height = "50"/>
-                        </ItemTemplate> 
-                    </asp:TemplateField>
-                <asp:ButtonField
-                        CommandName="Delete" ButtonType="Image" 
-                        ImageUrl="~/Image/deletion.png" HeaderText="Удалить"
-                        >  
-                    <ControlStyle Height="15px" Width="15px" />
-                </asp:ButtonField>
-                </Columns> 
-                  </asp:GridView> 
+                  <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left; height:150px;">
+                      <div style="float:left"> 
+                        <asp:GridView ID = "LWImage" runat="server" 
+                                    AutoGenerateColumns="false"
+                                    DataSourceID="ImageObjectDataSource" 
+                                    DataKeyNames="ID,ID_files,fileName,fileType"
+                                    OnSelectedIndexChanged="LWImage_SelectedIndexChanged" Height="144px"
+                        >
+                        <Columns>                
+                            <asp:ButtonField HeaderText = "Ред."
+                                                CommandName="Select" ButtonType="Image" 
+                                    ImageUrl="~/Image/edit.png" FooterText="Проба">  
+                                <ControlStyle Height="15px" Width="15px" />
+                            </asp:ButtonField>
+                            <asp:TemplateField  HeaderText = "Карта."> 
+                                <ItemTemplate>
+                                <asp:ImageMap ID="IMG" runat="server" 
+                                    ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' 
+                                    Height = "50"/>
+                                </ItemTemplate> 
+                            </asp:TemplateField>
+                            <asp:ButtonField
+                            CommandName="Delete" ButtonType="Image" 
+                            ImageUrl="~/Image/deletion.png" HeaderText="Удалить"
+                            >  
+                               <ControlStyle Height="15px" Width="15px" />
+                            </asp:ButtonField>
+                        </Columns> 
+                        </asp:GridView>
+                      </div>
+                      <div> 
+                            Изображение
+                            <asp:FileUpload ID="ImageFile" runat="server" />
+                            <br />
+                            <asp:Button ID="AddImge" Text="Добавить изображение" ToolTip="Добавляет изображение к существующей записи" 
+                                    runat="server" Visible="false" OnClick="Image_OnInserted">
+                            </asp:Button>
+                            <br />
+                            <br />
+                            Привязать к месту на карте
+                            <br />
+                            <asp:Button ID="MapRelation" Text="Привязать" ToolTip="Привязать к месту на карте" 
+                                        runat="server" Visible="true" onclick="MapRelation_Click" >
+                            </asp:Button>
+
+                      </div>
                   </div>
                   <asp:Label ID="Label4" runat="server" Text="100"></asp:Label>
                   <asp:Button ID="Plus" runat="server" OnCommand = "Plus_Minus_Click" CommandName = "Plus" Text="Plus" />
@@ -257,10 +275,16 @@
         </tr>
       </table>
 </div>
-<div style="width:350px;float:left">
+<div style="width:100%">
       Справочник Корпусов-блоков-строений является базовым. Его необходимо запонлнять одним из первых. 
       В дальнейшем в приложении он используется как справочник для удобства поискаи фильтрации информациии,
       для получения укрупненной статистики и построения отчетов.
-</div> 
+</div>
+<br />
+<div style="display:inline" >
+    <asp:ImageMap ID="MapPage" runat="server" Visible="false" Width="500" />
+    <div id="DivRightPage" runat="server" style="float:right" >
+    </div>
+</div>
 </div>
     </asp:Content>
