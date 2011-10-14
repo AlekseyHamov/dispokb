@@ -40,6 +40,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource BuildingObjectDataSource;
         
         /// <summary>
+        /// ObjectDataTempGrig элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ObjectDataTempGrig;
+        
+        /// <summary>
         /// ImageObjectDataSource элемент управления.
         /// </summary>
         /// <remarks>
@@ -130,6 +139,24 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.TextBox TextBox2;
         
         /// <summary>
+        /// ImageDiv элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ImageDiv;
+        
+        /// <summary>
+        /// LWImage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView LWImage;
+        
+        /// <summary>
         /// ImageFile элемент управления.
         /// </summary>
         /// <remarks>
@@ -148,22 +175,13 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.Button AddImge;
         
         /// <summary>
-        /// ImageDiv элемент управления.
+        /// MapRelation элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ImageDiv;
-        
-        /// <summary>
-        /// LWImage элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView LWImage;
+        protected global::System.Web.UI.WebControls.Button MapRelation;
         
         /// <summary>
         /// Label4 элемент управления.
@@ -362,5 +380,23 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::AjaxControlToolkit.DragPanelExtender UpdatePanel_DragPanelExtender;
+        
+        /// <summary>
+        /// MapPage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageMap MapPage;
+        
+        /// <summary>
+        /// DivRightPage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivRightPage;
     }
 }
