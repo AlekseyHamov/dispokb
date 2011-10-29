@@ -43,9 +43,10 @@ namespace Samples.AspNet.ObjectDataDevice
         {
             VerifySortColumns(sortColumns);
 
-            string sqlCmd = " SELECT distinct Device.ID_Device, Device.Parent_ID, Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog " +
+            string sqlCmd = " SELECT distinct Device.ID_Device,Device_list.Device as Parent_ID, Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog " +
                 " FROM Device "+
-                " Left join Unit on Unit.ID_Unit=Device.ID_Unit ";
+                " Left join Unit on Unit.ID_Unit=Device.ID_Unit " +
+                " Left join Device_list on Device_list.Device_Spares=Device.ID_Device ";
 
             sqlCmd += " where 1=1 "; 
             try

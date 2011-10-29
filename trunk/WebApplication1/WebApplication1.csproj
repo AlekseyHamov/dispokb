@@ -67,6 +67,7 @@
     <Content Include="Directory\Unit.aspx" />
     <Content Include="Directory\Test.aspx" />
     <Content Include="Docs\claim.aspx" />
+    <Content Include="Docs\MapClaim.aspx" />
     <Content Include="Image\calendar.png" />
     <Content Include="Image\Close.ico" />
     <Content Include="Image\deletion.png" />
@@ -76,6 +77,7 @@
     <Content Include="Image\edit_old.png" />
     <Content Include="Image\kedit.png" />
     <Content Include="Image\uparrow.png" />
+    <Content Include="Image_Data\WebForm1.aspx" />
     <Content Include="Map_Image\OKB_ALL.aspx" />
     <Content Include="Styles\Site.css">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -197,6 +199,20 @@
     <Compile Include="Docs\claim.aspx.designer.cs">
       <DependentUpon>claim.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Docs\MapClaim.aspx.cs">
+      <DependentUpon>MapClaim.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Docs\MapClaim.aspx.designer.cs">
+      <DependentUpon>MapClaim.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Image_Data\WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Image_Data\WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Map_Image\OKB_ALL.aspx.cs">
       <DependentUpon>OKB_ALL.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -247,7 +263,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Img\" />
-    <Folder Include="Image_Data\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />

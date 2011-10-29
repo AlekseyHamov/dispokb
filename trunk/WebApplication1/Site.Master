@@ -37,6 +37,8 @@
                             <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Документы" Value="Документы">
                                 <asp:MenuItem NavigateUrl="~/Docs/claim.aspx" Text="Заявка" 
                                     Value="Заявка"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/Docs/MapClaim.aspx" Text="Карта-заявка" 
+                                    Value="Карта-заявка"></asp:MenuItem>
                             </asp:MenuItem>
                             <asp:MenuItem Text="Справочники" Value="Справочники">
                                 <asp:MenuItem NavigateUrl="~/Directory/Otdelen.aspx" Text="Отделения" 

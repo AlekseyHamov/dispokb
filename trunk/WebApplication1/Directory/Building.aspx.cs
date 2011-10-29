@@ -36,30 +36,28 @@ namespace WebApplication1.Directory
                     if (BuildingGridView.DataKeys[j].Values[1].ToString() == "True")
                     {
                         ObjectDataTempGrig.SelectParameters.Clear();
-                        ObjectDataTempGrig.SelectParameters.Add("ID_Building", BuildingGridView.DataKeys[j].Values[0].ToString());
+                        ObjectDataTempGrig.SelectParameters.Add("NameTable", "Building");
+                        ObjectDataTempGrig.SelectParameters.Add("ID_Table", BuildingGridView.DataKeys[j].Values[0].ToString());
                         break;
                     }
                 }
-                GridView TempGrid = new GridView();
                 TempGrid.DataSourceID = "ObjectDataTempGrig";
-                TempGrid.DataKeyNames = new string[] { "ID_Building", "ID_Files", "fileName", "fileType", "MapMain" };
-                ImageMapingPanel.Controls.Add(TempGrid);
+                TempGrid.DataKeyNames = new string[] { "ID_Table", "ID_Files", "fileName", "fileType", "MapMain" };
                 TempGrid.DataBind();
-                for (int i = 0; i < TempGrid.Rows.Count; i++)
-                {
-                    FileCoordimateDataSource.SelectParameters.Clear();
-                    FileCoordimateDataSource.SelectParameters.Add("ID_files", TempGrid.DataKeys[i].Values[1].ToString());
-                }
-                GridView HotSpotsGrid = new GridView();
-                HotSpotsGrid.DataSourceID = "FileCoordimateDataSource";
-                HotSpotsGrid.AutoGenerateColumns = false;
-                HotSpotsGrid.DataKeyNames = new string[] { "ID","ID_files","Coordinate","AlternateText" };
+
                 BoundField PageImageGrid = new BoundField();
                 PageImageGrid.HeaderText = "Связанные элементы";
                 PageImageGrid.DataField = "AlternateText";
+                PageImageGrid.Visible = false;
+
+                GridView HotSpotsGrid = new GridView();
+                HotSpotsGrid.DataSourceID = "FileCoordimateDataSource";
+                HotSpotsGrid.AutoGenerateColumns = false;
+                HotSpotsGrid.DataKeyNames = new string[] { "ID", "ID_files", "Coordinate", "AlternateText" };
                 HotSpotsGrid.Columns.Add(PageImageGrid);
                 HotSpotsGrid.Width = 40;
                 DivRightPage.Controls.Add(HotSpotsGrid);
+
                 HotSpotsGrid.DataBind();
 
                 for (int i = 0; i < HotSpotsGrid.Rows.Count; i++)
@@ -70,8 +68,6 @@ namespace WebApplication1.Directory
                     MapPage.HotSpots.Add(Ph);
                 }
 
-                
-                TempGrid.DataBind();
                 for (int i = 0; i < TempGrid.Rows.Count; i++)
                 {
                     if (!File.Exists(photoFilePath + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString()))
@@ -147,7 +143,7 @@ namespace WebApplication1.Directory
         protected void Image_OnInserted(Object sender, EventArgs e)
         {
             string ID_Building = BuildingGridView.SelectedValue.ToString(); 
-            string strFileName = ImageFile.PostedFile.ContentType;
+            string strFileName = ImageFile.PostedFile.ContentType; 
             strFileName = System.IO.Path.GetFileName(strFileName);
             ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
             string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
@@ -200,6 +196,7 @@ namespace WebApplication1.Directory
         {
             string photoFilePath = Server.MapPath("../Image_Data/");
             LWImage.DataBind();
+            MapPage.Visible = false;
             for (int i = 0; i < LWImage.Rows.Count; i++)
             {
                 if (!File.Exists(photoFilePath + LWImage.DataKeys[i].Values[2].ToString() + "_" + LWImage.DataKeys[i].Values[1].ToString() + "." + LWImage.DataKeys[i].Values[3].ToString()))
@@ -210,6 +207,21 @@ namespace WebApplication1.Directory
                 ImageFilesObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
                 ImageFilesObjectDataSource.Select();
                 }
+                MapPage.Visible = true;
+                FileCoordimateDataSource.SelectParameters.Clear();
+                FileCoordimateDataSource.SelectParameters.Add("ID_files", LWImage.DataKeys[0].Values[1].ToString());
+                MapPage.ImageUrl = "~/Image_Data/" + LWImage.DataKeys[0].Values[2].ToString() + "_" + LWImage.DataKeys[0].Values[1].ToString() + "." + LWImage.DataKeys[0].Values[3].ToString();
+            }
+            MapPage.HotSpots.Clear();
+
+            ImageChildren.DataBind();
+            ImgMapOne.HotSpots.Clear();
+            for (int i = 0; i < ImageChildren.Rows.Count; i++)
+            {
+                PolygonHotSpot Ph = new PolygonHotSpot();
+                Ph.AlternateText = ImageChildren.DataKeys[i].Values[3].ToString();
+                Ph.Coordinates = ImageChildren.DataKeys[i].Values[2].ToString();
+                MapPage.HotSpots.Add(Ph);
             }
         }
         protected void LWImage_SelectedIndexChanged(Object sender, EventArgs e)
@@ -256,7 +268,7 @@ namespace WebApplication1.Directory
             {
                 if (BuildingGridView.DataKeys[j].Values[1].ToString() == "True")
                 {
-                    ImageFilesObjectDataSource.InsertParameters.Add("ID_Files", BuildingGridView.DataKeys[j].Values[0].ToString());
+                    ImageFilesObjectDataSource.InsertParameters.Add("ID_Files", TempGrid.DataKeys[0].Values[1].ToString());
                 }
             }
             ImageFilesObjectDataSource.InsertParameters.Add("AlternateText", MapText.Text.ToString());
@@ -355,24 +367,23 @@ namespace WebApplication1.Directory
             }
             ModalImageMaping.Show();
         }
-
         protected void MapRelation_Click(object sender, EventArgs e)
         {
             string photoFilePath = Server.MapPath("../Image_Data/");
+
             for (int j = 0; j < BuildingGridView.Rows.Count; j++)
             {
                 if (BuildingGridView.DataKeys[j].Values[1].ToString() == "True")
                 {
                     ObjectDataTempGrig.SelectParameters.Clear();
-                    ObjectDataTempGrig.SelectParameters.Add("ID_Building", BuildingGridView.DataKeys[j].Values[0].ToString());
+                    ObjectDataTempGrig.SelectParameters.Add("NameTable", "Building");
+                    ObjectDataTempGrig.SelectParameters.Add("ID_Table", BuildingGridView.DataKeys[j].Values[0].ToString());
                     break;
                 }
             }
             MapText.Text = BuildingGridView.Rows[BuildingGridView.SelectedIndex].Cells[2].Text;
-            GridView TempGrid = new GridView();
             TempGrid.DataSourceID = "ObjectDataTempGrig";
-            TempGrid.DataKeyNames = new string[]{"ID_Building", "ID_Files", "fileName", "fileType" ,"MapMain"};
-            ImageMapingPanel.Controls.Add(TempGrid);  
+            TempGrid.DataKeyNames = new string[]{"ID_Table", "ID_Files", "fileName", "fileType" ,"MapMain"};
             TempGrid.DataBind();
             for (int i = 0; i < TempGrid.Rows.Count; i++)
             {
@@ -388,7 +399,6 @@ namespace WebApplication1.Directory
                     ImgMapOne.ImageUrl = "~/Image_Data/" + TempGrid.DataKeys[i].Values[2].ToString() + "_" + TempGrid.DataKeys[i].Values[1].ToString() + "." + TempGrid.DataKeys[i].Values[3].ToString();
                     break;
             }
-            ChangeMap.Visible = true;
             ModalImageMaping.Show();
         }
     }

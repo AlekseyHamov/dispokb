@@ -247,6 +247,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.Panel ImageMapingPanel;
         
         /// <summary>
+        /// TempGrid элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView TempGrid;
+        
+        /// <summary>
         /// CloseImageMapingPanel элемент управления.
         /// </summary>
         /// <remarks>
@@ -254,6 +263,15 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton CloseImageMapingPanel;
+        
+        /// <summary>
+        /// ImageBM элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ImageBM;
         
         /// <summary>
         /// ImgButOne элемент управления.
