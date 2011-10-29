@@ -302,5 +302,50 @@ namespace Samples.AspNet.ObjectDataImage
 
             return ds.Tables["FileCoordinate"];
         }
+
+        public DataTable GetTempGrid(string ID_Table, string NameTable)
+        {
+            SqlConnection conn = new SqlConnection(_connectionString);
+            
+            string sqlCmd = "SELECT fr.id as ID_FilesRelation, fr.ID_Files, f.fileName, fr.ID_Table , f.fileType , b.MapMain    " +
+                "  FROM  FilesRelation as fr " +
+                " Left join files as f on f.ID = fr.ID_Files " +
+                " Left join Building as b on fr.ID_Table = b.ID_Building and fr.NameTable = 'Building' ";
+            if (ID_Table == null)
+            {
+                sqlCmd += " WHERE  fr.NameTable = @NameTable";
+            }
+            else
+            {
+                sqlCmd += " WHERE  fr.NameTable = @NameTable and fr.ID_Table = @ID_Table";
+            }
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+            if (ID_Table != null)
+            {
+                da.SelectCommand.Parameters.Add("@ID_Table", SqlDbType.Int).Value = ID_Table;
+            }
+            da.SelectCommand.Parameters.Add("@NameTable", SqlDbType.NVarChar, 50).Value = NameTable;
+
+            DataSet ds = new DataSet();
+
+            try
+            {
+                conn.Open();
+
+                da.Fill(ds, "TempGrid");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["TempGrid"];
+        }
+
+
     }
 }

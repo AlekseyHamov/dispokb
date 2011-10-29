@@ -45,10 +45,11 @@
       <asp:ObjectDataSource 
         ID="ObjectDataTempGrig" 
         runat="server" 
-        TypeName="Samples.AspNet.ObjectDataBuilding.BuildingData" 
-        SelectMethod="GetBuildingTempGrid" >
+        TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
+        SelectMethod="GetTempGrid" >
         <SelectParameters>
-            <asp:ControlParameter Name= "ID_Building" ControlID="BuildingGridView" PropertyName="SelectedValue" DefaultValue="0" />  
+            <asp:Parameter Name= "NameTable" DefaultValue="Building" />  
+            <asp:ControlParameter Name= "ID_Table" ControlID="BuildingGridView" PropertyName="SelectedValue" DefaultValue="0" />  
         </SelectParameters> 
       </asp:ObjectDataSource>
 
@@ -129,15 +130,16 @@
           <td>
                   <asp:Panel ID="UpdatePanel" runat="server"  
                   BackColor="#ffffff">
-                  <table>
-                    <tr >
-                        <td align="left" >
-                          <asp:Label ID="Label3" runat="server" Text="Редактирование корпусов блоков"></asp:Label>
-                        </td> 
-                        <td align="right">
+                  <div style="display:inline" >
+                    <div style="text-align:left; float:left">
+                          <asp:Label ID="Label3" runat="server" Text="Редактирование оттделений"></asp:Label>
+                    </div>
+                    <div style="text-align:right">
                           <asp:ImageButton ID="editBox_OK" runat="server" ImageUrl= "~/Image/Close.ico" Width="20" Height = "20"  />
-                        </td>
-                    </tr>
+                    </div>
+                  </div>
+
+                  <table>
                     <tr>
                         <td align="right" >
                             <asp:Label ID="Label1" runat="server" Text="Наименование корпуса"></asp:Label>
@@ -207,11 +209,13 @@
                   </p>
                   </asp:Panel>
             <asp:Panel runat="server" ID="ImageMapingPanel" BackColor="#ffffff">
+                <asp:GridView ID="TempGrid" runat="server" Visible="false" >
+                </asp:GridView>
                 <div style="text-align:right" >
                     <asp:ImageButton runat="server" id="CloseImageMapingPanel" ImageUrl="~/Image/Close.ico"   Height="15px" Width="15px"/>
                 </div>
-                <div>
-                    <asp:ImageButton runat="server" id="ImgButOne" Width="500" onclick="ImageButton_Click" Visible="false" />
+                <div id="ImageBM" runat="server" style="overflow:auto ; width:auto">
+                    <asp:ImageButton runat="server" id="ImgButOne" Width="500"  onclick="ImageButton_Click" Visible="false" />
                     <asp:ImageMap runat="server" id="ImgMapOne" Width="500" >
                     </asp:ImageMap>
                 <div style="float:right" >
