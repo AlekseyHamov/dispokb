@@ -137,5 +137,14 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::AjaxControlToolkit.DragPanelExtender UpdatePanel_DragPanelExtender;
+        
+        /// <summary>
+        /// DivRightPage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivRightPage;
     }
 }

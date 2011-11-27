@@ -10,6 +10,8 @@ namespace WebApplication1.Directory
 {
     public partial class MapClaim : System.Web.UI.Page
     {
+        ArrayList arrayList = new ArrayList();
+
         protected void Page_Load(object sender, EventArgs e)
         {
             MapPage.Visible = true;
@@ -42,7 +44,7 @@ namespace WebApplication1.Directory
                     BoundField PageImageGrid = new BoundField();
                     PageImageGrid.HeaderText = "Связанные элементы";
                     PageImageGrid.DataField = "AlternateText";
-                    PageImageGrid.Visible = false;
+                    PageImageGrid.Visible = true;
                     // для заполения ссылок и их названий 
                     GridView HotSpotsGrid = new GridView();
                     HotSpotsGrid.DataSourceID = "FileCoordimateDataSource";
@@ -67,23 +69,40 @@ namespace WebApplication1.Directory
         // Вызов по ссылке на карте
         protected void VoteMap_Clicked(Object sender, ImageMapEventArgs e)
         {
-            if (Name_Url.Text.ToString() == "Otdelen")
+            switch (Name_Url.Text.ToString())
             {
+            case "Otdelen":
                 Url_Map(e.PostBackValue.ToString(), "Room");
                 Name_Url.Text = "Room";
-            }
-            if (Name_Url.Text.ToString() == "Building_child")
-            {
+                break;
+            case"Building_child":
                 Url_Map(e.PostBackValue.ToString(), "Otdelen");
                 Name_Url.Text = "Otdelen";
-            }
-            if (Name_Url.Text.ToString() == "Building")
-            {
+                break;
+            case "Building":
                 Url_Map(e.PostBackValue.ToString(), "Building");
                 Name_Url.Text = "Building_child";
+                break;
             }
+
+            if (IDLinkClaim.Rows.Count > 0)
+            {
+                for (int i = 0; i < IDLinkClaim.Rows.Count; i++)
+                {
+                    arrayList.Add(new Item() { code = i+1, value = IDLinkClaim.Rows[i].Cells[1].Text.ToString(), id = IDLinkClaim.Rows[i].Cells[2].Text.ToString() });
+                }
+            }
+            arrayList.Add(new Item() { code = IDLinkClaim.Rows.Count+1, value = "value1", id = e.PostBackValue.ToString() });
+            IDLinkClaim.DataSource = arrayList;
+            IDLinkClaim.DataBind();
         }
-        public void Url_Map(string ID_Table,string Name_Table)
+        protected class Item
+        {
+            public int code { get; set; }
+            public string value { get; set; }
+            public string id { get; set; }
+        }
+        public void Url_Map(string ID_Table, string Name_Table)
         {
             MapPage.Visible = true;
             ObjectDataTempGrig.SelectParameters.Clear();
@@ -135,7 +154,6 @@ namespace WebApplication1.Directory
                 Ph.PostBackValue = HotSpotsGrid.DataKeys[i].Values[4].ToString();
                 MapPage.HotSpots.Add(Ph);
             }
-
         }
     }
 }

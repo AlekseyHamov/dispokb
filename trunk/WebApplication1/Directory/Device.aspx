@@ -329,7 +329,7 @@
 
             <asp:RadioButtonList ID="RadioButtonUnit" AppendDataBoundItems="true" runat="server"
                 DataSourceID = "UnitObjectDataSource" DataTextField="NameUnit" DataValueField="ID_Unit" 
-                RepeatDirection="Horizontal" Enabled="false">
+                RepeatDirection="Horizontal" Enabled="true">
             </asp:RadioButtonList>
             <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
                     OnCommand="CommandBtn_Click" Visible="false"/>

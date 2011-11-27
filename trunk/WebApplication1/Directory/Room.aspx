@@ -244,7 +244,6 @@
             <asp:ControlParameter Name= "ID_files" ControlID="LWImage" PropertyName="SelectedValue" DefaultValue="0" />  
         </SelectParameters> 
       </asp:ObjectDataSource>
-
       <br />
       <div style="float:left; width:680px">
       <table >
@@ -327,7 +326,7 @@
         </tr>
         <tr>
           <td>
-             <asp:Panel ID="UpdatePanel" runat="server"  
+            <asp:Panel ID="UpdatePanel" runat="server"  
                   BackColor="#D9F2FF" BorderStyle="Double" >
                   <table>
                     <tr >
@@ -345,7 +344,7 @@
                             <asp:TextBox ID="TextBox2"  runat="server" Width="160px"></asp:TextBox>
                         </td>
                    </tr>
-                   <tr>
+                    <tr>
                         <td align="right" >
                             Номер комнаты</td>
                          <td align="left">
@@ -501,7 +500,7 @@
                     </a>
                 </div>
             </asp:Panel>
-             <asp:DetailsView Visible="False" ID="UpdatePan" AutoGenerateRows="true" 
+            <asp:DetailsView Visible="False" ID="UpdatePan" AutoGenerateRows="true" 
                               DataSourceID="RoomObjectDataSourceOneRow" runat="server" >
             </asp:DetailsView>
             <asp:Label runat="server" id="aliona" />
@@ -519,7 +518,6 @@
                 OkControlID = "CloseImageMapingPanel"
                 BackgroundCssClass = "modalBackground" 
                 PopupDragHandleControlID = "Ссылки на рисунке" Drag="True"/>
-
           </td>
           <td>
               &nbsp;</td>
