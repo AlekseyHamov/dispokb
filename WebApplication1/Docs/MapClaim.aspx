@@ -6,9 +6,9 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <script runat="server">
-</script>
-<asp:ScriptManager ID="ScriptManager1" runat="server">
-</asp:ScriptManager>
+    </script>
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
       <h3>Справочник Заявок</h3> 
       <asp:Label id="Msg" runat="server" ForeColor="Red" />
       <br />
@@ -39,16 +39,19 @@
         InsertMethod="AddEmployee"
         >
       </asp:ObjectDataSource>
-
-      <asp:GridView ID="TempGrid" runat="server" Visible="true" >
-      </asp:GridView>
-      <div style="display:inline" >
+      <div style="overflow:scroll; width=500" >
         <asp:ImageMap ID="MapPage" 
-            runat="server" Visible="false" Width="500" hotspotmode="PostBack"
+            runat="server" Visible="false" width="500"  hotspotmode="PostBack"
             onclick="VoteMap_Clicked"/>
-        <div id="DivRightPage" runat="server" style="float:right" >
-        </div>
-        </div>
-      <br />
-      <asp:TextBox ID="Name_Url" runat="server" Text="Building"></asp:TextBox>
-      </asp:Content>
+      </div>
+      <div id="DivRightPage" runat="server" style="float:right" >
+      </div>
+      d<br />
+      <div id="service" runat="server" visible="true">
+          <asp:TextBox ID="Name_Url" runat="server" Text="Building" Visible="false"></asp:TextBox>
+          <asp:GridView ID="TempGrid" runat="server" Visible="false" >
+          </asp:GridView>
+          <asp:GridView ID="IDLinkClaim" runat="server">
+          </asp:GridView> 
+      </div> 
+</asp:Content> 

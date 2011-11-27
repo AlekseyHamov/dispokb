@@ -228,6 +228,7 @@ private void CommandBtn_Click(Object sender, CommandEventArgs e)
                     </tr>
                     
                   </table>
+
                           <asp:Button ID="Button1" runat="server" Text="Обновить" CommandName="Update" 
                                  OnCommand="CommandBtn_Click"/>
                           <asp:Button ID="Button2" runat="server" Text="Добавить" CommandName="Insert" 
@@ -235,6 +236,7 @@ private void CommandBtn_Click(Object sender, CommandEventArgs e)
                           <asp:Button ID="Button3" runat="server" Text="Удалить" CommandName="Delete" 
                                  OnCommand="CommandBtn_Click"/>
              </asp:Panel>
+
             <asp:ModalPopupExtender ID="ModalPopupExtender1"
                     runat="server"  
                     PopupControlID="UpdatePanel"
@@ -252,4 +254,8 @@ private void CommandBtn_Click(Object sender, CommandEventArgs e)
               &nbsp;</td>
         </tr>
       </table>
+      <div style="display:inline" >
+            <div id="DivRightPage" runat="server" style="float:right" >
+            </div>
+      </div>
     </asp:Content>

@@ -58,15 +58,6 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource ImageFilesObjectDataSource;
         
         /// <summary>
-        /// TempGrid элемент управления.
-        /// </summary>
-        /// <remarks>
-        /// Автоматически создаваемое поле.
-        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView TempGrid;
-        
-        /// <summary>
         /// MapPage элемент управления.
         /// </summary>
         /// <remarks>
@@ -85,6 +76,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivRightPage;
         
         /// <summary>
+        /// service элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl service;
+        
+        /// <summary>
         /// Name_Url элемент управления.
         /// </summary>
         /// <remarks>
@@ -92,5 +92,23 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Name_Url;
+        
+        /// <summary>
+        /// TempGrid элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView TempGrid;
+        
+        /// <summary>
+        /// IDLinkClaim элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView IDLinkClaim;
     }
 }
