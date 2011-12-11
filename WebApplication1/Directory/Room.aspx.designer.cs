@@ -103,6 +103,15 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource UnitObjectDataSource;
         
         /// <summary>
+        /// ImageChecked элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ImageChecked;
+        
+        /// <summary>
         /// ImageObjectDataSource элемент управления.
         /// </summary>
         /// <remarks>
@@ -310,6 +319,78 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonUnit;
         
         /// <summary>
+        /// MultiViewDevice элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiViewDevice;
+        
+        /// <summary>
+        /// View1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View View1;
+        
+        /// <summary>
+        /// HeaderDeviceScrol элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl HeaderDeviceScrol;
+        
+        /// <summary>
+        /// CheckBoxList1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataList CheckBoxList1;
+        
+        /// <summary>
+        /// Page2Back элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Page2Back;
+        
+        /// <summary>
+        /// Page2Next элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Page2Next;
+        
+        /// <summary>
+        /// View2 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View View2;
+        
+        /// <summary>
+        /// Div2 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div2;
+        
+        /// <summary>
         /// CheckBoxDevice элемент управления.
         /// </summary>
         /// <remarks>
@@ -319,13 +400,22 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxDevice;
         
         /// <summary>
-        /// ImageDiv элемент управления.
+        /// Page1Back элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ImageDiv;
+        protected global::System.Web.UI.WebControls.Button Page1Back;
+        
+        /// <summary>
+        /// Page1Next элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Page1Next;
         
         /// <summary>
         /// LWImage элемент управления.
