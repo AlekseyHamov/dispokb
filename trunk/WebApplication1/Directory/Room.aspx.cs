@@ -114,6 +114,7 @@ namespace WebApplication1.Directory
                 }
             }
             Load_Image();
+            ImageChecked.DataBind();
             ModalPopupExtender1.Show();
             UpdateButton.Visible = true;
             InsertButton.Visible = false;
@@ -373,6 +374,7 @@ namespace WebApplication1.Directory
             string photoFilePath = Server.MapPath("../Image_Data/");
             LWImage.DataBind();
             MapPage.Visible = false;
+            int wwiii = 0;
             for (int i = 0; i < LWImage.Rows.Count; i++)
             {
                 if (!File.Exists(photoFilePath + LWImage.DataKeys[i].Values[2].ToString() + "_" + LWImage.DataKeys[i].Values[1].ToString() + "." + LWImage.DataKeys[i].Values[3].ToString()))
@@ -400,6 +402,61 @@ namespace WebApplication1.Directory
                 MapPage.HotSpots.Add(Ph);
             }
         }
-    
+
+        protected void MapPage_Click(object sender, ImageMapEventArgs e)
+        {
+
+        }
+        // мульти виев
+        protected void NextButton_Command(object sender, EventArgs e)
+        {
+            // Determine which button was clicked
+            // and set the ActiveViewIndex property to
+            // the view selected by the user.
+            if (MultiViewDevice.ActiveViewIndex > -1 & MultiViewDevice.ActiveViewIndex < 1)
+            {
+                // Increment the ActiveViewIndex property 
+                // by one to advance to the next view.
+                MultiViewDevice.ActiveViewIndex += 1;
+            }
+            else if (MultiViewDevice.ActiveViewIndex == 1)
+            {
+                // This is the final view.
+                // The user wants to save the survey results.
+                // Insert code here to save survey results.
+                // Disable the navigation buttons.
+                Page2Back.Enabled = false;
+                Page2Next.Enabled = false;
+            }
+            else
+            {
+                throw new Exception("An error occurred.");
+            }
+            ModalPopupExtender1.Show(); 
+        }
+        protected void BackButton_Command(object sender, EventArgs e)
+        {
+          /*  if (MultiViewDevice.ActiveViewIndex > 0 & MultiViewDevice.ActiveViewIndex <= 2)
+            {
+                // Decrement the ActiveViewIndex property
+                // by one to return to the previous view.
+                MultiViewDevice.ActiveViewIndex -= 1;
+            }
+            else 
+            */
+            if (MultiViewDevice.ActiveViewIndex == 1)
+            {
+                // This is the final view.
+                // The user wants to restart the survey.
+                // Return to the first view.
+                MultiViewDevice.ActiveViewIndex = 0;
+            }
+            else
+            {
+                throw new Exception("An error occurred.");
+            }
+            ModalPopupExtender1.Show();
+        }
+
     }
 }

@@ -202,6 +202,20 @@
       </asp:ObjectDataSource>
 
       <asp:ObjectDataSource 
+        ID="ImageChecked" 
+        runat="server" 
+        TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
+        InsertMethod="AddEmployee"
+        DeleteMethod="DeleteImage"
+        SelectMethod="FileRelationList"
+        OnDeleted = "ImageDataSource_OnDeleted" >
+        <SelectParameters>
+            <asp:Parameter Name="NameTable"  DefaultValue = "Device" />
+            <asp:Parameter Name= "ID_Table"  DefaultValue="0" />  
+        </SelectParameters> 
+      </asp:ObjectDataSource>
+
+      <asp:ObjectDataSource 
         ID="ImageObjectDataSource" 
         runat="server" 
         TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
@@ -275,9 +289,6 @@
                 </td>
         </tr>
       </table>
-      <table cellspacing="10">
-        <tr>
-          <td valign="top">
             <asp:GridView ID="RoomGridView" 
               DataSourceID="RoomObjectDataSource" 
               AutoGenerateColumns="False"
@@ -322,137 +333,203 @@
               </Columns>                
             </asp:GridView>            
             <asp:Button ID="btnEditCustomer"  Text = "добавить" runat="server"  />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <asp:Panel ID="UpdatePanel" runat="server"  
-                  BackColor="#D9F2FF" BorderStyle="Double" >
-                  <table>
-                    <tr >
-                        <td align="left" >
-                          <asp:Label ID="Label3" runat="server" Text="Редактирование комнат"></asp:Label>
-                        </td> 
-                        <td align="right">
-                          <asp:ImageButton ID="editBox_OK" runat="server" ImageUrl= "~/Image/Close.ico" Width="20" Height = "20"  />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="right" >
-                            Наименование комнаты</td>
-                        <td align="left">
-                            <asp:TextBox ID="TextBox2"  runat="server" Width="160px"></asp:TextBox>
-                        </td>
-                   </tr>
-                    <tr>
-                        <td align="right" >
-                            Номер комнаты</td>
-                         <td align="left">
-                             <asp:TextBox ID="TextBoxNum" runat="server" Width="160px"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <asp:Label ID="LabelNameBuilging" runat="server" Text="Здание корпус: "></asp:Label></td>
-                        <td>
-                            <asp:DropDownList ID="BuildingList" runat="server"
-                            DataSourceID="BuildingObjectDataSource" DataTextField="NameBuilding" 
-                            DataValueField="ID_Building" OnSelectedIndexChanged ="BuildingList_OnSelectedIndexChanged" AutoPostBack="true">
-                            </asp:DropDownList>   
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Отделение</td>
-                        <td>
-                            <asp:DropDownList ID="OtdelenList"  runat="server" 
-                                DataSourceID="OtdelenObjectDataSource" DataTextField="NameOtdelen" 
-                                DataValueField="ID_Otdelen">
-                            </asp:DropDownList>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Этаж</td>
-                        <td>
-                            <asp:Label ID="TextBoxFloor" runat="server" Width="160px"></asp:Label>
-                        </td>
-                    </tr>
-                    <tr>
-                    <td>
-                        <div id="Div1" runat="server" style="height:150px; width:auto; overflow:auto">  
+            <asp:Panel ID="UpdatePanel" runat="server" BackColor="#D9F2FF" BorderStyle="Double" >
+               <div>
+                <div style="float:left" >
+                    <asp:Label ID="Label3" runat="server" Text="Редактирование комнат"></asp:Label>
+                </div>
+                <div style="float:right" >
+                    <asp:ImageButton ID="editBox_OK" runat="server" ImageUrl= "~/Image/Close.ico" Width="20" Height = "20" />
+                </div>
+            </div>
+            <br />
+            <div> 
+                <caption>
+                    Наименование комнаты
+                    <asp:TextBox ID="TextBox2" runat="server" Width="160px"></asp:TextBox>
+                </caption>
+            </div>
+            <div>
+                <caption>
+                    Номер комнаты
+                    <asp:TextBox ID="TextBoxNum" runat="server" Width="160px"></asp:TextBox>
+                </caption>
+            </div> 
+            <div>
+                <asp:Label ID="LabelNameBuilging" runat="server" Text="Здание корпус: "></asp:Label>
+                <asp:DropDownList ID="BuildingList" runat="server"
+                DataSourceID="BuildingObjectDataSource" DataTextField="NameBuilding" 
+                DataValueField="ID_Building" OnSelectedIndexChanged ="BuildingList_OnSelectedIndexChanged" AutoPostBack="true">
+                </asp:DropDownList>   
+            </div>
+            <div>
+                <caption>
+                    Отделение
+                    <asp:DropDownList ID="OtdelenList" runat="server" 
+                        DataSourceID="OtdelenObjectDataSource" DataTextField="NameOtdelen" 
+                        DataValueField="ID_Otdelen">
+                    </asp:DropDownList>
+                </caption>
+            </div>
+            <div>
+                Этаж
+                <asp:Label ID="TextBoxFloor" runat="server" Width="160px"></asp:Label>
+            </div>
+            <table>
+            <tr>
+            <td>
+                <div>
+                    <div id="Div1" runat="server" style="height:150px; width:150px; overflow:auto; float:left ">  
                         <asp:RadioButtonList ID="RadioButtonUnit" runat="server" 
                             DataSourceID="UnitObjectDataSource" DataValueField ="ID_Unit" 
                             DataTextField="NameUnit" OnSelectedIndexChanged = "Filter_device" AutoPostBack="true" >
                         </asp:RadioButtonList>
-                        </div>
-                    </td>
-                    <td>
-                    <div runat="server" style="height:150px; overflow:auto; width:auto">    
-                        <asp:CheckBoxList ID="CheckBoxDevice" runat="server" DataSourceID="DeviceObjectDataSource"
-                         DataTextField="NameDevice" DataValueField="ID_Device" >
-                        </asp:CheckBoxList>
                     </div>
-                    </td>
+                    <asp:MultiView ID="MultiViewDevice" runat="server" ActiveViewIndex="0" >
+                        <asp:View ID="View1" runat="server">
+                                <table>
+                                    <tr>
+                                    <td>
+                                        <div id="HeaderDeviceScrol" runat="server" style="height:120px; width:350px; overflow-x:scroll; float:left " >
+                                        <asp:DataList ID="CheckBoxList1" runat="server" 
+                                            RepeatDirection="Horizontal"
+                                            DataKeyNames="ID,ID_files,fileName,fileType" 
+                                            DataSourceID="ImageChecked">
+                                            <ItemTemplate>
+                                                <asp:ImageMap ID="IMG" runat="server" Height="50" 
+                                                  ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' />
+                                                  <br />
+                                                <asp:CheckBox ID="IMGCHECK" runat="server" /> 
+                                            </ItemTemplate>
+                                        </asp:DataList>
+                                        </div>
+                                    </td>
+                                    </tr>
+                                    <tr>
+                                    <td>
+                                        <asp:Button id="Page2Back"
+                                            Text = "Previous"
+                                            OnClick="BackButton_Command"
+                                            runat="Server">
+                                        </asp:Button> 
+                                        <asp:Button id="Page2Next"
+                                            Text = "Next"
+                                            OnClick="NextButton_Command"
+                                            runat="Server">
+                                        </asp:Button>
+                                    </td>
+                                    </tr>
+                                </table>
+                        </asp:View>
+                        <asp:View ID="View2" runat="server">
+                            <table>
+                                <tr>
+                                <td>
+                                    <div id="Div2" runat="server" style="height:150px; width:150px; overflow:auto; float:left ">    
+                                        <asp:CheckBoxList ID="CheckBoxDevice" runat="server" DataSourceID="DeviceObjectDataSource"
+                                            DataTextField="NameDevice" DataValueField="ID_Device" >
+                                        </asp:CheckBoxList>
+                                    </div>
+                                </td>
+                                </tr>
+                                <tr>
+                                <td>
+                                    <asp:Button id="Page1Back"
+                                        Text = "Previous"
+                                        OnClick="BackButton_Command"
+                                        runat="Server">
+                                    </asp:Button> 
+                                    <asp:Button id="Page1Next"
+                                        Text = "Next"
+                                        OnClick="NextButton_Command"
+                                        runat="Server">
+                                    </asp:Button>
+                                </td>
+                                </tr>
+                            </table>
+                        </asp:View>
+                    </asp:MultiView>
+                </div>
+            </td>
+            </tr>
+            <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td>
+                            Изображения
+                         </td>
+                        <td>
+                            <img  alt="" src="../Image/Downarrow.png"  style = " width :10px; height :10px;"
+                          onclick= "document.getElementById('ImageHide').style.display=''" />
+                        </td>
+                        <td>
+                            <img  alt="" src="../Image/Uparrow.png" style = " width :10px; height :10px;" 
+                          onclick= "document.getElementById('ImageHide').style.display='none'" />
+                        </td>
                     </tr>
-                  </table>
-                      <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left; height:150px;">
-                      <div style="float:left"> 
-                        <asp:GridView ID = "LWImage" runat="server" 
-                                    AutoGenerateColumns="false"
-                                    DataSourceID="ImageObjectDataSource" 
-                                    DataKeyNames="ID,ID_files,fileName,fileType"
-                                    OnSelectedIndexChanged="LWImage_SelectedIndexChanged" Height="144px"
-                        >
-                        <Columns>                
-                            <asp:ButtonField HeaderText = "Ред."
-                                                CommandName="Select" ButtonType="Image" 
-                                    ImageUrl="~/Image/edit.png" FooterText="Проба">  
-                                <ControlStyle Height="15px" Width="15px" />
-                            </asp:ButtonField>
-                            <asp:TemplateField  HeaderText = "Карта."> 
-                                <ItemTemplate>
-                                <asp:ImageMap ID="IMG" runat="server" 
-                                    ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' 
-                                    Height = "50"/>
-                                </ItemTemplate> 
-                            </asp:TemplateField>
-                            <asp:ButtonField
-                            CommandName="Delete" ButtonType="Image" 
-                            ImageUrl="~/Image/deletion.png" HeaderText="Удалить"
-                            >  
-                               <ControlStyle Height="15px" Width="15px" />
-                            </asp:ButtonField>
-                        </Columns> 
-                        </asp:GridView>
-                      </div>
-                      <div> 
-                            Изображение
-                            <asp:FileUpload ID="ImageFile" runat="server" />
-                            <br />
-                            <asp:Button ID="AddImge" Text="Добавить изображение" ToolTip="Добавляет изображение к существующей записи" 
-                                    runat="server" Visible="false" OnClick="Image_OnInserted">
-                            </asp:Button>
-                            <br />
-                            <br />
-                            Привязать к месту на карте
-                            <br />
-                            <asp:Button ID="MapRelation" Text="Привязать" ToolTip="Привязать к месту на карте" 
-                                        runat="server" Visible="true" onclick="MapRelation_Click" >
-                            </asp:Button>
-
-                      </div>
-                  </div>
-                  <p style="display:inline; float:right" >
-                          <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
-                                 OnCommand="CommandBtn_Click" Visible="false"/>
-                          <asp:Button ID="InsertButton" runat="server" Text="Добавить" CommandName="Insert" 
-                                 OnCommand="CommandBtn_Click"/>
-                          <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
-                                 OnCommand="CommandBtn_Click" Visible="false"/>
-                  </p>
-             </asp:Panel>
+                    <tr ID="ImageHide" style="display:none ">
+                        <td>
+                            <div>
+                                <div style="float:left">
+                                    <asp:GridView ID="LWImage" runat="server" AutoGenerateColumns="false" 
+                                        DataKeyNames="ID,ID_files,fileName,fileType" 
+                                        DataSourceID="ImageObjectDataSource" Height="144px" 
+                                        OnSelectedIndexChanged="LWImage_SelectedIndexChanged">
+                                        <Columns>
+                                            <asp:ButtonField ButtonType="Image" CommandName="Select" FooterText="Проба" 
+                                                HeaderText="Ред." ImageUrl="~/Image/edit.png">
+                                            <ControlStyle Height="15px" Width="15px" />
+                                            </asp:ButtonField>
+                                            <asp:TemplateField HeaderText="Карта.">
+                                                <ItemTemplate>
+                                                    <asp:ImageMap ID="IMG" runat="server" Height="50" 
+                                                        ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' />
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:ButtonField ButtonType="Image" CommandName="Delete" HeaderText="Удалить" 
+                                                ImageUrl="~/Image/deletion.png">
+                                            <ControlStyle Height="15px" Width="15px" />
+                                            </asp:ButtonField>
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+                                <div>
+                                    Изображение
+                                    <asp:FileUpload ID="ImageFile" runat="server" />
+                                    <br />
+                                    <asp:Button ID="AddImge" runat="server" OnClick="Image_OnInserted" 
+                                        Text="Добавить изображение" 
+                                        ToolTip="Добавляет изображение к существующей записи" Visible="false" />
+                                    <br />
+                                    <br />
+                                    Привязать к месту на карте
+                                    <br />
+                                    <asp:Button ID="MapRelation" runat="server" onclick="MapRelation_Click" 
+                                        Text="Привязать" ToolTip="Привязать к месту на карте" Visible="true" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            </tr>
+            <tr>
+            <td>
+                <div>
+                    <div style="float:right">
+                        <asp:Button ID="UpdateButton" runat="server" CommandName="Update" 
+                            OnCommand="CommandBtn_Click" Text="Обновить" Visible="false" />
+                        <asp:Button ID="InsertButton" runat="server" CommandName="Insert" 
+                            OnCommand="CommandBtn_Click" Text="Добавить" />
+                        <asp:Button ID="DeleteButton" runat="server" CommandName="Delete" 
+                            OnCommand="CommandBtn_Click" Text="Удалить" Visible="false" />
+                    </div>
+                </div>
+            </td>
+            </tr>
+            </table>
+            </asp:Panel>
             <asp:Panel runat="server" ID="ImageMapingPanel" BackColor="#ffffff">
                 <asp:GridView ID="TempGrid" runat="server" >
                 </asp:GridView>
@@ -518,11 +595,6 @@
                 OkControlID = "CloseImageMapingPanel"
                 BackgroundCssClass = "modalBackground" 
                 PopupDragHandleControlID = "Ссылки на рисунке" Drag="True"/>
-          </td>
-          <td>
-              &nbsp;</td>
-        </tr>
-      </table>
       </div>
       <div>
               Справочник Комнат. Его необходимо запонлнять одним из первых. На странице доступна возможность фильтрации 
@@ -532,7 +604,8 @@
               для получения укрупненной статистики и построения отчетов.
       </div>
       <div style="display:inline" >
-            <asp:ImageMap ID="MapPage" runat="server" Visible="false" Width="500" />
+            <asp:ImageMap ID="MapPage" runat="server" Visible="false" Width="500" 
+                onclick="MapPage_Click" />
             <div id="DivRightPage" runat="server" style="float:right" >
             </div>
       </div>

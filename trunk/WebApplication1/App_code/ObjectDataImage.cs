@@ -185,14 +185,20 @@ namespace Samples.AspNet.ObjectDataImage
         public DataTable FileRelationList(int ID_Table, string NameTable)
         {
             SqlConnection conn = new SqlConnection(_connectionString);
-            SqlDataAdapter da =
-              new SqlDataAdapter("Select fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType "+ 
+            string str = "Select fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType " +
                                   " from FilesRelation as fr" +
                                   " Left join Files as f on f.ID=fr.ID_files "+
-                                  " Where fr.ID_table = @ID_Table and fr.NameTable =@NameTable  ", conn);
+                                  " Where 1=1 ";
+            if (ID_Table != 0 && NameTable != "")
+            { str += " and fr.ID_table = @ID_Table and fr.NameTable =@NameTable "; }
+            if (ID_Table == 0 && NameTable != "")
+            { str += " and fr.NameTable =@NameTable ";}
+            SqlDataAdapter da =
+              new SqlDataAdapter(str, conn);
             da.SelectCommand.Parameters.Add("@ID_Table", SqlDbType.Int).Value = ID_Table;
             da.SelectCommand.Parameters.Add("@NameTable", SqlDbType.NVarChar, 20).Value = NameTable;
-
+ 
+ 
             DataSet ds = new DataSet();
 
             try
