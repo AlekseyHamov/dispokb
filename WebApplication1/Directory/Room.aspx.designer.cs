@@ -346,13 +346,40 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl HeaderDeviceScrol;
         
         /// <summary>
-        /// CheckBoxList1 элемент управления.
+        /// CheckBoxImage элемент управления.
         /// </summary>
         /// <remarks>
         /// Автоматически создаваемое поле.
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList CheckBoxList1;
+        protected global::System.Web.UI.WebControls.DataList CheckBoxImage;
+        
+        /// <summary>
+        /// CheckBoxImage1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxImage1;
+        
+        /// <summary>
+        /// CheckBoxImageG элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView CheckBoxImageG;
+        
+        /// <summary>
+        /// Button1 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
         /// Page2Back элемент управления.

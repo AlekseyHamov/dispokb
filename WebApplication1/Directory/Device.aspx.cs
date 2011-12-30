@@ -240,6 +240,7 @@ namespace WebApplication1.Directory
 
         protected void GridView_OnSelectedIndexChanged(object sender, EventArgs e)
         {
+
             CheckDeviceObjectDataSource.SelectParameters["ID_Device_Spares"].DefaultValue = GridDevice.SelectedValue.ToString();    
             CheckBoxParent.DataBind();
             Selected_Unit();
@@ -419,8 +420,8 @@ namespace WebApplication1.Directory
             string ID_Table = GridDevice.SelectedValue.ToString();
             string strFileName = ImageFile.PostedFile.ContentType;
             strFileName = System.IO.Path.GetFileName(strFileName);
-            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/")+"temp." + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + "temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("ID_Table", ID_Table);
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);

@@ -30,7 +30,7 @@ namespace WebApplication1.Map_Image
             string strFileName = MyFile.PostedFile.FileName;
             strFileName = System.IO.Path.GetFileName(strFileName);
             MyFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            string photoFilePath = Server.MapPath("../Image_Data/") + "temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
             ImageObjectDataSource.InsertParameters.Add("photoFilePath", photoFilePath);  

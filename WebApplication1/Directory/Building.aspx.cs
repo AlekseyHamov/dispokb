@@ -131,8 +131,8 @@ namespace WebApplication1.Directory
             string ID_Building = e.ReturnValue.ToString();
             string strFileName = ImageFile.PostedFile.ContentType;
             strFileName = System.IO.Path.GetFileName(strFileName);
-            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/")+"temp." + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + "temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("ID_Table", ID_Building);
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
@@ -145,8 +145,8 @@ namespace WebApplication1.Directory
             string ID_Building = BuildingGridView.SelectedValue.ToString(); 
             string strFileName = ImageFile.PostedFile.ContentType; 
             strFileName = System.IO.Path.GetFileName(strFileName);
-            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/")+"temp." + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + "temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("ID_Table", ID_Building);
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
@@ -176,8 +176,8 @@ namespace WebApplication1.Directory
         {
             string strFileName = ImageFile.PostedFile.FileName;
             strFileName = System.IO.Path.GetFileName(strFileName);
-            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/")+"temp." + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + "temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
             ImageObjectDataSource.InsertParameters.Add("photoFilePath", photoFilePath);

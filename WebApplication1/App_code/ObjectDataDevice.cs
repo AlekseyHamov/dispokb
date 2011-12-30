@@ -88,6 +88,52 @@ namespace Samples.AspNet.ObjectDataDevice
             return ds.Tables["Device"];
             
         }
+        public DataTable GetAllImage(string str_ID, string ID_Unit)
+        {
+            string sqlCmd = " SELECT distinct Device.ID_Device,Device_list.Device as Parent_ID, "+ 
+                " Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog, " +
+                " fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType " +
+                " FROM Device " +
+                " Left join FilesRelation as fr on fr.NameTable ='Device' and fr.ID_Table=Device.ID_Device " +
+                " Left join Files as f on f.ID=fr.ID_files " +
+                " Left join Unit on Unit.ID_Unit=Device.ID_Unit " +
+                " Left join Device_list on Device_list.Device_Spares=Device.ID_Device ";
+
+            sqlCmd += " where 1=1 and Device_list.Device is null ";
+            try
+            {
+                if (str_ID.Trim() != "")
+                { sqlCmd += " and Device.ID_Device in ( " + str_ID + " ) "; }
+            }
+            catch { }
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and Device.ID_Unit=" + ID_Unit + " "; }
+            }
+            catch { }
+
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+
+            DataSet ds = new DataSet();
+            try
+            {
+                conn.Open();
+                da.Fill(ds, "Device");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Device"];
+
+        }
         public DataTable GetView()
         {
             string sqlCmd = " Select ID, Parent_ID, Text from dbo.View_Dv_list";
