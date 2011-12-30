@@ -204,14 +204,11 @@
       <asp:ObjectDataSource 
         ID="ImageChecked" 
         runat="server" 
-        TypeName="Samples.AspNet.ObjectDataImage.ImageData" 
-        InsertMethod="AddEmployee"
-        DeleteMethod="DeleteImage"
-        SelectMethod="FileRelationList"
-        OnDeleted = "ImageDataSource_OnDeleted" >
+        TypeName="Samples.AspNet.ObjectDataDevice.DeviceData" 
+        SelectMethod="GetAllImage">
         <SelectParameters>
-            <asp:Parameter Name="NameTable"  DefaultValue = "Device" />
-            <asp:Parameter Name= "ID_Table"  DefaultValue="0" />  
+            <asp:ControlParameter ControlID="RadioButtonUnit" Name="ID_Unit" PropertyName="SelectedValue"/>
+            <asp:Parameter Name="str_ID" DefaultValue=""/>
         </SelectParameters> 
       </asp:ObjectDataSource>
 
@@ -391,22 +388,40 @@
                                     <tr>
                                     <td>
                                         <div id="HeaderDeviceScrol" runat="server" style="height:120px; width:350px; overflow-x:scroll; float:left " >
-                                        <asp:DataList ID="CheckBoxList1" runat="server" 
+                                        <asp:DataList ID="CheckBoxImage" runat="server" 
                                             RepeatDirection="Horizontal"
-                                            DataKeyNames="ID,ID_files,fileName,fileType" 
+                                            DataKeyField="ID_Device" 
+                                            DataKeyNames="ID,ID_files,fileName,fileType,NameDevice" 
                                             DataSourceID="ImageChecked">
                                             <ItemTemplate>
                                                 <asp:ImageMap ID="IMG" runat="server" Height="50" 
-                                                  ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>' />
+                                                  ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>'  ToolTip='<%#Eval("NameDevice") %>' />
                                                   <br />
-                                                <asp:CheckBox ID="IMGCHECK" runat="server" /> 
                                             </ItemTemplate>
                                         </asp:DataList>
                                         </div>
+                                        </td>
+                                        <td>
+                                        <asp:CheckBoxList ID="CheckBoxImage1" runat="server" 
+                                            RepeatDirection="Horizontal"
+                                            DataKeyField="ID_Device" 
+                                            DataKeyNames="ID,ID_files,fileName,fileType,NameDevice" 
+                                            DataSourceID="ImageChecked" DataValueField="ID_Device" DataTextField="NameDevice">
+                                        </asp:CheckBoxList>
+                                        <asp:GridView ID="CheckBoxImageG" runat="server" 
+                                            DataKeyNames="ID,ID_files,fileName,fileType" 
+                                            DataSourceID="ImageChecked"  Visible="false" AutoGenerateColumns="true" ></asp:GridView>
+                                        
                                     </td>
                                     </tr>
                                     <tr>
                                     <td>
+                                    
+                                        <asp:Button id="Button1"
+                                            Text = "Previous"
+                                            OnClick="Test"
+                                            runat="Server">
+                                        </asp:Button>
                                         <asp:Button id="Page2Back"
                                             Text = "Previous"
                                             OnClick="BackButton_Command"
@@ -494,6 +509,7 @@
                                         </Columns>
                                     </asp:GridView>
                                 </div>
+                                
                                 <div>
                                     Изображение
                                     <asp:FileUpload ID="ImageFile" runat="server" />

@@ -10,6 +10,11 @@ namespace WebApplication1.Directory
 {
     public partial class Room : System.Web.UI.Page
     {
+        protected void Test(object sender, EventArgs e)
+        {
+            //Msg.Text = CheckBoxImage.Items.Count.ToString();
+           // Msg.Text = CheckBoxImage.DataKeys[0].ToString();
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
             Msg.Text = ""; 
@@ -23,6 +28,7 @@ namespace WebApplication1.Directory
             {
                 case "Update":
                     RoomObjectDataSource.Update();
+                    Update_Device_In_Room();
                     UpdateButton.Visible = false;
                     InsertButton.Visible = true;
                     DeleteButton.Visible = false;
@@ -34,7 +40,7 @@ namespace WebApplication1.Directory
                     RoomObjectDataSource.Delete();
                     break;
                 case "SelectBuildingID":
-                    Msg.Text = "Нажаата кнопка Выбора";
+                    Msg.Text = "Нажата кнопка Выбора";
                     ModalPopupExtender1.Show();
                     break;
                 default:
@@ -42,6 +48,21 @@ namespace WebApplication1.Directory
                     break;
 
             }
+        }
+        protected void Update_Device_In_Room()
+        {
+            string Dl = "Datalist Items Checked:<br />";
+
+            foreach (DataListItem dli in CheckBoxImage.Items)
+            {
+              CheckBox chk = (CheckBox)dli.FindControl("IMGCHECK");
+              if (chk.Checked)
+              {
+                  Dl += (chk.Text + chk.ToolTip.ToString()+ "<br />");
+                 
+              }
+            }
+            Msg.Text = Dl;
         }
         protected void button_filtr(object sender, EventArgs e)
         {
@@ -115,12 +136,42 @@ namespace WebApplication1.Directory
             }
             Load_Image();
             ImageChecked.DataBind();
+            string photoFilePath = Server.MapPath("../Image_Data/");
+            for (int i = 0; i < CheckBoxImageG.Rows.Count; i++)
+            {
+                if (!File.Exists(photoFilePath + CheckBoxImageG.DataKeys[i].Values[2].ToString() + "_" + CheckBoxImageG.DataKeys[i].Values[1].ToString() + "." + CheckBoxImageG.DataKeys[i].Values[3].ToString()))
+                {
+                    ImageFilesObjectDataSource.SelectMethod = "TestGetSqlBytes";
+                    ImageFilesObjectDataSource.SelectParameters.Clear();
+                    ImageFilesObjectDataSource.SelectParameters.Add("documentID", CheckBoxImageG.DataKeys[i].Values[1].ToString());
+                    ImageFilesObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
+                    ImageFilesObjectDataSource.Select();
+                }
+            }
+
+            // начало рисунков к чекбоксу
+            try 
+            {
+                foreach (ListItem item in CheckBoxImage1.Items)
+                {
+                    item.Text = string.Format("<img width=20px src = \"{0}\" /> {1} , {2}", this.GetImageUrl(), item.Text, item.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.Msg.Text = ex.ToString();
+            }
+
+            // конец рисунков к чекбоксу
+
             ModalPopupExtender1.Show();
             UpdateButton.Visible = true;
             InsertButton.Visible = false;
             DeleteButton.Visible = true;
             AddImge.Visible = true;
         }
+        private string GetImageUrl()
+        { return string.Format("/Image_Data/{0}.jpeg", "Device_1_74"); }
         protected void BuildingList_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             OtdelenObjectDataSource.FilterExpression = "ID_Building={0}";
@@ -161,6 +212,7 @@ namespace WebApplication1.Directory
                     }
                 }
             }
+            CheckBoxImageG.DataBind();
             ModalPopupExtender1.Show();
         }
         protected void DataSource_OnInserted(object sender, ObjectDataSourceStatusEventArgs e)
@@ -230,7 +282,6 @@ namespace WebApplication1.Directory
         {
             if ((int)e.ReturnValue == 0)
                 Msg.Text = "Employee was not deleted. Please try again.";
-
         }
         // работа с картинками
         protected void LWImage_SelectedIndexChanged(Object sender, EventArgs e)
@@ -253,8 +304,8 @@ namespace WebApplication1.Directory
             string ID_Table = RoomGridView.SelectedValue.ToString();
             string strFileName = ImageFile.PostedFile.ContentType;
             strFileName = System.IO.Path.GetFileName(strFileName);
-            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/") + strFileName);
-            string photoFilePath = Server.MapPath("../Image_Data/") + strFileName;
+            ImageFile.PostedFile.SaveAs(Server.MapPath("../Image_Data/")+"temp." + strFileName);
+            string photoFilePath = Server.MapPath("../Image_Data/") + "temp." + strFileName;
             ImageObjectDataSource.InsertParameters.Clear();
             ImageObjectDataSource.InsertParameters.Add("ID_Table", ID_Table);
             ImageObjectDataSource.InsertParameters.Add("fileType", strFileName);
