@@ -88,14 +88,17 @@ namespace Samples.AspNet.ObjectDataDevice
             return ds.Tables["Device"];
             
         }
-        public DataTable GetAllImage(string str_ID, string ID_Unit)
+        public DataTable GetAllImage(string str_ID, string ID_Unit, int ID_Room)
         {
             string sqlCmd = " SELECT distinct Device.ID_Device,Device_list.Device as Parent_ID, "+ 
                 " Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog, " +
-                " fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType " +
+                " fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType, " +
+                " Cast(case when rd.ID_Device >0 then 'True' else 'False' end as bit)  as roomdevice, " +
+                " rd.CountDevice  as roomdevicecount " + 
                 " FROM Device " +
                 " Left join FilesRelation as fr on fr.NameTable ='Device' and fr.ID_Table=Device.ID_Device " +
                 " Left join Files as f on f.ID=fr.ID_files " +
+                " Left join Room_Device_List as rd on rd.ID_Device=Device.ID_Device and rd.ID_Room=@ID_Room " +
                 " Left join Unit on Unit.ID_Unit=Device.ID_Unit " +
                 " Left join Device_list on Device_list.Device_Spares=Device.ID_Device ";
 
@@ -115,6 +118,59 @@ namespace Samples.AspNet.ObjectDataDevice
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+
+            da.SelectCommand.Parameters.Add("@ID_Room", SqlDbType.Int).Value = ID_Room;
+
+            DataSet ds = new DataSet();
+            try
+            {
+                conn.Open();
+                da.Fill(ds, "Device");
+            }
+            catch (SqlException e)
+            {
+                // Handle exception.
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return ds.Tables["Device"];
+
+        }
+        public DataTable GetDeviceForRoomMaping(string str_ID, string ID_Unit, int ID_Room)
+        {
+            string sqlCmd = " SELECT distinct Device.ID_Device,Device_list.Device as Parent_ID, " +
+                " Device.NameDevice, Device.Description, Device.ID_Unit, Unit.NameUnit, Device.CheckLog, " +
+                " fr.ID, fr.ID_files, fr.ID_Table, fr.NameTable, f.fileName, f.fileType, " +
+                " Cast(case when rd.ID_Device >0 then 'True' else 'False' end as bit)  as roomdevice, " +
+                " rd.CountDevice  as roomdevicecount " +
+                " FROM Device " +
+                " Left join FilesRelation as fr on fr.NameTable ='Device' and fr.ID_Table=Device.ID_Device " +
+                " Left join Files as f on f.ID=fr.ID_files " +
+                " Left join Room_Device_List as rd on rd.ID_Device=Device.ID_Device " +
+                " Left join Unit on Unit.ID_Unit=Device.ID_Unit " +
+                " Left join Device_list on Device_list.Device_Spares=Device.ID_Device ";
+
+            sqlCmd += " where 1=1 and rd.ID_Room=@ID_Room  and Device_list.Device is null ";
+            try
+            {
+                if (str_ID.Trim() != "")
+                { sqlCmd += " and Device.ID_Device in ( " + str_ID + " ) "; }
+            }
+            catch { }
+            try
+            {
+                if (ID_Unit.Trim() != "")
+                { sqlCmd += " and Device.ID_Unit=" + ID_Unit + " "; }
+            }
+            catch { }
+
+            SqlConnection conn = new SqlConnection(_connectionString);
+            SqlDataAdapter da = new SqlDataAdapter(sqlCmd, conn);
+
+            da.SelectCommand.Parameters.Add("@ID_Room", SqlDbType.Int).Value = ID_Room;
 
             DataSet ds = new DataSet();
             try

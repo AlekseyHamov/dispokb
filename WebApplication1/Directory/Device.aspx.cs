@@ -63,7 +63,6 @@ namespace WebApplication1.Directory
         protected void Select_Change(Object sender, EventArgs e)
         {
             string str_ID = "";
-            
             if(TreeView1.SelectedNode.ChildNodes.Count==0)
             { str_ID=TreeView1.SelectedValue; }
             else

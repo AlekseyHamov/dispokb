@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections;
+using System.Data;
 
 namespace WebApplication1.Directory
 {
@@ -51,6 +52,7 @@ namespace WebApplication1.Directory
                     HotSpotsGrid.AutoGenerateColumns = false;
                     HotSpotsGrid.DataKeyNames = new string[] { "ID", "ID_files", "Coordinate", "AlternateText", "ID_UrlTable" };
                     HotSpotsGrid.Columns.Add(PageImageGrid);
+                    HotSpotsGrid.Visible = false;
                     HotSpotsGrid.Width = 40;
                     DivRightPage.Controls.Add(HotSpotsGrid);
 
@@ -73,6 +75,7 @@ namespace WebApplication1.Directory
             {
             case "Otdelen":
                 Url_Map(e.PostBackValue.ToString(), "Room");
+                DeviceMain_room(e.PostBackValue.ToString());
                 Name_Url.Text = "Room";
                 break;
             case"Building_child":
@@ -154,6 +157,82 @@ namespace WebApplication1.Directory
                 Ph.PostBackValue = HotSpotsGrid.DataKeys[i].Values[4].ToString();
                 MapPage.HotSpots.Add(Ph);
             }
+        }
+        // Заполнение устройств привязвязанных к комнате
+        public void DeviceMain_room(string ID_Room)
+        {
+            ImageChecked.SelectParameters["ID_Room"].DefaultValue = ID_Room;
+            CheckBoxImage.DataBind(); 
+        }
+        // Заполнение деревьв дочерних к выбранным устройствам
+        public void DeviceCildren_room(object sender, EventArgs e)
+        {
+            int i = 0;
+            foreach (ListViewItem dli in CheckBoxImage.Items)
+            {
+                CheckBox chk = (CheckBox)dli.FindControl("IMGCHECK");
+                if (chk.Checked)
+                {
+                    TreeView TreeView1 = new TreeView();
+                    TreeView1.ID = "TreeView1";
+                    TreeView1.Attributes.Add("TreeNodePopulate", "TreeNodePopulate");
+                    TreeView1.EnableViewState = true;
+                    TreeView1.EnableClientScript = true;  
+
+                    DataTable dt = new DataTable();
+                    TreeDevice.SelectMethod = "GetAllParent";
+                    TreeDevice.SelectParameters.Clear();
+                    TreeDevice.SelectParameters.Add("Parent_ID", CheckBoxImage.DataKeys[i].Values[5].ToString());
+                    TreeDevice.SelectParameters.Add("ID_Unit", "");
+                    DataView dv = (DataView)TreeDevice.Select();
+                    dt = dv.Table;
+                    PopulateNodes(dt, TreeView1.Nodes);
+                   // PopulateRootLevel();
+                    CheckBoxImage.Items[i].FindControl("TDControl").Controls.Add(TreeView1);  
+                }
+                i += 1;
+            }
+        }
+        private void PopulateRootLevel()
+        {
+
+            DataTable dt = new DataTable();
+            TreeDevice.SelectMethod = "GetAll";
+            TreeDevice.SelectParameters.Clear();
+            TreeDevice.SelectParameters.Add("ID_Unit", "");
+            DataView dv = (DataView)TreeDevice.Select();
+
+            dt = dv.Table;
+
+            PopulateNodes(dt, TreeView2.Nodes);
+        }
+
+        private void PopulateNodes(DataTable dt, TreeNodeCollection nodes)
+        {
+            foreach (DataRow dr in dt.Rows)
+            {
+                TreeNode tn = new TreeNode();
+                tn.Text = dr["Text"].ToString();
+                tn.Value = dr["Id"].ToString();
+                nodes.Add(tn);
+                //If node has child nodes, then enable on-demand populating
+                tn.PopulateOnDemand = (int.Parse(dr["childnodecount"].ToString()) > 0);
+            }
+        }
+        protected void TreeNodePopulate(Object sender, TreeNodeEventArgs e)
+        {
+            PopulateSubLevel(int.Parse(e.Node.Value), e.Node);
+        }
+        private void PopulateSubLevel(int parent_id, TreeNode parentNode)
+        {
+            DataTable dt = new DataTable();
+            TreeDevice.SelectMethod = "GetAllParent";
+            TreeDevice.SelectParameters.Clear();
+            TreeDevice.SelectParameters.Add("Parent_ID", parent_id.ToString());
+            TreeDevice.SelectParameters.Add("ID_Unit", "");
+            DataView dv = (DataView)TreeDevice.Select();
+            dt = dv.Table;
+            PopulateNodes(dt, parentNode.ChildNodes);
         }
     }
 }

@@ -200,17 +200,17 @@ namespace Samples.AspNet.ObjectDataRoomDeviceList
 
         // Update the Otdelen by original ID_Otdelen.
 
-        public int UpdateRecord(int ID_Device, int ID_Room_Device_List, int ID_Room)
+        public int UpdateRecord(int ID_Device, int CountDevice, int ID_Room)
         {
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("UPDATE Room_Device_List " +
-                                                "  SET ID_Device=@ID_Device, ID_Room=@ID_Room " +
-                                                 "  WHERE ID_Room_Device_List=@ID_Room_Device_List ", conn);
+                                                "  SET  CountDevice=@CountDevice  " +
+                                                 "  WHERE ID_Device=@ID_Device, ID_Room=@ID_Room ", conn);
 
             cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
             cmd.Parameters.Add("@ID_Room", SqlDbType.Int).Value = ID_Room;
-            cmd.Parameters.Add("@ID_Room_Device_List", SqlDbType.Int).Value = ID_Room_Device_List;
+            cmd.Parameters.Add("@CountDevice", SqlDbType.Int).Value = CountDevice;
             int result = 0;
 
             try
@@ -233,18 +233,19 @@ namespace Samples.AspNet.ObjectDataRoomDeviceList
 
         // Insert an Otdelen.
 
-        public int InsertRecord(int ID_Device, int ID_Room)
+        public int InsertRecord(int ID_Device, int ID_Room, decimal CountDevice)
 
         {
 
             SqlConnection conn = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand("INSERT INTO Room_Device_List " +
-                                                "  (ID_Device,ID_Room ) " +
-                                                "  Values(@ID_Device, @ID_Room); " +
+                                                "  (ID_Device,ID_Room, CountDevice ) " +
+                                                "  Values(@ID_Device, @ID_Room, @CountDevice); " +
                                                 "SELECT @ID_Room_Device_List = SCOPE_IDENTITY()", conn);
 
             cmd.Parameters.Add("@ID_Device", SqlDbType.Int).Value = ID_Device;
             cmd.Parameters.Add("@ID_Room", SqlDbType.Int).Value = ID_Room;
+            cmd.Parameters.Add("@CountDevice", SqlDbType.Decimal, 18).Value = CountDevice;
             SqlParameter p = cmd.Parameters.Add("@ID_Room_Device_List", SqlDbType.Int);
             p.Direction = ParameterDirection.Output;
 

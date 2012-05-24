@@ -230,7 +230,7 @@
         <tr>
           <td>
               <asp:Panel ID="UpdatePanel" runat="server"  
-                  BackColor="#D9F2FF" BorderStyle="Double" OnLoad="Button_Click_Insert"  >
+                BackColor="#D9F2FF" BorderStyle="Double" OnLoad="Button_Click_Insert"  >
                 <p style="float:right">
                 <asp:ImageButton ID="editBox_OK" runat="server" ImageUrl= "~/Image/Close.ico" Width="20" Height = "20"/>
                 </p>
@@ -280,6 +280,20 @@
                                 DataTextField="NameDevice" DataValueField="Device">
                             </asp:CheckBoxList>
                     </div>
+                    <table >
+                    <tr>
+                        <td>Дополнительно</td>
+                        <td>
+                            <img  alt="" src="../Image/Downarrow.png"  style = " width :10px; height :10px;"
+                            onclick= "document.getElementById('ImageDop').style.display=''" />
+                        </td>
+                        <td>
+                            <img  alt="" src="../Image/Uparrow.png" style = " width :10px; height :10px;" 
+                            onclick= "document.getElementById('ImageDop').style.display='none'" />
+                        </td>
+                    </tr>
+                    <tr id="ImageDop" style = "display:none " >
+                    <td>
                       <div id="ImageDiv" runat="server" style="overflow-y:scroll; text-align:left;">
                       <div style="float:left"> 
                         <asp:GridView ID = "LWImage" runat="server" 
@@ -325,20 +339,23 @@
                                         runat="server" Visible="true" onclick="MapRelation_Click" >
                             </asp:Button>
                       </div>
+                    </td>
+                    </tr>
+                    </table>
                 </div>
 
-            <asp:RadioButtonList ID="RadioButtonUnit" AppendDataBoundItems="true" runat="server"
+                <asp:RadioButtonList ID="RadioButtonUnit" AppendDataBoundItems="true" runat="server"
                 DataSourceID = "UnitObjectDataSource" DataTextField="NameUnit" DataValueField="ID_Unit" 
                 RepeatDirection="Horizontal" Enabled="true">
             </asp:RadioButtonList>
-            <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
-                    OnCommand="CommandBtn_Click" Visible="false"/>
-            <asp:Button ID="InsertButton" runat="server" Text="Добавить" CommandName="Insert" 
-                    OnCommand="CommandBtn_Click"/>
-            <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
-                    OnCommand="CommandBtn_Click" Visible="false"/>
-            <asp:Button ID="Button1" runat="server" Text="gfdjhgdjk" onclick="Button_Click"
-                    />
+                <asp:Button ID="UpdateButton" runat="server" Text="Обновить" CommandName="Update" 
+                        OnCommand="CommandBtn_Click" Visible="false"/>
+                <asp:Button ID="InsertButton" runat="server" Text="Добавить" CommandName="Insert" 
+                        OnCommand="CommandBtn_Click"/>
+                <asp:Button ID="DeleteButton" runat="server" Text="Удалить" CommandName="Delete" 
+                        OnCommand="CommandBtn_Click" Visible="false"/>
+                <asp:Button ID="Button1" runat="server" Text="gfdjhgdjk" onclick="Button_Click"
+                        />
             </asp:Panel>
             <asp:Panel runat="server" ID="ImageMapingPanel" BackColor="#ffffff">
                 <asp:GridView ID="TempGrid" runat="server" >

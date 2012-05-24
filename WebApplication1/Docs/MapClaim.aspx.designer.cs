@@ -58,6 +58,24 @@ namespace WebApplication1.Directory {
         protected global::System.Web.UI.WebControls.ObjectDataSource ImageFilesObjectDataSource;
         
         /// <summary>
+        /// ImageChecked элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource ImageChecked;
+        
+        /// <summary>
+        /// TreeDevice элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ObjectDataSource TreeDevice;
+        
+        /// <summary>
         /// MapPage элемент управления.
         /// </summary>
         /// <remarks>
@@ -65,6 +83,42 @@ namespace WebApplication1.Directory {
         /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageMap MapPage;
+        
+        /// <summary>
+        /// HeaderDeviceScrol элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl HeaderDeviceScrol;
+        
+        /// <summary>
+        /// CheckBoxImage элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListView CheckBoxImage;
+        
+        /// <summary>
+        /// TreeView2 элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TreeView TreeView2;
+        
+        /// <summary>
+        /// reteeee элемент управления.
+        /// </summary>
+        /// <remarks>
+        /// Автоматически создаваемое поле.
+        /// Для изменения переместите объявление поля из файла конструктора в файл кода программной части.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button reteeee;
         
         /// <summary>
         /// DivRightPage элемент управления.
