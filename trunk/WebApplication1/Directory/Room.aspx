@@ -137,13 +137,25 @@
         TypeName="Samples.AspNet.ObjectDataRoomDeviceList.RoomDeviceListData" 
         SelectMethod="GetUnit"
         InsertMethod="InsertRecord"
-        DeleteMethod="DeleteRecord">
+        DeleteMethod="DeleteRecord"
+        UpdateMethod="UpdateRecord">
         <DeleteParameters>
-              <asp:ControlParameter ControlID="CheckBoxDevice" Name="ID_Device"
-                  PropertyName="SelectedValue" />
-              <asp:ControlParameter ControlID="RoomGridView" Name="ID_Room"
+            <asp:Parameter Name="ID_Device" DefaultValue="0" />
+            <asp:ControlParameter ControlID="RoomGridView" Name="ID_Room"
                   PropertyName="SelectedValue" />
         </DeleteParameters>  
+        <UpdateParameters>
+            <asp:Parameter Name="ID_Device" DefaultValue="0" />
+            <asp:ControlParameter ControlID="RoomGridView" Name="ID_Room"
+                PropertyName="SelectedValue" />
+            <asp:Parameter Name="CountDevice" DefaultValue="0" />            
+        </UpdateParameters>  
+        <InsertParameters>
+            <asp:Parameter Name="ID_Device" DefaultValue="0" />
+            <asp:ControlParameter ControlID="RoomGridView" Name="ID_Room"
+                PropertyName="SelectedValue" />
+            <asp:Parameter Name="CountDevice" DefaultValue="0" />            
+        </InsertParameters>  
       </asp:ObjectDataSource>
       <asp:ObjectDataSource 
         ID="DeviceObjectDataSource" 
@@ -209,6 +221,7 @@
         <SelectParameters>
             <asp:ControlParameter ControlID="RadioButtonUnit" Name="ID_Unit" PropertyName="SelectedValue"/>
             <asp:Parameter Name="str_ID" DefaultValue=""/>
+            <asp:ControlParameter Name="ID_Room" controlid="RoomGridView" propertyname="SelectedValue" DefaultValue="0"/>
         </SelectParameters> 
       </asp:ObjectDataSource>
 
@@ -376,7 +389,7 @@
             <tr>
             <td>
                 <div>
-                    <div id="Div1" runat="server" style="height:150px; width:150px; overflow:auto; float:left ">  
+                    <div id="Div1" runat="server" style="height:220px; width:150px; overflow:auto; float:left ">  
                         <asp:RadioButtonList ID="RadioButtonUnit" runat="server" 
                             DataSourceID="UnitObjectDataSource" DataValueField ="ID_Unit" 
                             DataTextField="NameUnit" OnSelectedIndexChanged = "Filter_device" AutoPostBack="true" >
@@ -387,81 +400,50 @@
                                 <table>
                                     <tr>
                                     <td>
-                                        <div id="HeaderDeviceScrol" runat="server" style="height:120px; width:350px; overflow-x:scroll; float:left " >
-                                        <asp:DataList ID="CheckBoxImage" runat="server" 
+                                        <div id="HeaderDeviceScrol" runat="server" style="height:220px; width:350px; overflow-x:scroll; float:left " >
+                                        <asp:ListView  ID="CheckBoxImage" runat="server" 
                                             RepeatDirection="Horizontal"
-                                            DataKeyField="ID_Device" 
-                                            DataKeyNames="ID,ID_files,fileName,fileType,NameDevice" 
-                                            DataSourceID="ImageChecked">
+                                            DataKeyNames="ID,ID_files,fileName,fileType,NameDevice, ID_Device, roomdevice,roomdevicecount" 
+                                            DataSourceID="ImageChecked" GroupItemCount="3" >
+                                            <GroupTemplate>
+                                                <tr>
+                                                  <asp:PlaceHolder runat="server" ID="itemPlaceholder" />
+                                                </tr>
+                                            </GroupTemplate>
+                                            <LayoutTemplate>
+                                                <table>
+                                                    <asp:PlaceHolder ID="groupPlaceholder" runat="server" />
+                                                </table>
+                                            </LayoutTemplate>
                                             <ItemTemplate>
-                                                <asp:ImageMap ID="IMG" runat="server" Height="50" 
-                                                  ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>'  ToolTip='<%#Eval("NameDevice") %>' />
-                                                  <br />
+                                                <td style="border-style:ridge; border-width:thin;  "     >
+                                                    <asp:ImageMap ID="IMG" runat="server" Height="50" 
+                                                      ImageUrl='<%#Eval("fileType", "~/Image_Data/"+Eval("fileName")+"_"+Eval("ID_files")+"."+Eval("fileType")) %>'  ToolTip='<%#Eval("NameDevice") %>' />
+                                                    <br />
+                                                    <asp:CheckBox ID="IMGCHECK" runat="server" Checked='<%# Eval("roomdevice") %>' ToolTip="Выбрать" />
+                                                    <br />
+                                                    <asp:TextBox ID="CountDevice" runat="server" Width="17" Text='<%# Eval("roomdevicecount") %>' ToolTip="Колличество"  />
+                                                </td>
                                             </ItemTemplate>
-                                        </asp:DataList>
+                                        </asp:ListView >
                                         </div>
-                                        </td>
-                                        <td>
-                                        <asp:CheckBoxList ID="CheckBoxImage1" runat="server" 
-                                            RepeatDirection="Horizontal"
-                                            DataKeyField="ID_Device" 
-                                            DataKeyNames="ID,ID_files,fileName,fileType,NameDevice" 
-                                            DataSourceID="ImageChecked" DataValueField="ID_Device" DataTextField="NameDevice">
-                                        </asp:CheckBoxList>
-                                        <asp:GridView ID="CheckBoxImageG" runat="server" 
-                                            DataKeyNames="ID,ID_files,fileName,fileType" 
-                                            DataSourceID="ImageChecked"  Visible="false" AutoGenerateColumns="true" ></asp:GridView>
-                                        
                                     </td>
                                     </tr>
                                     <tr>
                                     <td>
-                                    
-                                        <asp:Button id="Button1"
-                                            Text = "Previous"
-                                            OnClick="Test"
-                                            runat="Server">
-                                        </asp:Button>
                                         <asp:Button id="Page2Back"
                                             Text = "Previous"
                                             OnClick="BackButton_Command"
-                                            runat="Server">
+                                            runat="Server" Visible="false">
                                         </asp:Button> 
                                         <asp:Button id="Page2Next"
                                             Text = "Next"
                                             OnClick="NextButton_Command"
-                                            runat="Server">
+                                            runat="Server" Visible="false">
                                         </asp:Button>
                                     </td>
                                     </tr>
                                 </table>
-                        </asp:View>
-                        <asp:View ID="View2" runat="server">
-                            <table>
-                                <tr>
-                                <td>
-                                    <div id="Div2" runat="server" style="height:150px; width:150px; overflow:auto; float:left ">    
-                                        <asp:CheckBoxList ID="CheckBoxDevice" runat="server" DataSourceID="DeviceObjectDataSource"
-                                            DataTextField="NameDevice" DataValueField="ID_Device" >
-                                        </asp:CheckBoxList>
-                                    </div>
-                                </td>
-                                </tr>
-                                <tr>
-                                <td>
-                                    <asp:Button id="Page1Back"
-                                        Text = "Previous"
-                                        OnClick="BackButton_Command"
-                                        runat="Server">
-                                    </asp:Button> 
-                                    <asp:Button id="Page1Next"
-                                        Text = "Next"
-                                        OnClick="NextButton_Command"
-                                        runat="Server">
-                                    </asp:Button>
-                                </td>
-                                </tr>
-                            </table>
                         </asp:View>
                     </asp:MultiView>
                 </div>
@@ -472,7 +454,7 @@
                 <table>
                     <tr>
                         <td>
-                            Изображения
+                            Дополнительно
                          </td>
                         <td>
                             <img  alt="" src="../Image/Downarrow.png"  style = " width :10px; height :10px;"
@@ -508,8 +490,7 @@
                                             </asp:ButtonField>
                                         </Columns>
                                     </asp:GridView>
-                                </div>
-                                
+                                </div>                                
                                 <div>
                                     Изображение
                                     <asp:FileUpload ID="ImageFile" runat="server" />

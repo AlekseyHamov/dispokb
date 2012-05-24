@@ -12,8 +12,7 @@ namespace WebApplication1.Directory
     {
         protected void Test(object sender, EventArgs e)
         {
-            //Msg.Text = CheckBoxImage.Items.Count.ToString();
-           // Msg.Text = CheckBoxImage.DataKeys[0].ToString();
+             
         }
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,7 +27,6 @@ namespace WebApplication1.Directory
             {
                 case "Update":
                     RoomObjectDataSource.Update();
-                    Update_Device_In_Room();
                     UpdateButton.Visible = false;
                     InsertButton.Visible = true;
                     DeleteButton.Visible = false;
@@ -53,16 +51,16 @@ namespace WebApplication1.Directory
         {
             string Dl = "Datalist Items Checked:<br />";
 
-            foreach (DataListItem dli in CheckBoxImage.Items)
+            foreach (ListViewItem dli in CheckBoxImage.Items)
             {
               CheckBox chk = (CheckBox)dli.FindControl("IMGCHECK");
               if (chk.Checked)
               {
-                  Dl += (chk.Text + chk.ToolTip.ToString()+ "<br />");
-                 
+                  Dl += (chk.Text + chk.ToolTip.ToString()+" __________ "+CheckBoxImage.DataKeys[dli.DataItemIndex].Values[5] + "<br />");
               }
             }
             Msg.Text = Dl;
+
         }
         protected void button_filtr(object sender, EventArgs e)
         {
@@ -115,41 +113,24 @@ namespace WebApplication1.Directory
             RoomDeviceListDataSource.SelectParameters.Clear();
             RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
             RoomDeviceListDataSource.SelectParameters.Add("ID_Unit", "0");
-            GridView ListDevice = new GridView();
-            ListDevice.DataSourceID = "RoomDeviceListDataSource";
-            ListDevice.AutoGenerateColumns = true;
-            ListDevice.Visible = false;
-            UpdatePanel.Controls.Add(ListDevice);
-            ListDevice.DataBind();
-            for (int i = 0; i < CheckBoxDevice.Items.Count; i++)
-            {
-                for (int j = 0; j < ListDevice.Rows.Count; j++)
-                {
-                    if (ListDevice.Rows[j].Cells[0].Text == CheckBoxDevice.Items[i].Value)
-                    {
-                        if (ListDevice.Rows[j].Cells[1].Text != "")
-                        {
-                            CheckBoxDevice.Items[i].Selected = true;
-                        }
-                    }
-                }
-            }
+
             Load_Image();
             ImageChecked.DataBind();
             string photoFilePath = Server.MapPath("../Image_Data/");
-            for (int i = 0; i < CheckBoxImageG.Rows.Count; i++)
+            for (int i = 0; i < CheckBoxImage.Items.Count; i++)
             {
-                if (!File.Exists(photoFilePath + CheckBoxImageG.DataKeys[i].Values[2].ToString() + "_" + CheckBoxImageG.DataKeys[i].Values[1].ToString() + "." + CheckBoxImageG.DataKeys[i].Values[3].ToString()))
+                if (!File.Exists(photoFilePath + CheckBoxImage.DataKeys[i].Values[2].ToString() + "_" + CheckBoxImage.DataKeys[i].Values[1].ToString() + "." + CheckBoxImage.DataKeys[i].Values[3].ToString()))
                 {
                     ImageFilesObjectDataSource.SelectMethod = "TestGetSqlBytes";
                     ImageFilesObjectDataSource.SelectParameters.Clear();
-                    ImageFilesObjectDataSource.SelectParameters.Add("documentID", CheckBoxImageG.DataKeys[i].Values[1].ToString());
+                    ImageFilesObjectDataSource.SelectParameters.Add("documentID", CheckBoxImage.DataKeys[i].Values[1].ToString());
                     ImageFilesObjectDataSource.SelectParameters.Add("filePath", photoFilePath);
                     ImageFilesObjectDataSource.Select();
                 }
             }
 
             // начало рисунков к чекбоксу
+/*            
             try 
             {
                 foreach (ListItem item in CheckBoxImage1.Items)
@@ -161,7 +142,7 @@ namespace WebApplication1.Directory
             {
                 this.Msg.Text = ex.ToString();
             }
-
+*/
             // конец рисунков к чекбоксу
 
             ModalPopupExtender1.Show();
@@ -170,6 +151,7 @@ namespace WebApplication1.Directory
             DeleteButton.Visible = true;
             AddImge.Visible = true;
         }
+
         private string GetImageUrl()
         { return string.Format("/Image_Data/{0}.jpeg", "Device_1_74"); }
         protected void BuildingList_OnSelectedIndexChanged(object sender, EventArgs e)
@@ -182,7 +164,6 @@ namespace WebApplication1.Directory
         }
         protected void Filter_device(object sender, EventArgs e)
         {
-            CheckBoxDevice.DataBind();
             RoomDeviceListDataSource.SelectMethod = "GetOneRecordTest";
             //RoomDeviceListDataSource.SelectParameters.Clear();
             if (RoomGridView.SelectedValue != null)
@@ -199,36 +180,41 @@ namespace WebApplication1.Directory
             ListDevice.Visible = false;
             UpdatePanel.Controls.Add(ListDevice);
             ListDevice.DataBind();
-            for (int i = 0; i < CheckBoxDevice.Items.Count; i++)
+            for (int i = 0; i < CheckBoxImage.Items.Count; i++)
             {
                 for (int j = 0; j < ListDevice.Rows.Count; j++)
                 {
-                    if (ListDevice.Rows[j].Cells[0].Text == CheckBoxDevice.Items[i].Value)
+                    if (ListDevice.Rows[j].Cells[0].Text == CheckBoxImage.DataKeys[i].Values[5])
                     {
                         if (ListDevice.Rows[j].Cells[1].Text != "")
                         {
-                            CheckBoxDevice.Items[i].Selected = true;
+                           // CheckBoxImage.Items[i].Selected = true;
                         }
                     }
                 }
             }
-            CheckBoxImageG.DataBind();
             ModalPopupExtender1.Show();
         }
         protected void DataSource_OnInserted(object sender, ObjectDataSourceStatusEventArgs e)
         {
             string ID_RoomNew;
             ID_RoomNew = Convert.ToString(e.ReturnValue);
-            RoomDeviceListDataSource.InsertParameters.Clear();
-            RoomDeviceListDataSource.InsertParameters.Add("ID_Room", ID_RoomNew);
-            RoomDeviceListDataSource.InsertParameters.Add("ID_Device", "");
-            for (int i = 0; i < CheckBoxDevice.Items.Count; i++)
+            //RoomDeviceListDataSource.InsertParameters.Clear();
+            RoomDeviceListDataSource.InsertParameters["ID_Room"].DefaultValue = ID_RoomNew;
+            RoomDeviceListDataSource.InsertParameters["ID_Device"].DefaultValue= "";
+            RoomDeviceListDataSource.InsertParameters["CountDevice"].DefaultValue = "";
+            int i = 0;
+            foreach (ListViewItem dli in CheckBoxImage.Items)
             {
-                if (CheckBoxDevice.Items[i].Selected)
+                CheckBox chk = (CheckBox)dli.FindControl("IMGCHECK");
+                TextBox tcd = (TextBox)dli.FindControl("CountDevice");
+                if (chk.Checked )
                 {
-                    RoomDeviceListDataSource.InsertParameters["ID_Device"].DefaultValue = CheckBoxDevice.Items[i].Value;
+                    RoomDeviceListDataSource.InsertParameters["ID_Device"].DefaultValue = CheckBoxImage.DataKeys[i].Values[5].ToString();
+                    RoomDeviceListDataSource.InsertParameters["CountDevice"].DefaultValue = tcd.Text;
                     RoomDeviceListDataSource.Insert();
                 }
+                i += 1;
             }
         }
         protected void DataSource_OnUpdated(object sender, ObjectDataSourceStatusEventArgs e)
@@ -239,9 +225,9 @@ namespace WebApplication1.Directory
             RoomDeviceListDataSource.DeleteParameters.Clear();
             RoomDeviceListDataSource.DeleteParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
             RoomDeviceListDataSource.DeleteParameters.Add("ID_Device", "");
-            RoomDeviceListDataSource.InsertParameters.Clear();
-            RoomDeviceListDataSource.InsertParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
-            RoomDeviceListDataSource.InsertParameters.Add("ID_Device", "");
+            //RoomDeviceListDataSource.InsertParameters.Clear();
+            RoomDeviceListDataSource.InsertParameters["ID_Room"].DefaultValue= RoomGridView.SelectedValue.ToString();
+            RoomDeviceListDataSource.InsertParameters["ID_Device"].DefaultValue= "";
             RoomDeviceListDataSource.SelectMethod = "GetOneRecordTest";
             //RoomDeviceListDataSource.SelectParameters.Clear();
             //RoomDeviceListDataSource.SelectParameters.Add("ID_Room", RoomGridView.SelectedValue.ToString());
@@ -249,16 +235,18 @@ namespace WebApplication1.Directory
             GridView ListDevice = new GridView();
             ListDevice.DataSourceID = "RoomDeviceListDataSource";
             ListDevice.AutoGenerateColumns = true;
-            ListDevice.Visible = false;
+            ListDevice.Visible = false ;
             UpdatePanel.Controls.Add(ListDevice);
             ListDevice.DataBind();
             Boolean CheckBoxDeviceBoolean = new Boolean();
-            for (int i = 0; i < CheckBoxDevice.Items.Count; i++)
+            int i = 0;
+            foreach (ListViewItem dli in CheckBoxImage.Items)
             {
+                CheckBox chk = (CheckBox)dli.FindControl("IMGCHECK");
+                CheckBoxDeviceBoolean = false;
                 for (int j = 0; j < ListDevice.Rows.Count; j++)
                 {
-                    CheckBoxDeviceBoolean = false;
-                    if (ListDevice.Rows[j].Cells[0].Text == CheckBoxDevice.Items[i].Value)
+                    if (ListDevice.Rows[j].Cells[0].Text == CheckBoxImage.DataKeys[i].Values[5].ToString())
                     {
                         if (Convert.ToInt32(ListDevice.Rows[j].Cells[2].Text) != 0)
                         {
@@ -266,16 +254,26 @@ namespace WebApplication1.Directory
                         }
                     }
                 }
-                if (CheckBoxDeviceBoolean == true && CheckBoxDevice.Items[i].Selected == false)
+                if (chk.Checked && CheckBoxDeviceBoolean == false)
                 {
-                    RoomDeviceListDataSource.DeleteParameters["ID_Device"].DefaultValue = CheckBoxDevice.Items[i].Value;
-                    RoomDeviceListDataSource.Delete();
-                }
-                if (CheckBoxDeviceBoolean == false && CheckBoxDevice.Items[i].Selected == true)
-                {
-                    RoomDeviceListDataSource.InsertParameters["ID_Device"].DefaultValue = CheckBoxDevice.Items[i].Value;
+                    RoomDeviceListDataSource.InsertParameters["ID_Device"].DefaultValue = CheckBoxImage.DataKeys[i].Values[5].ToString();
+                    TextBox tcd = (TextBox)dli.FindControl("CountDevice");
+                    RoomDeviceListDataSource.InsertParameters["CountDevice"].DefaultValue = tcd.Text.ToString();   
                     RoomDeviceListDataSource.Insert();
                 }
+                if (!chk.Checked && CheckBoxDeviceBoolean == true )
+                {
+                    RoomDeviceListDataSource.DeleteParameters["ID_Device"].DefaultValue = CheckBoxImage.DataKeys[i].Values[5].ToString();
+                    RoomDeviceListDataSource.Delete();
+                }
+                if (chk.Checked && CheckBoxDeviceBoolean == true )
+                {
+                    RoomDeviceListDataSource.UpdateParameters["ID_Device"].DefaultValue = CheckBoxImage.DataKeys[i].Values[5].ToString();
+                    TextBox tcd = (TextBox)dli.FindControl("CountDevice");
+                    RoomDeviceListDataSource.UpdateParameters["CountDevice"].DefaultValue = tcd.Text;  
+                    RoomDeviceListDataSource.Update();
+                }
+                i += 1;
             }
         }
         protected void DataSource_OnDeleted(object sender, ObjectDataSourceStatusEventArgs e)
