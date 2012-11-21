@@ -168,13 +168,16 @@ namespace WebApplication1.Directory
         public void DeviceCildren_room(object sender, EventArgs e)
         {
             int i = 0;
+
             foreach (ListViewItem dli in CheckBoxImage.Items)
             {
                 CheckBox chk = (CheckBox)dli.FindControl("IMGCHECK");
                 if (chk.Checked)
-                {
+                {   
+                    //string nametree =  ;
+                    /*
                     TreeView TreeView1 = new TreeView();
-                    TreeView1.ID = "TreeView1";
+                    TreeView1.ID = "TreeView1_"+i;
                     TreeView1.Attributes.Add("TreeNodePopulate", "TreeNodePopulate");
                     TreeView1.EnableViewState = true;
                     TreeView1.EnableClientScript = true;  
@@ -186,14 +189,29 @@ namespace WebApplication1.Directory
                     TreeDevice.SelectParameters.Add("ID_Unit", "");
                     DataView dv = (DataView)TreeDevice.Select();
                     dt = dv.Table;
-                    PopulateNodes(dt, TreeView1.Nodes);
-                   // PopulateRootLevel();
-                    CheckBoxImage.Items[i].FindControl("TDControl").Controls.Add(TreeView1);  
+                    //PopulateNodes(dt, TreeView1.Nodes);
+                     */
+                    //PopulateRootLevel(i);
+                    
+                    //CheckBoxImage.Items[i].FindControl("TDControl").Controls.Add(TreeView1);
+
+                    TreeDevice.SelectMethod = "GetAllParent";
+                    TreeDevice.SelectParameters.Clear();
+                    TreeDevice.SelectParameters.Add("Parent_ID", CheckBoxImage.DataKeys[i].Values[5].ToString());
+                    TreeDevice.SelectParameters.Add("ID_Unit", "");
+
+                    CheckBoxList treew = new CheckBoxList();
+                    treew.DataSourceID = "TreeDevice";
+                    treew.DataTextField = "Text";
+                    treew.DataValueField = "ID";
+                    CheckBoxImage.Items[i].FindControl("TDControlFoter").Controls.Add(treew); 
                 }
                 i += 1;
+
             }
         }
-        private void PopulateRootLevel()
+
+        private void PopulateRootLevel(int i)
         {
 
             DataTable dt = new DataTable();
@@ -204,9 +222,15 @@ namespace WebApplication1.Directory
 
             dt = dv.Table;
 
-            PopulateNodes(dt, TreeView2.Nodes);
-        }
+            TreeView TreeView1 = new TreeView();
+            TreeView1.ID = "TreeView1";
+            TreeView1.Attributes.Add("TreeNodePopulate", "TreeNodePopulate");
+            TreeView1.EnableViewState = true;
+            TreeView1.EnableClientScript = true;
+            CheckBoxImage.Items[i].FindControl("TDControl").Controls.Add(TreeView1);
 
+            PopulateNodes(dt, TreeView1.Nodes);
+        }
         private void PopulateNodes(DataTable dt, TreeNodeCollection nodes)
         {
             foreach (DataRow dr in dt.Rows)
@@ -215,7 +239,7 @@ namespace WebApplication1.Directory
                 tn.Text = dr["Text"].ToString();
                 tn.Value = dr["Id"].ToString();
                 nodes.Add(tn);
-                //If node has child nodes, then enable on-demand populating
+                //If node has child nodes, then enable on-demand populating€
                 tn.PopulateOnDemand = (int.Parse(dr["childnodecount"].ToString()) > 0);
             }
         }

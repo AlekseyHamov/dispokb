@@ -49,11 +49,13 @@
             <asp:Parameter Name="ID_Room" DefaultValue="0"/>
         </SelectParameters>
     </asp:ObjectDataSource>
-      <asp:ObjectDataSource 
-        ID="TreeDevice" 
-        runat="server" 
+      <asp:ObjectDataSource ID="TreeDevice" runat="server" 
         TypeName="Samples.AspNet.ObjectDataTreeDevice.TreeDeviceData"
-        >
+        SelectMethod="GetAllParent"
+      >
+      <SelectParameters>
+            <asp:Parameter Name="ID_Unit" DefaultValue=""/>
+      </SelectParameters>
       </asp:ObjectDataSource>
 
       <table>
@@ -88,24 +90,15 @@
                             <br />
                             <asp:Label ID="Label1" runat="server" Text="Кол-во=" ToolTip="Колличество"  />
                             <asp:Label ID="CountDevice" runat="server" Width="17" Text='<%# Eval("roomdevicecount") %>' ToolTip="Колличество"  />
-                            <asp:Panel id="TDControl" runat="server" /> 
+                            <asp:Panel id="TDControl1" runat="server">
+                                <asp:Panel id="TDControl" runat="server" >
+                                </asp:Panel> 
+                                <asp:Panel id="TDControlFoter" runat="server" BorderStyle="Ridge" >
+                                </asp:Panel> 
+                            </asp:Panel> 
                         </td>
                     </ItemTemplate>
                 </asp:ListView >
-                <asp:TreeView ID="TreeView2" OnTreeNodePopulate="TreeNodePopulate" runat="server" >
-                    <Nodes>
-                        <asp:TreeNode Text="Новый узел" Value="Новый узел">
-                            <asp:TreeNode Text="Новый узел" Value="Новый узел"></asp:TreeNode>
-                        </asp:TreeNode>
-                        <asp:TreeNode Text="Новый узел" Value="Новый узел">
-                            <asp:TreeNode Text="Новый узел" Value="Новый узел">
-                                <asp:TreeNode Text="Новый узел" Value="Новый узел">
-                                    <asp:TreeNode Text="Новый узел" Value="Новый узел"></asp:TreeNode>
-                                </asp:TreeNode>
-                            </asp:TreeNode>
-                        </asp:TreeNode>
-                    </Nodes>
-                    </asp:TreeView>
                 <asp:Button ID="reteeee" OnClick="DeviceCildren_room"   Text="fhghhg" runat="server" />
                 </div>
               </td>
