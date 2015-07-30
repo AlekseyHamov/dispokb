@@ -487,5 +487,11 @@ namespace WebApplication1.Directory
                 Msg.Text = "Employee was not deleted. Please try again.";
 
         }
+
+        protected void OtdelenObjectDataSource_Selecting(object sender, ObjectDataSourceSelectingEventArgs e)
+        {
+
+        }
+
     }
 }
